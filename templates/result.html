@@ -1,0 +1,255 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="nav">
+    <a href="/dashboard" class="btn sm">← Back</a>
+    <a href="/logout" class="btn sm">Logout</a>
+</div>
+
+<div class="card result-card" style="width: 100%; max-width: none;">
+    <div class="header-section">
+        <h1>Research Paper Analysis</h1>
+        <p class="filename">{{ filename }}</p>
+    </div>
+
+    <!-- 1. Visualization Section (Side-by-Side) [MOVED TO TOP] -->
+    <h2 class="section-title">Algorithm Scores</h2>
+    <div class="scores-layout">
+        <!-- Vertical Bar Chart -->
+        <div class="chart-section">
+            <div class="chart-container">
+                <!-- Copied -->
+                <div class="chart-col">
+                    <div class="bar-track">
+                        <div class="bar-fill" style="height: {{ results.tfidf_score * 100 }}%; background: #ff4757;">
+                        </div>
+                        <span class="bar-val">{{ "%.0f"|format(results.tfidf_score * 100) }}</span>
+                    </div>
+                    <span class="bar-label">Copied<br>(TF-IDF)</span>
+                </div>
+                <!-- Paraphrased -->
+                <div class="chart-col">
+                    <div class="bar-track">
+                        <div class="bar-fill" style="height: {{ results.sbert_score * 100 }}%; background: #ffa502;">
+                        </div>
+                        <span class="bar-val">{{ "%.0f"|format(results.sbert_score * 100) }}</span>
+                    </div>
+                    <span class="bar-label">Paraphrased<br>(SBERT)</span>
+                </div>
+                <!-- AI -->
+                <div class="chart-col">
+                    <div class="bar-track">
+                        <div class="bar-fill" style="height: {{ results.ai_prob * 100 }}%; background: #2ed573;"></div>
+                        <span class="bar-val">{{ "%.0f"|format(results.ai_prob * 100) }}</span>
+                    </div>
+                    <span class="bar-label">AI Generated</span>
+                </div>
+            </div>
+            <p class="hint">Higher bars indicate detected similarity.</p>
+        </div>
+
+        <!-- Originality Circle (Restored) -->
+        <div class="score-overview">
+            <div class="main-score">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                    <path class="circle-bg"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path class="circle" stroke-dasharray="{{ results.originality_score * 100 }}, 100"
+                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <text x="18" y="20.35" class="percentage">{{ "%.0f"|format(results.originality_score * 100)
+                        }}%</text>
+                </svg>
+                <p>Originality Score</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Text Analysis Grid [MOVED TO BOTTOM] -->
+    <div class="analysis-grid">
+        <!-- Copied Column -->
+        <div class="analysis-col">
+            <div class="col-header header-copied">
+                <h3>Copied Analysis</h3>
+                <span class="score-badge">{{ "%.0f"|format(results.tfidf_score * 100) }}% Match</span>
+            </div>
+            <div class="analysis-text-scroll">
+                {% if results.content_analysis %}
+                {% for item in results.content_analysis %}
+                <span class="analysis-sentence {% if 'copied' in item.labels %}highlight-copied{% endif %}">
+                    {{ item.text }}
+                </span>
+                {% endfor %}
+                {% else %}
+                <p class="hint">No analysis data.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Paraphrased Column -->
+        <div class="analysis-col">
+            <div class="col-header header-paraphrased">
+                <h3>Paraphrased Analysis</h3>
+                <span class="score-badge">{{ "%.0f"|format(results.sbert_score * 100) }}% Match</span>
+            </div>
+            <div class="analysis-text-scroll">
+                {% if results.content_analysis %}
+                {% for item in results.content_analysis %}
+                <span class="analysis-sentence {% if 'paraphrased' in item.labels %}highlight-paraphrased{% endif %}">
+                    {{ item.text }}
+                </span>
+                {% endfor %}
+                {% else %}
+                <p class="hint">No analysis data.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- AI Column -->
+        <div class="analysis-col">
+            <div class="col-header header-ai">
+                <h3>AI Analysis</h3>
+                <span class="score-badge">{{ "%.0f"|format(results.ai_prob * 100) }}% Probability</span>
+            </div>
+            <div class="analysis-text-scroll">
+                {% if results.content_analysis %}
+                {% for item in results.content_analysis %}
+                <span class="analysis-sentence {% if 'ai' in item.labels %}highlight-ai{% endif %}">
+                    {{ item.text }}
+                </span>
+                {% endfor %}
+                {% else %}
+                <p class="hint">No analysis data.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Feedback List -->
+    <div class="feedback-section">
+        <div class="feedback-list">
+
+            <!-- Copied Check -->
+            {% if results.tfidf_score < 0.15 %} <div class="feedback-item feedback-success">
+                <span class="status-icon">✅</span>
+                <span>Copied Content: Low similarity detected in direct matches.</span>
+        </div>
+        {% else %}
+        <div class="feedback-item feedback-danger">
+            <span class="status-icon">❌</span>
+            <span>Copied Content: High similarity detected! {{ "%.0f"|format(results.tfidf_score * 100) }}% matches
+                existing sources.</span>
+        </div>
+        {% endif %}
+
+        <!-- Paraphrased Check -->
+        {% if results.sbert_score < 0.4 %} <div class="feedback-item feedback-success">
+            <span class="status-icon">✅</span>
+            <span>Paraphrased Sections: Semantic structure appears unique.</span>
+    </div>
+    {% else %}
+    <div class="feedback-item feedback-danger">
+        <span class="status-icon">❌</span>
+        <span>Paraphrased Sections: Significant semantic overlap found. Rephrase for originality.</span>
+    </div>
+    {% endif %}
+
+    <!-- AI Check -->
+    {% if results.ai_prob < 0.4 %} <div class="feedback-item feedback-success">
+        <span class="status-icon">✅</span>
+        <span>AI-Generated: Minimal AI patterns detected; seems human-written.</span>
+</div>
+{% else %}
+<div class="feedback-item feedback-danger">
+    <span class="status-icon">❌</span>
+    <span>AI-Generated: Strong AI patterns detected. Consider rewriting using your own voice.</span>
+</div>
+{% endif %}
+
+<!-- Human Check -->
+{% if results.originality_score > 0.6 %}
+<div class="feedback-item feedback-success">
+    <span class="status-icon">✅</span>
+    <span>Human Writing: High style variation detected – authentic feel.</span>
+</div>
+{% else %}
+<div class="feedback-item feedback-danger">
+    <span class="status-icon">❌</span>
+    <span>Human Writing: Originality score is low. Try to add more unique insights.</span>
+</div>
+{% endif %}
+
+</div>
+</div>
+
+<!-- 4. Verdict -->
+{% if results.originality_score > 0.6 %}
+<div class="verdict-banner verdict-approved">
+    <span class="status-icon">✔</span>
+    Research Paper Approved (Overall Score: {{ "%.0f"|format(results.originality_score * 100) }}%)
+</div>
+{% else %}
+<div class="verdict-banner verdict-rejected">
+    <span class="status-icon">✖</span>
+    Research Paper Needs Revision (Overall Score: {{ "%.0f"|format(results.originality_score * 100) }}%)
+</div>
+{% endif %}
+
+<a href="{{ url_for('download_report', report_id=report_id) }}" class="download-btn">⬇ Download Full Report (TXT)</a>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // 1. Bar Chart Staggered Animation
+        const bars = document.querySelectorAll('.bar-fill');
+        bars.forEach((bar, index) => {
+            const h = bar.style.height;
+            bar.style.height = '0%';
+
+            setTimeout(() => {
+                bar.style.height = h;
+            }, 200 + (index * 100)); // Stagger effect
+        });
+
+        // 2. Circular Chart Animation
+        const circle = document.querySelector('.circular-chart .circle');
+        if (circle) {
+            // Get target from inline style (rendered by Jinja)
+            const strokeVal = circle.getAttribute('stroke-dasharray');
+            // Set to 0 initially
+            circle.setAttribute('stroke-dasharray', "0, 100");
+
+            setTimeout(() => {
+                circle.setAttribute('stroke-dasharray', strokeVal);
+            }, 500); // Slight delay after bars start
+        }
+
+        // 3. Number Counter Animation
+        const counters = document.querySelectorAll('.bar-val, .percentage');
+        counters.forEach(counter => {
+            const targetText = counter.innerText; // e.g. "85%"
+            const targetNum = parseInt(targetText);
+
+            if (!isNaN(targetNum) && targetNum > 0) {
+                let currentNum = 0;
+                counter.innerText = "0%"; // Start at 0
+
+                const duration = 1500; // 1.5s total time
+                const intervalTime = Math.max(20, Math.floor(duration / targetNum));
+
+                const timer = setInterval(() => {
+                    currentNum++;
+                    counter.innerText = currentNum + "%";
+
+                    if (currentNum >= targetNum) {
+                        clearInterval(timer);
+                        // Ensure it ends perfectly on the target in case of any drift
+                        counter.innerText = targetText;
+                    }
+                }, intervalTime);
+            }
+        });
+    });
+</script>
+{% endblock %}

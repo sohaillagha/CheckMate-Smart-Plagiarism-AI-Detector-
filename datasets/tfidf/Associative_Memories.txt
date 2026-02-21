@@ -1,0 +1,1 @@
+Associative Memories Hopfield Networks Hopfield neural network was invented by Dr. John J. Hopfield in 1982. It consists of a single layer which contains one or more fully connected recurrent neurons. The Hopfield network is commonly used for auto-association and optimization tasks. Discrete Hopfield Network Problem Continuous Hopfield Network Brain-State-in-a-Box Network

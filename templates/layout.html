@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Originality AI - PDF Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-glob"></div>
+    <div class="background-glob glob-2"></div>
+
+    <!-- CheckMate Header -->
+    <header class="app-header">
+        <div class="brand">
+            <img src="{{ url_for('static', filename='checkmate_logo.png') }}" alt="CheckMate Logo" class="logo">
+            <span>CheckMate</span>
+        </div>
+        <div class="user-menu">
+            <!-- Optional: User profile icon or just logout button which is currently in dashboard -->
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        <div class="container" style="width: 100%; max-width: none; padding: 0;">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="flash-messages" style="margin: 20px;">
+                {% for message in messages %}
+                <div class="flash-card">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

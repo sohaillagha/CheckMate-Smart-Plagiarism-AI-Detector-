@@ -1,0 +1,791 @@
+﻿text,label
+"Automatic program repair seeks to generate correct code from buggy programs, with most approaches searching the correct program in a discrete, symbolic space of source code tokens.",0
+"The endeavor of automatic program repair aspires to synthesize correct code from defective programs, wherein predominant approaches conduct searches for the correct program within discrete, symbolic domains composed of source code token sequences.",1
+This symbolic search is fundamentally limited by its inability to directly reason about program behavior.,0
+The foundational constraint of symbolic search methodologies resides in their incapacity to engage in direct reasoning concerning program behavioral characteristics.,1
+"We introduce Gradient-Based Program Repair (GBPR), a new paradigm that reframes program repair as continuous optimization in a differentiable numerical program space.",0
+"Our contribution introduces Gradient-Based Program Repair (GBPR), constituting a novel paradigm that reconceptualizes program repair as continuous optimization procedures operating within differentiable numerical program spaces.",1
+"Our core insight is to compile symbolic programs into differentiable numerical representations, enabling search in the numerical program space directly guided by program behavior.",0
+"The fundamental insight underlying our approach involves compiling symbolic program representations into differentiable numerical forms, thereby facilitating search operations within numerical program spaces under direct guidance from program behavioral characteristics.",1
+"To evaluate GBPR, we present RaspBugs, a new benchmark of 1,466 buggy symbolic RASP programs and their respective numerical representations.",0
+"For GBPR evaluation purposes, we present RaspBugs, a novel benchmark corpus comprising 1,466 defective symbolic RASP programs accompanied by their corresponding numerical representations.",1
+Our experiments demonstrate that GBPR can effectively repair buggy symbolic programs by gradient-based optimization in the numerical program space.,0
+Experimental investigations demonstrate GBPR's efficacy in repairing defective symbolic programs through gradient-based optimization mechanisms operating within numerical program spaces.,1
+"To our knowledge, we are the first to state program repair as continuous optimization in a numerical program space.",0
+"To the extent of our awareness, we constitute the inaugural research to formulate program repair as continuous optimization within numerical program space domains.",1
+"Our work establishes a new direction for program repair research, bridging two rich worlds: continuous optimization and program behavior.",0
+"Our research establishes a novel trajectory for program repair investigations, creating a bridge between two conceptually rich domains: continuous optimization methodologies and program behavioral analysis.",1
+Recent years have seen dramatic improvements in the quality and complexity of patches thanks to learning based program repair.,0
+"Contemporary years have witnessed substantial advancements in both patch quality and complexity, attributable to learning-based program repair methodologies.",1
+Progress on benchmarks like SWE-Bench and RepairBench has demonstrated that real-world bugs can be fixed automatically.,0
+Advancement on benchmark evaluations including SWE-Bench and RepairBench has substantiated the feasibility of automatic real-world bug remediation.,1
+The fundamental limitation of asking a language model to generate a patch is that it does so by reasoning about token distributions.,0
+The intrinsic limitation inherent in requesting language models to generate patches resides in their reliance on reasoning about token distribution patterns.,1
+Optimizing for next token prediction captures very little of the difference between buggy behavior and expected correct behavior from the specification.,0
+Optimization oriented toward next token prediction captures minimal distinction between defective behavioral manifestations and anticipated correct behaviors as specified.,1
+"For the same reason, it is hard to repair completely new programs as language models fail to generalize to unseen problems.",0
+"Owing to identical reasoning, repairing entirely novel programs presents difficulty, as language models demonstrate failure in generalizing to previously unencountered problem domains.",1
+We propose to embed the specification and the incorrect behavior to be repaired as a first-class concept in a loss function.,0
+Our proposal involves embedding both the specification and incorrect behavior requiring repair as first-class conceptual entities within a loss function framework.,1
+"We describe Gradient-Based Program Repair (GBPR), a novel paradigm that is founded on expressing programs as numerical representations.",0
+"Our description encompasses Gradient-Based Program Repair (GBPR), a novel paradigmatic framework founded upon program expression through numerical representational forms.",1
+"With this numerical program representation associated with a loss that captures the expected behavior, GBPR repairs the bug by searching in the numerical program space.",0
+"Through this numerical program representation coupled with a loss function capturing anticipated behavior, GBPR executes bug repair via search operations within numerical program spaces.",1
+This core originality of GBPR is that it considers program behavior as a first-class concept in the learning pipeline.,0
+The fundamental originality characterizing GBPR resides in its treatment of program behavior as a first-class conceptual element within the learning pipeline architecture.,1
+"To rigorously evaluate our approach, we introduce RaspBugs, a new benchmark of buggy symbolic programs and their corresponding numerical representation.",0
+"For rigorous evaluation of our methodological approach, we introduce RaspBugs, a novel benchmark comprising defective symbolic programs alongside their corresponding numerical representations.",1
+"Those programs are written in RASP, a class of sequence-processing programs that can be analytically represented as Transformer models.",0
+"These programs receive authorship in RASP, constituting a class of sequence-processing programs amenable to analytical representation as Transformer model architectures.",1
+"By systematically applying mutations to base RASP programs, we create a diverse collection of meaningful bugs.",0
+"Through systematic application of mutation operations to foundational RASP programs, we generate a diverse collection of semantically meaningful defects.",1
+"RaspBugs contains 1,466 bugs over 6 programs, and provides the first-ever controlled environment for researching program repair as continuous optimization.",0
+"The RaspBugs benchmark encompasses 1,466 defects distributed across 6 programs, furnishing the inaugural controlled experimental environment for investigating program repair as continuous optimization.",1
+Our results demonstrate that gradient-based program repair is feasible.,0
+Our empirical results substantiate the feasibility of gradient-based program repair methodologies.,1
+"We observe proper convergence of the optimization problem, with the correctness of the considered programs improving.",0
+"Our observations indicate appropriate convergence characteristics of the optimization problem, accompanied by improvements in the correctness of examined programs.",1
+We are able to repair the majority of buggy programs for 5 out of the 6 considered base programs.,0
+Our methodology achieves repair of the preponderance of defective programs across 5 among the 6 foundational programs under consideration.,1
+The analysis of the repair trajectories and the correctness landscape confirms that incorrect behavior on buggy input points is gradually fixed.,0
+Analytical examination of repair trajectories and the correctness landscape substantiates that erroneous behavior manifesting on defective input points undergoes gradual remediation.,1
+"Program repair automatically finds a correct program from a buggy one, changing incorrect behavior to correct behavior according to a specification.",0
+"Program repair automatically identifies a correct program from a defective counterpart, transforming erroneous behavioral manifestations to correct behaviors in accordance with specification requirements.",1
+"Most program repair research considers repairing imperative programs, in particular Python or Java.",0
+"The predominant focus of program repair research concentrates on imperative program remediation, with particular emphasis on Python and Java programming languages.",1
+"In the context of traditional program repair, programs are symbolic artifacts, represented using discrete structures.",0
+"Within traditional program repair contexts, programs constitute symbolic artifacts receiving representation through discrete structural forms.",1
+Program repair on symbolic programs relies on symbolic methods operating directly on these structures.,0
+Program repair operations on symbolic programs depend upon symbolic methodologies that operate directly upon these structural representations.,1
+Large Language Models (LLMs) are used for program repair by considering code as a sequence of textual tokens.,0
+Large Language Models find application in program repair through the conceptualization of code as sequential textual token arrangements.,1
+"A numerical program is a program whose behavior is encoded as continuous, real-valued parameters and can be executed.",0
+"Numerical programs constitute programs wherein behavioral characteristics receive encoding as continuous, real-valued parameters while maintaining executability.",1
+These can be either neural networks or vectors in latent spaces with execution semantics.,0
+These manifestations may take forms of either neural network architectures or vectors positioned within latent spaces possessing execution semantics.,1
+"Unlike traditional symbolic programs, which are constrained by discrete structures, the behavior of numerical programs can be adjusted smoothly via optimization techniques.",0
+"In contrast to traditional symbolic programs constrained by discrete structural forms, numerical program behavior admits smooth adjustment through optimization technique applications.",1
+RASP is a domain-specific programming language for sequence processing.,0
+RASP constitutes a domain-specific programming language specifically engineered for sequence processing operations.,1
+Its key characteristic is that the language primitives align with the transformer-encoder model.,0
+The distinguishing characteristic resides in the alignment of language primitives with transformer-encoder model architectures.,1
+"RASP programs operate on token and position streams using selectors, per-position aggregation, and elementwise maps.",0
+"RASP programs execute operations on token and position streams through utilization of selectors, per-position aggregation mechanisms, and elementwise mapping functions.",1
+We adopt the bounded setting of RASP which assumes fixed vocabulary and a maximum sequence length.,0
+"Our adoption embraces the bounded RASP configuration, which presumes fixed vocabulary constraints and maximum sequence length limitations.",1
+"Tracr is an analytical, deterministic compiler from RASP to encoder-style transformer models.",0
+"Tracr constitutes an analytical, deterministic compilation framework translating RASP specifications into encoder-style transformer model architectures.",1
+It programmatically constructs attention from RASP selectors and implements aggregation and maps via attention and MLP steps respectively.,0
+This framework programmatically synthesizes attention mechanisms from RASP selector constructs while implementing aggregation and mapping operations through attention and MLP step sequences respectively.,1
+"For a fixed vocabulary and sequence length, the compiled model is strictly equivalent to the RASP program.",0
+"Given fixed vocabulary and sequence length parameters, the compiled model maintains strict equivalence with the originating RASP program specification.",1
+All previous research has done program repair as a search in a symbolic space.,0
+Antecedent research endeavors have uniformly approached program repair through search operations within symbolic space domains.,1
+Our core insight is that one can do program repair by searching programs in a numerical space instead.,0
+Our fundamental insight recognizes the possibility of executing program repair through search operations within numerical space domains as an alternative approach.,1
+"In that numerical space, the program semantics are encoded into a numerical representation.",0
+"Within this numerical space domain, program semantic characteristics receive encoding into numerical representational forms.",1
+Gradient-Based Program Repair leverages gradient descent to search the numerical program space.,0
+Gradient-Based Program Repair harnesses gradient descent mechanisms for conducting search operations within numerical program space domains.,1
+The program zeroing the loss is considered the repaired program.,0
+The program achieving zero loss receives designation as the successfully repaired program.,1
+The first step of numerical repair is to translate the initial symbolic program into a numerical representation.,0
+The inaugural step within numerical repair processes involves translating the initial symbolic program into a numerical representational form.,1
+We require a compiler function that transforms symbolic programs into numerical representations.,0
+Our requirements encompass a compiler function capable of transforming symbolic program specifications into numerical representational formats.,1
+This representation is parameterized by a set of numerical parameters that completely encode the semantics of the original program.,0
+This representational form receives parameterization through a set of numerical parameters that comprehensively encode the semantic characteristics of the originating program.,1
+The execution of the numerical representation must match the input-output behavior of the symbolic program on the supported domain.,0
+Numerical representation execution must maintain congruence with the input-output behavioral characteristics of the symbolic program across the supported domain.,1
+We require the numerical representation to be differentiable over the input space with respect to its parameters.,0
+Our requirements stipulate that the numerical representation maintain differentiability across the input space relative to its parametric values.,1
+"This means we need to compute the gradient of a loss function, in order to change the parameters to improve the correctness of the output.",0
+"This necessitates computation of the loss function gradient, facilitating parameter modifications aimed at enhancing output correctness.",1
+"If the gradient captures correctness, this means that gradient descent is actually optimizing the program towards more correct behavior.",0
+"When the gradient captures correctness characteristics, gradient descent effectively optimizes the program trajectory toward enhanced behavioral correctness.",1
+"In this paper, we focus on neural networks as our numerical representation.",0
+"Within this paper, our focus concentrates on neural network architectures as our selected numerical representational framework.",1
+"The neural network input, resp. output, is the program input, resp. output.",0
+The neural network input and output correspond respectively to the program input and output specifications.,1
+This is a natural choice as neural networks are inherently differentiable via backpropagation.,0
+This constitutes a natural selection as neural network architectures inherently maintain differentiability through backpropagation mechanisms.,1
+Their parameters form the continuous space we seek to optimize.,0
+Their parametric values constitute the continuous space domain targeted for optimization operations.,1
+Let us assume a buggy symbolic program implementing an incorrect function.,0
+We postulate a defective symbolic program implementing an erroneous functional specification.,1
+The ideal correct function is defined by a specification that describes the behavior of the ideal program.,0
+The ideal correct function receives definition through a specification describing the behavioral characteristics of the ideal program.,1
+"In this paper, we assume specifications in the form of input-output examples.",0
+"Within this paper, our assumptions embrace specifications manifested as input-output example collections.",1
+Technical knowledge and soft skills in software startups within the Colombian entrepreneurial ecosystem.,0
+The technical competencies and interpersonal capabilities within software startup ventures operating within Colombia's entrepreneurial ecosystem framework.,1
+The technical knowledge and soft skills of entrepreneurial team members significantly impact the early stages of software startups.,0
+Entrepreneurial team member technical competencies and soft skills exert substantial influence upon the initial developmental phases of software startup organizations.,1
+It is widely recognized that the success or failure of a startup is determined by the quality of the individuals who constitute the founding team.,0
+Widespread recognition exists that startup success or failure receives determination through the caliber of individuals comprising the founding team structure.,1
+This article presents the findings of a study conducted within the Colombian entrepreneurial ecosystem.,0
+The present article furnishes findings derived from investigative research conducted within Colombia's entrepreneurial ecosystem context.,1
+Focusing on which technical knowledge and soft skills are the most valued by founding teams of software startups.,0
+Concentrating upon the identification of technical knowledge domains and soft skills receiving highest valuation from software startup founding teams.,1
+And how the needs for knowledge and skills evolve as the startup grows.,0
+Additionally examining the evolutionary patterns of knowledge and skill requirements as startup organizations undergo growth.,1
+"A survey of software startup representatives revealed that the most valued knowledge includes requirements engineering, software testing, project planning and management.",0
+"Representative surveys of software startup personnel disclosed that the most highly valued knowledge encompasses requirements engineering, software testing, and project planning and management competencies.",1
+"The most valued soft skills are typically communication, leadership, and teamwork.",0
+"The soft skills receiving highest valuation typically comprise communication capabilities, leadership qualities, and teamwork proficiencies.",1
+"The outcomes of this work are relevant to software entrepreneurs, incubators, and researchers.",0
+"The resultant outcomes of this investigative work maintain relevance for software entrepreneurs, incubator organizations, and research practitioners.",1
+A software startup is a recently created company with little or no operational history.,0
+Software startups constitute recently established companies possessing minimal or absent operational historical records.,1
+Focused on creating and developing an innovative software-intensive product or service as a basis for creating business value.,0
+Concentrating on the creation and development of innovative software-intensive products or services serving as foundational elements for business value generation.,1
+Among the main challenges of software startups are their scarcity of resources.,0
+"Within the principal challenges confronting software startups, resource scarcity represents a significant concern.",1
+"Being highly reactive, being made up of small teams with little experience.",0
+"Characterized by heightened reactivity, composed of diminutive teams possessing limited experiential backgrounds.",1
+"Relying on a single product, and starting to operate under conditions of uncertainty.",0
+"Demonstrating reliance upon singular product offerings, initiating operations under conditions pervaded by uncertainty.",1
+These conditions require empirical studies aimed at identifying what software development knowledge and skills are necessary.,0
+These circumstantial conditions necessitate empirical investigative studies targeting identification of requisite software development knowledge domains and skill sets.,1
+Several studies have shown that the probability of success of a new venture increases if the venture includes professionals trained in various disciplines.,0
+Multiple research investigations have substantiated that new venture success probability experiences augmentation when ventures incorporate professionals possessing training across diverse disciplinary domains.,1
+Tanner believes that the success or failure of a business venture is related to the quality of the people who make up the initial team of founders.,0
+Tanner maintains the perspective that business venture success or failure maintains relationship with the caliber of individuals constituting the initial founding team.,1
+"The new company will flourish or fail depending on how well it recruits, builds, and retains the team.",0
+"New company organizations will experience flourishment or failure contingent upon their effectiveness in team recruitment, development, and retention.",1
+"As well as the knowledge, technical abilities, and skills that the members of that team have in relation to the needs and challenges of the venture.",0
+"Additionally dependent upon the knowledge, technical capabilities, and skills team members possess relative to venture needs and challenges.",1
+"SeppÃ¤nen and colleagues believe that it is crucial that a venture obtains the knowledge, abilities, and capabilities necessary to create a product based on innovation.",0
+"SeppÃ¤nen alongside colleagues maintain the belief that ventures crucially require obtaining knowledge, abilities, and capabilities necessary for creating innovation-based products.",1
+This article aims to report on a study focused on identifying the technical knowledge and soft skills most valued in the founding team.,0
+The present article aspires to report investigative findings concentrated on identifying technical knowledge domains and soft skills receiving highest valuation within founding team structures.,1
+"At the beginning of a software startup, and how these needs evolve as the venture progresses.",0
+"During software startup inception, alongside examination of how these requirements undergo evolution as ventures progress through developmental stages.",1
+The remainder of this paper is organized as follows: Section 2 presents a brief review of the general literature.,0
+The subsequent portions of this paper receive organization as follows: Section 2 furnishes a concise literature review.,1
+On the concepts of technical knowledge and soft skills.,0
+Pertaining to technical knowledge conceptualizations and soft skill frameworks.,1
+Section 3 describes this study's methodological design.,0
+Section 3 delineates this investigation's methodological design framework.,1
+Section 4 presents the main findings.,0
+Section 4 presents the principal investigative findings.,1
+Section 5 discusses the results.,0
+Section 5 engages in comprehensive results discussion.,1
+Section 6 analyzes the threats to the study's validity.,0
+Section 6 conducts analytical examination of threats to investigative validity.,1
+Section 7 outlines some considerations about the relevance of the findings.,0
+Section 7 delineates considerations regarding finding relevance.,1
+"Finally, Section 8 presents the conclusions.",0
+"Ultimately, Section 8 furnishes conclusive statements.",1
+This section outlines the key features of Colombia's entrepreneurial ecosystem.,0
+This section delineates the characteristic features of Colombia's entrepreneurial ecosystem landscape.,1
+And provides a brief review of the literature on technical knowledge and soft skills.,0
+While furnishing concise literature review concerning technical knowledge and soft skill domains.,1
+Including the specific types of technical knowledge and soft skills examined in this study.,0
+Encompassing the specific technical knowledge categories and soft skill types receiving examination within this investigation.,1
+Colombia's entrepreneurial ecosystem has experienced significant growth in recent years.,0
+Colombia's entrepreneurial ecosystem has undergone substantial expansion throughout recent temporal periods.,1
+Positioning itself as a vibrant hub for innovation in Latin America.,0
+Establishing itself as a dynamic innovation center within the Latin American regional context.,1
+This expansion is fueled by a confluence of several factors.,0
+This expansionary trajectory receives propulsion from a convergence of multiple contributory factors.,1
+"Including government initiatives, increasing access to capital, and a burgeoning tech-savvy population.",0
+"Encompassing governmental initiatives, expanding capital accessibility, and an emergent technologically proficient populace.",1
+"According to the Colombia Tech Report 2023, the 1,720 startups across the country are distributed among 30 sectors.",0
+"In accordance with the Colombia Tech Report 2023, the 1,720 startups distributed across the nation maintain distribution among 30 distinct sectors.",1
+51% of these startups are concentrated in the top six sectors.,0
+51% of these startup organizations demonstrate concentration within the six highest-ranked sectors.,1
+"Fintech represents 17%, Software as a Service 10%, Business Management 6%.",0
+"Fintech constitutes 17%, Software as a Service represents 10%, Business Management accounts for 6%.",1
+"EdTech, HealthTech, and ProTech, each with 6%, round out this top six.",0
+"EdTech, HealthTech, and ProTech, each contributing 6%, complete this top-six categorical arrangement.",1
+"Although entrepreneurial activity is widespread across the nation, the primary cities responsible for the most significant volume are three.",0
+"Despite entrepreneurial activity demonstrating widespread distribution across the nation, three primary cities bear responsibility for the most substantial volumes.",1
+"BogotÃ¡ accounts for 55%, MedellÃ­n for 25%, and Cali for 8%.",0
+"BogotÃ¡ contributes 55%, MedellÃ­n accounts for 25%, Cali represents 8%.",1
+"BogotÃ¡, the capital, serves as the country's economic and political center.",0
+"BogotÃ¡, serving as the capital municipality, functions as the nation's economic and political epicenter.",1
+Attracting a significant portion of venture capital and fostering a diverse range of startups.,0
+Attracting substantial portions of venture capital investment while fostering diverse startup ranges.,1
+"Its robust infrastructure, established universities, and concentration of large corporations create a fertile ground for innovation.",0
+"Its robust infrastructural foundation, established university institutions, and large corporate concentrations generate fertile conditions for innovation.",1
+"According to the Global Startup Ecosystem Index 2024, BogotÃ¡ boasts the highest-ranked startup ecosystem in Colombia.",0
+"According to the Global Startup Ecosystem Index 2024, BogotÃ¡ maintains the highest-ranked startup ecosystem position within Colombia.",1
+"Holds the second position in South America, and is ranked 63rd worldwide.",0
+"Occupies the second positional rank in South America, achieving 63rd rank on worldwide scales.",1
+"Sectors like fintech, e-commerce, and software development are particularly prominent.",0
+"Sectors including fintech, e-commerce, and software development demonstrate particular prominence.",1
+"MedellÃ­n, once known for its challenges, has undergone a remarkable transformation.",0
+"MedellÃ­n, previously characterized by its challenges, has experienced remarkable transformational changes.",1
+Emerging as a leading innovation hub.,0
+Manifesting as a leading innovation hub center.,1
+"The city's focus on technology and education, epitomized by initiatives like Ruta N, has significantly contributed to its entrepreneurial resurgence.",0
+"The city's concentration on technology and education, exemplified through initiatives like Ruta N, has substantially contributed to its entrepreneurial revitalization.",1
+"MedellÃ­n's strengths lie in digital media, biotechnology, and advanced manufacturing sectors.",0
+"MedellÃ­n's strengths reside within digital media, biotechnology, and advanced manufacturing sectoral domains.",1
+"Cali, the third-largest city, is establishing itself as a rising star in Colombia's entrepreneurial landscape.",0
+"Cali, constituting the third-largest municipal entity, establishes itself as an ascending star within Colombia's entrepreneurial landscape.",1
+"Traditionally known for its agricultural sector, Cali is diversifying its economy.",0
+"Traditionally recognized for its agricultural sector, Cali undergoes economic diversification.",1
+With a growing focus on technology and innovation.,0
+Exhibiting expanding focus upon technology and innovation domains.,1
+"Thanks to its reputable universities, the city possesses a strong talent pool.",0
+"Attributable to its reputable university institutions, the city possesses substantial talent pool resources.",1
+Particularly in engineering and computer science.,0
+Particularly within engineering and computer science disciplinary areas.,1
+Colombia's entrepreneurial ecosystem is characterized by a strong sense of community and collaboration.,0
+Colombia's entrepreneurial ecosystem receives characterization through a robust sense of community and collaborative interaction.,1
+"Events and conferences provide platforms for entrepreneurs to connect, learn, and pitch their ideas.",0
+"Events and conference gatherings furnish platforms enabling entrepreneurs to establish connections, acquire knowledge, and present their conceptual ideas.",1
+"While each city offers distinct advantages, they collectively contribute to the nation's burgeoning innovation landscape.",0
+"While each municipal entity offers distinctive advantages, they collectively contribute to the nation's expanding innovation landscape.",1
+"The government's continued support, coupled with the increasing availability of funding and talent, suggests that Colombia's entrepreneurial ecosystem will continue to flourish.",0
+"The government's sustained support, combined with expanding funding availability and talent resources, suggests Colombia's entrepreneurial ecosystem will continue experiencing flourishment.",1
+The concept of technical knowledge refers to the technical capacity and factual knowledge necessary to do the job.,0
+The technical knowledge concept refers to the technical capacity and factual knowledge requisite for job performance.,1
+"And are the technical competencies an individual possesses, acquired through educational learning and its practical application.",0
+"Constituting technical competencies individuals possess, obtained through educational learning and practical application processes.",1
+Which are generally associated with the knowledge necessary for the understanding and execution of tasks and processes.,0
+Generally maintaining association with knowledge necessary for understanding and executing tasks and process operations.,1
+"The so-called soft skills are defined as the combination of skills, attitudes, habits, and personality traits.",0
+"The designated soft skills receive definition as combinations of skills, attitudes, habits, and personality trait characteristics.",1
+That allow people to perform better in the workplace.,0
+Enabling people to demonstrate enhanced workplace performance.,1
+Complementing the technical knowledge necessary to do their job.,0
+Complementing the technical knowledge requisite for job performance.,1
+And influencing the way they behave and interact with others.,0
+While influencing their behavioral patterns and interactive engagement with others.,1
+"In this paper, a monad-based denotational model is introduced and shown adequate for the Proto-Quipper family of calculi, themselves being idealized versions of the Quipper programming language. The use of a monadic approach allows us to separate the value to which a term reduces from the circuit that the term itself produces as a side effect.",0
+"This investigation presents a monadic denotational paradigm demonstrated as sufficient for the Proto-Quipper calculi family, representing idealized Quipper programming language iterations. Through monadic methodology employment, we achieve separation between term reduction values and concomitantly generated circuit side effects.",1
+"In turn, this enables the denotational interpretation and validation of rich type systems in which the size of the produced circuit can be controlled.",0
+"Consequently, this facilitates denotational semantic interpretation and validation of sophisticated type systems wherein produced circuit dimensions remain controllable.",1
+"Notably, the proposed semantic framework, through the novel concept of circuit algebra, suggests forms of effect typing guaranteeing quantitative properties about the resulting circuit, even in presence of optimizations.",0
+"Remarkably, the advanced semantic framework, via the innovative circuit algebra conceptualization, proposes effect typing modalities ensuring quantitative attributes regarding resultant circuits, notwithstanding optimization presence.",1
+Quantum computing promises to revolutionize various sub-fields within computer science by solving complex problems exponentially faster than classical computing.,0
+Quantum computational paradigms pledge revolutionary transformation across computer science sub-domains through exponentially accelerated resolution of intricate problems relative to classical computation.,1
+"This technology leverages the concept of quantum bits (or qubits), a unit of information whose dynamics is governed by the rules of quantum mechanics, thus enabling superposition and entanglement, keys to the aforementioned speedup.",0
+This technological framework exploits quantum bit conceptualizationâ€”information units whose dynamical behavior adheres to quantum mechanical principlesâ€”thereby enabling superposition and entanglement phenomena fundamental to aforementioned acceleration.,1
+"To harness this potential, several programming languages have been developed specifically for quantum computing, such as Q#, Qiskit, and Cirq.",0
+"Capitalizing upon this potential, numerous programming languages have been engineered specifically for quantum computational applications, encompassing Q#, Qiskit, and Cirq.",1
+"In turn, fields like program verification have adapted well-known techniques like abstract interpretation, type systems, and Hoare logic to these languages.",0
+"Subsequently, domains such as program verification have accommodated established methodologies including abstract interpretation, type theoretical frameworks, and Hoare logical systems to these linguistic paradigms.",1
+We can identify at least two ways to design a quantum programming language.,0
+At minimum two distinct approaches for quantum programming language architecture can be discerned.,1
+"On the one hand, we could simply allow programs written in traditional programming languages to access not only classical data but also quantum data.",0
+"Primarily, we could facilitate programs authored in conventional programming languages to access both classical and quantum data structures.",1
+"The latter cannot be used the same way as the former, and is rather supported by specific initialization, modification, and reading operations.",0
+"The latter cannot be manipulated identically to the former, instead requiring specialized initialization, modification, and reading operations.",1
+"As an example, the reading of a qubit value, often called a measurement, can alter its value and has, in general, a probabilistic outcome, thus being substantially different from the corresponding classical operation.",0
+"Exemplifying, qubit value readingâ€”termed measurementâ€”can modify its value while exhibiting probabilistic outcomes generally, thereby differing substantially from analogous classical operations.",1
+"In programming languages of this kind, the quantum data are assumed to be stored in an external device accessible interactively through the aforementioned operations.",0
+"Within such programming linguistic frameworks, quantum data are presumed stored within external devices accessible interactively via aforementioned operations.",1
+"This model, often indicated with the acronym QRAM, is adopted by a multitude of proposals in the literature.",0
+"This paradigm, frequently denoted by the QRAM acronym, has been adopted across numerous literary proposals.",1
+"In theory, QRAM languages are the natural adaptation of classical programming languages to the quantum world.",0
+"Theoretically, QRAM languages constitute natural adaptations of classical programming paradigms to quantum computational realms.",1
+"In practice, however, quantum hardware architectures can hardly be programmed interactively: not only is the number of qubits available very small, but the time within which computation must be completed should itself be minimized, given that the useful lifespan of a qubit is short.",0
+"Pragmatically, however, quantum hardware architectures scarcely accommodate interactive programming: available qubit quantities remain severely constrained, while computational completion temporal windows necessitate minimization given qubits' abbreviated functional lifespans.",1
+"Consequently, quantum architectures typically take as input a whole quantum circuit, i.e. a precise description of all the necessary qubits and the operations to be performed on them.",0
+"Consequently, quantum architectures typically accept comprehensive quantum circuits as inputâ€”specifically, exhaustive descriptions of requisite qubits and operations to be executed upon them.",1
+"This circuit must therefore be available in its entirety, preferably already subjected to an aggressive optimization process.",0
+"Such circuits must therefore exist in complete form, optimally having undergone intensive optimization procedures.",1
+"In such a context, so-called circuit description languages (CDLs for short) are to be preferred, and most mainstream languages in the field, including Qiskit and Cirq, are of this nature.",0
+"Within such contexts, circuit description languagesâ€”abbreviated CDLsâ€”merit preference, with predominant field languages including Qiskit and Cirq exhibiting this characteristic.",1
+"CDLs are high-level languages used to describe and generate circuits, a quintessential example being the quantum circuit.",0
+"CDLs constitute high-level linguistic frameworks employed for circuit description and generation, with quantum circuits representing quintessential exemplification.",1
+"Circuits are typically seen like any other ordinary data structure, with specific operations on them available through, e.g., methods or subroutines.",0
+"Circuits are conventionally regarded as ordinary data structures, with specialized operations accessible via methodologies or subroutine mechanisms.",1
+Directly manipulating circuits from within a classical program offers the advantage of having more direct control over their shape and size.,0
+Direct circuit manipulation within classical programs confers advantages of enhanced control over their dimensional and structural characteristics.,1
+"This is crucial given the state of quantum hardware architectures today, which provide a limited number of error-prone qubits, and for which not all operations can be implemented at the same cost.",0
+"This proves critical given contemporary quantum hardware architectural states, providing constrained error-susceptible qubit quantities, wherein operations exhibit variable implementation costs.",1
+"A peculiar circuit description language is Quipper. In Quipper, circuits are not just like any other data structure. Rather, they are seen as the by-product of certain effect-producing computations that modify some underlying quantum circuit when executed.",0
+"Quipper represents a distinctive circuit description language wherein circuits transcend ordinary data structures, instead constituting by-products of effect-generating computations modifying underlying quantum circuits upon execution.",1
+"This, combined with the presence of higher-order functions and operations meant to turn any term (of an appropriate type) into a circuit, makes Quipper a very powerful and flexible idiom.",0
+"This characteristic, coupled with higher-order function presence and term-to-circuit conversion operations for appropriately-typed terms, renders Quipper exceptionally potent and adaptable.",1
+"Its metatheory has been the subject of quite some investigations by the programming language community in the last years, with contributions ranging from advanced type systems to fancy features like dynamic lifting to denotational semantics.",0
+"Its metatheoretical foundations have undergone substantial investigation by the programming language community recently, with contributions spanning advanced type systems, sophisticated features like dynamic lifting, and denotational semantics.",1
+"This last aspect of Quipper, in particular, has been studied by providing semantic models for some of the languages of the so-called Proto-Quipper family, which includes various calculi, such as Proto-Quipper-M, Proto-Quipper-D, Proto-Quipper-Dyn, etc.",0
+"This terminal aspect of Quipper has been particularly examined through semantic model provision for certain Proto-Quipper family languages, encompassing diverse calculi including Proto-Quipper-M, Proto-Quipper-D, Proto-Quipper-Dyn, and analogous variants.",1
+"In these cases, such semantics are built around concepts such as that of a presheaf and turn out to take the shape of a LNL model.",0
+"Within these instances, such semantic constructions center upon presheaf conceptualizations, ultimately manifesting as LNL model configurations.",1
+A by-product of the use of presheaves is that the interpretation of the term and the underlying circuit are somehow merged into a single mathematical object.,0
+A consequential artifact of presheaf utilization involves term interpretation and underlying circuit mergence into singular mathematical constructs.,1
+"As a result, it is difficult to read interesting features of the underlying circuit from the interpretation of a term or closure: what the circuit does and what the program does to produce the circuit are inextricably coupled.",0
+"Resultantly, extracting interesting underlying circuit characteristics from term or closure interpretations proves challenging: circuit functionality and program actions generating said circuit remain inextricably intertwined.",1
+"This coupling, in turn, prevents those models from adequately accounting for variants of the Proto-Quipper family that are specifically designed to control the shape of the produced circuits, and more specifically to derive upper bounds on the size of the latter.",0
+"This coupling subsequently prevents such models from adequately addressing Proto-Quipper family variants specifically engineered for produced circuit shape control, particularly regarding derived upper dimensional bounds.",1
+"The correctness of these systems has been proved by purely operational means, and a denotational semantics for them is still missing.",0
+"These systems' correctness has been established through purely operational methodologies, while denotational semantic frameworks remain absent.",1
+This ultimately makes such systems somewhat rigid and complicates their definition.,0
+This ultimately renders such systems somewhat inflexible while complicating their definitional formulation.,1
+The aim of this paper is precisely to give a denotational semantics to languages in the Proto-Quipper family in which the interpretation of terms is kept separate from that of the produced circuit.,0
+This paper's objective specifically encompasses providing denotational semantics to Proto-Quipper family languages wherein term interpretation remains segregated from produced circuit interpretation.,1
+This is achieved by seeing circuit building as an indexed monad.,0
+This is accomplished by conceptualizing circuit construction as an indexed monadic structure.,1
+"Remarkably, this new point of view allows us to give semantics to languages such as Colledan and Dal Lago's Proto-Quipper-R, and even allows us to justify some of their peculiarities.",0
+"Remarkably, this novel perspective enables semantic provision for languages such as Colledan and Dal Lago's Proto-Quipper-R, additionally permitting justification of certain peculiarities.",1
+"The introduced semantic framework suggests a natural way to unify so-called local and global circuit metrics, at the same time allowing the definition of metrics that go substantially beyond those proposed by Colledan and Dal Lago, in particular accounting for simple forms of circuit optimization.",0
+"The introduced semantic framework proposes natural unification methodologies for local and global circuit metrics, simultaneously enabling metric definitions substantially transcending Colledan and Dal Lago's proposals, particularly accommodating elementary circuit optimization forms.",1
+"First, we give a simple type system for Proto-Quipper. The introduced system is a slight variation on the theme of Proto-Quipper-M, whereas the input to the circuit produced by each effectful functional term needs to be exposed in its type and thus becomes an integral part of the arrow type, turning it into a closure type.",0
+"Primarily, we establish a straightforward type system for Proto-Quipper, constituting a modest Proto-Quipper-M thematic variation, wherein circuit input produced by each effectful functional term necessitates type-level exposure, thereby becoming an integral arrow type component, transforming it into closure type configuration.",1
+"This change, as we will explain in the next section, seems inevitable since, without it, it would not be possible to know even the nature, i.e. the type, of the circuit produced by the term in question.",0
+"This modification, as subsequent sections elucidate, appears inevitable since absent this alteration, even ascertaining the circuit natureâ€”specifically, its typeâ€”produced by the term under consideration would prove impossible.",1
+"Noticeably, closure types are present in Colledan and Dal Lago's most recent contribution.",0
+"Observably, closure types manifest within Colledan and Dal Lago's most contemporary contribution.",1
+We call this calculus with closure type Proto-Quipper-C.,0
+We designate this closure-type calculus as Proto-Quipper-C.,1
+We then show that Atkey's indexed monad is an appropriate framework for giving denotational semantics to Proto-Quipper-C.,0
+"Subsequently, we demonstrate that Atkey's indexed monad constitutes an appropriate framework for Proto-Quipper-C denotational semantic provision.",1
+By treating circuits as (pre)monoidal morphisms and considering the category-action indexed monadâ€”a many-sorted generalization of the writer monadâ€”we maintain a clear separation between the value a term evaluates to and the circuit produced alongside the evaluation.,0
+Through circuit treatment as (pre)monoidal morphisms while considering the category-action indexed monadâ€”representing a many-sorted writer monad generalizationâ€”we preserve distinct separation between term evaluation values and concomitantly produced circuits.,1
+"Proto-Quipper-C is interpreted in the parameterized Freyd category induced by this indexed monad, making explicit how 'parameters', computations, and circuits interact as these three notions are interpreted in different categories.",0
+"Proto-Quipper-C receives interpretation within the parameterized Freyd category induced by this indexed monad, explicitly demonstrating parameter, computation, and circuit interaction as these three concepts receive interpretation across distinct categories.",1
+The semantics is proved both sound and computationally adequate.,0
+The semantics undergoes proof establishment for both soundness and computational adequacy.,1
+"We then move to richer type systems, where simple types are enriched by a form of effect typing.",0
+"We subsequently transition toward enriched type systems, wherein simple types experience augmentation through effect typing modalities.",1
+"The model based on indexed monads remains adequate, and suggests an abstract notion of circuit algebra, through which it is possible to capture various circuit metrics (including all those considered by Dal Lago and Colledan), but also new forms of metrics induced by assertion-based circuit optimization schemes.",0
+"The indexed monad-based model maintains adequacy while proposing an abstract circuit algebra conceptualization, through which diverse circuit metrics become capturableâ€”encompassing all Dal Lago and Colledan considerationsâ€”alongside novel metric forms induced by assertion-based circuit optimization methodologies.",1
+We briefly discuss how dependent types might be incorporated into both the syntax and semantics of the variant of Proto-Quipper-C (without effect typing) introduced earlier.,0
+We concisely deliberate dependent type incorporation into both syntactic and semantic dimensions of the previously introduced Proto-Quipper-C variant absent effect typing.,1
+"On the semantic side, this is achieved by applying the families construction to the denotational model of Proto-Quipper-C in the spirit of fibered adjunction models.",0
+"Semantically, this is accomplished through families construction application to Proto-Quipper-C's denotational model following fibered adjunction model principles.",1
+"Typically, a program written in a CDL is just a program in a mainstream programming language (e.g. Python, Haskell, or dialects thereof) whose purpose is that of facilitating the construction of (quantum) circuits which, once built, can then be sent to quantum hardware for their evaluation, or merely simulated through high-performance classical hardware.",0
+"Typically, CDL-authored programs constitute mainstream programming language programsâ€”exemplified by Python, Haskell, or dialectical variantsâ€”whose purpose encompasses facilitating quantum circuit construction which, upon completion, can be transmitted to quantum hardware for evaluation or alternatively simulated via high-performance classical hardware.",1
+"A program written in any CDL, and particularly in Quipper, does not describe a single circuit but a family of circuits, depending on some parameters, e.g. a number n representing the number of input qubits, or, in the case of Shor's algorithm, the size of the natural number to be factored.",0
+"A program developed using a circuit description language—especially Quipper—defines not a single circuit but a collection of circuits parameterized by variables such as the number of input qubits or, for algorithms like Shor’s, the magnitude of the integer being factored.",1
+"TypeDis is a type system inspired by region types, where each type is annotated with a timestamp, identifying the task that allocated it.",0
+"Drawing inspiration from region-based typing mechanisms, TypeDis incorporates temporal annotations within its type structure, wherein every type receives a timestamp designation that identifies the computational task responsible for its allocation.",1
+Disentanglement is a runtime property of parallel programs guaranteeing that parallel tasks remain oblivious to each other's allocations.,0
+"A fundamental runtime characteristic of concurrent computational systems, disentanglement ensures that simultaneously executing tasks maintain complete unawareness regarding memory allocation operations performed by their parallel counterparts.",1
+"The MaPLe compiler and run-time system can exploit disentanglement for fast automatic memory management, especially task-local garbage collection with no synchronization between parallel tasks.",0
+"Leveraging the disentanglement property, the MaPLe compilation framework alongside its runtime infrastructure achieves expedited automated memory administration, particularly through task-localized garbage collection mechanisms that operate without necessitating synchronization across concurrent tasks.",1
+TypeDis supports iso-recursive types as well as polymorphism over both types and timestamps.,0
+The TypeDis framework accommodates iso-recursive type structures while simultaneously providing polymorphic capabilities that span across both conventional type parameters and temporal timestamp annotations.,1
+"Timestamps are allowed to change during type-checking, at join points as well as via a form of subtyping, dubbed subtiming.",0
+"Throughout the type-checking process, temporal annotations possess mutability characteristics, permitting modifications at synchronization junctures and through a specialized subtyping mechanism termed subtiming.",1
+"A peculiar circuit description language is Quipper. In Quipper, circuits are not just like any other data structure. Rather, they are seen as the by-product of certain effect-producing computations that modify some underlying quantum circuit when executed.",0
+"Quipper represents a distinctive circuit description language wherein quantum circuits transcend conventional data structure categorization. Instead, these circuits manifest as consequential artifacts generated by effectful computational operations that alter the foundational quantum circuit during execution phases.",1
+The coupling prevents those models from adequately accounting for variants of the Proto-Quipper family that are specifically designed to control the shape of the produced circuits.,0
+This intrinsic connection impedes the models' capability to properly accommodate Proto-Quipper language variants that have been deliberately engineered for exerting control over the structural characteristics of generated circuits.,1
+"We give a simple type system for Proto-Quipper. The introduced system is a slight variation on the theme of Proto-Quipper-M, whereas the input to the circuit produced by each effectful functional term needs to be exposed in its type.",0
+"Our contribution encompasses a straightforward typing discipline for Proto-Quipper, constituting a nuanced modification of the Proto-Quipper-M paradigm, wherein the circuit input corresponding to every effectful functional expression requires explicit manifestation within its type signature.",1
+We show that Atkey's indexed monad is an appropriate framework for giving denotational semantics to Proto-Quipper-C.,0
+Our research demonstrates that the indexed monad construction introduced by Atkey provides a suitable foundational structure for establishing denotational semantic interpretations of the Proto-Quipper-C language.,1
+"By treating circuits as (pre)monoidal morphisms and considering the category-action indexed monad, we maintain a clear separation between the value a term evaluates to and the circuit produced alongside the evaluation.",0
+"Through the conceptualization of circuits as morphisms within a premonoidal categorical framework and leveraging the category-action indexed monad construction, we achieve explicit demarcation between the resultant value obtained from term evaluation and the concomitant circuit generation occurring during this evaluative process.",1
+"We then move to richer type systems, where simple types are enriched by a form of effect typing.",0
+"Subsequently, our investigation progresses toward more elaborate typing disciplines, wherein foundational type structures undergo augmentation through the incorporation of effect-typing mechanisms.",1
+"The model based on indexed monads remains adequate, and suggests an abstract notion of circuit algebra, through which it is possible to capture various circuit metrics.",0
+"The indexed monad-based model maintains its adequacy while simultaneously proposing an abstracted conceptualization of circuit algebra, facilitating the characterization of diverse circuit measurement methodologies.",1
+We briefly discuss how dependent types might be incorporated into both the syntax and semantics of the variant of Proto-Quipper-C introduced earlier.,0
+Our discussion concisely addresses the potential integration of dependent type theory into the syntactic and semantic frameworks of the previously introduced Proto-Quipper-C variant.,1
+This is achieved by applying the families construction to the denotational model of Proto-Quipper-C in the spirit of fibered adjunction models.,0
+"This accomplishment manifests through the application of families construction methodology to Proto-Quipper-C's denotational model, adhering to the conceptual framework established by fibered adjunction models.",1
+"A program written in any CDL, and particularly in Quipper, does not describe a single circuit but a family of circuits, depending on some parameters.",0
+"Programs authored within circuit description languages, with particular emphasis on Quipper, do not characterize individual circuits but rather parameterized families of circuits contingent upon various parameters.",1
+"The ability to describe families of circuits enables Quipper to succinctly and elegantly describe quantum algorithms, thus having a pragmatic impact.",0
+"The capability to specify circuit families empowers Quipper with succinct and elegant quantum algorithm descriptions, thereby yielding substantial practical implications.",1
+"Most forms of denotational semantics for the Proto-Quipper family are based on presheaves, and enjoy a constructive property.",0
+Predominant denotational semantic approaches for the Proto-Quipper language family rely upon presheaf-theoretic foundations while maintaining constructive properties.,1
+"Some judgments cannot be interpreted as a family of circuits in the same way, including terms with free variables with a function type.",0
+"Certain typing judgments resist interpretation as circuit families through conventional means, particularly those encompassing terms containing free variables of functional types.",1
+This implies that modular reasoning about the produced circuits cannot be easily performed within the model.,0
+"Consequently, compositional reasoning concerning generated circuits becomes challenging to execute within this modeling framework.",1
+This paper introduces a denotational semantics for a CDL in which every judgment is interpreted as a family of circuits whose types are uniquely defined.,0
+The present work establishes a denotational semantic framework for circuit description languages wherein each typing judgment receives interpretation as a circuit family characterized by uniquely determined types.,1
+The mathematical object represents a family of pairs indexed by the parametric part of the context where each element is a value and circuit pair.,0
+"This mathematical construct embodies a parameterically-indexed family of value-circuit duets, with indexing determined by the parametric component of the typing context.",1
+The fact that every judgment is interpreted as a family of circuits is important since it allows us to compositionally reason about the family of circuits generated by a program.,0
+"The interpretation of each judgment as a circuit family holds significance, as this property enables compositional reasoning regarding the circuit families produced through program execution.",1
+"The timestamps in our setting are somewhat analogous to regions, with parent-child relationships between timestamps and the up-pointer invariant of TypeDis bearing resemblance to the stack discipline of region-based memory management systems.",0
+"Within our framework, temporal annotations exhibit conceptual similarities to regions, whereby hierarchical relationships among timestamps alongside TypeDis's up-pointer invariant mirror the stack-oriented discipline characteristic of region-based memory management paradigms.",1
+"In region-based systems, allocations may occur within any region, and all values within a region are all deallocated at the same moment.",0
+"Region-based systems permit allocation operations across arbitrary regions, with all values residing within a given region undergoing simultaneous deallocation.",1
+"In contrast, in TypeDis, allocations only ever occur at the current timestamp, and timestamps tell you nothing about deallocation.",0
+"Conversely, TypeDis constrains allocations exclusively to the present timestamp, while temporal annotations provide no information regarding deallocation timing.",1
+"Each timestamp in TypeDis is associated with a task within a nested fork-join task structure, and values with the same timestamp are all allocated by the same task or one of its subtasks.",0
+"Within TypeDis, every temporal annotation maintains association with a task positioned within a hierarchically nested fork-join task architecture, ensuring that values sharing identical timestamps originate from allocation operations performed by either that task or its descendant subtasks.",1
+"Latent programs are represented in a latent space, a compressed feature space preserving meaningful data features and placing similar points adjacently.",0
+Programs within the latent paradigm receive representation in a compressed latent space that maintains significant data characteristics while positioning semantically similar points in proximate locations.,1
+Related work explores how neural networks can understand or benefit from program execution.,0
+Extant research investigates the mechanisms through which neural network architectures can comprehend or derive advantages from program execution processes.,1
+Neural surrogates are neural networks designed to approximate complex programs and are typically trained on a subset of the input-output space.,0
+"Surrogate neural networks constitute architectures specifically engineered for approximating intricate programs, generally undergoing training on partial subsets of the input-output domain.",1
+Smooth interpretation takes a different route: it smooths the semantics of a symbolic program to expose continuous parameters amenable to gradient-based optimization.,0
+"The smooth interpretation methodology adopts an alternative trajectory, applying smoothing techniques to symbolic program semantics thereby revealing continuous parameters suitable for gradient-based optimization procedures.",1
+Several works have proposed using machine learning to repair programs.,0
+Multiple research contributions have advocated for the utilization of machine learning methodologies in program repair applications.,1
+LLMs are used to repair programs both in single-turn and agentic setups.,0
+Large language models find application in program repair scenarios encompassing both single-turn interactions and agentic configurations.,1
+"There has been significant work on developing static techniques, especially type systems, to guarantee correctness and safety properties for parallel and concurrent programs.",0
+"Substantial research efforts have concentrated on establishing static verification techniques, with particular emphasis on type-theoretic approaches, aimed at ensuring correctness and safety properties within parallel and concurrent program domains.",1
+The idea of ownership has been exploited to rule out races and deadlocks among threads.,0
+The ownership concept has been leveraged to eliminate data races and deadlock conditions arising among concurrent thread executions.,1
+"Ownership is also enforced by linear type systems, which rule out races by construction and have been successfully employed in message-passing concurrency.",0
+"Linear type systems similarly enforce ownership constraints, inherently precluding race conditions through their construction and demonstrating successful application in message-passing concurrent paradigms.",1
+"The approach has then been popularized by Rust, in particular, focusing on statically restricting aliasing and mutability.",0
+"This methodological approach subsequently gained prominence through the Rust programming language, which particularly emphasizes static restrictions on aliasing and mutability characteristics.",1
+"Much of these related works focus on the hazards of concurrency: data races, race conditions, non-determinism, and similar issues.",0
+"A considerable portion of related research concentrations target concurrency hazards encompassing data races, race conditions, non-deterministic behavior, and analogous complications.",1
+"Disentanglement and by extension TypeDis focuses on an equally important but different issue, namely, the performance of parallel programs.",0
+"The disentanglement property, and consequently the TypeDis framework, addresses an equally critical yet distinct concern pertaining to parallel program performance characteristics.",1
+TypeDis in particular is designed to allow for unrestricted sharing of immutable data mixed with disentangled sharing of mutable data.,0
+TypeDis specifically receives design for permitting unbounded sharing of immutable data structures while maintaining disentangled sharing of mutable data elements.,1
+"This support for data sharing is motivated by the implementation of efficient parallel algorithms, many of which rely upon access to shared memory with irregular and/or data-dependent access patterns.",0
+"The rationale for this data-sharing support originates from efficient parallel algorithm implementations, numerous instances of which depend upon shared memory access featuring irregular or data-dependent access patterns.",1
+We consider one such implementation as a case study and confirm that it is typeable under TypeDis.,0
+"Our investigation examines one such implementation as an illustrative case study, verifying its typeability within the TypeDis framework.",1
+The key results presented are discussed and analyzed in detail.,0
+The fundamental findings undergo comprehensive discussion and analytical examination.,1
+"Of the software startups surveyed, 89% are in the Antioquia, Cundinamarca, and Valle del Cauca regions.",0
+"Among the surveyed software startup enterprises, an overwhelming 89% maintain operational presence within the Antioquia, Cundinamarca, and Valle del Cauca regional territories.",1
+"These departments include, respectively, MedellÃ­n, BogotÃ¡, and Cali, cities highlighted as the most dynamic in Colombia's entrepreneurial ecosystem.",0
+"These departmental regions encompass, in respective order, the municipalities of MedellÃ­n, BogotÃ¡, and Cali, urban centers distinguished as exhibiting the greatest dynamism within Colombia's entrepreneurial ecosystem.",1
+"Regarding the representatives of the ventures that responded to the survey, 90% hold executive roles in their respective ventures.",0
+"Concerning the venture representatives providing survey responses, 90% occupy executive positions within their corresponding startup organizations.",1
+The executive roles held by most respondents indicate that they possess enough knowledge and authority to respond appropriately to the survey.,0
+The executive positions maintained by the majority of respondents signify their possession of sufficient knowledge and authoritative capacity for furnishing appropriate survey responses.,1
+"From the production knowledge table, four software production activities directly related to product engineering emerge as the most valued.",0
+"Emerging from the production knowledge classification, four software production activities maintaining direct relationship with product engineering surface as receiving highest valuation.",1
+"Requirements engineering, prototyping, coding, and software testing form the essential backbone of successful software development.",0
+"The foundational pillars of successful software development comprise requirements engineering, prototyping, coding, and software testing activities.",1
+"In the dynamic and often resource-constrained environment of software startups, their relevance becomes even more pronounced and critical for survival and growth.",0
+"Within the dynamic and frequently resource-limited milieu characteristic of software startups, these activities assume heightened relevance, becoming critical determinants for organizational survival and expansion.",1
+Requirements Engineering in a software startup involves identifying the core value and translating it into a Minimum Viable Product.,0
+"Within software startup contexts, Requirements Engineering encompasses the identification of core value propositions and their subsequent translation into Minimum Viable Product specifications.",1
+"Startups must quickly validate ideas, and prioritized requirements ensure initial efforts target the most crucial functionalities for a clear user need.",0
+"Startup organizations necessitate rapid idea validation, wherein prioritized requirements guarantee that initial developmental efforts concentrate on functionalities most crucial for addressing clearly defined user needs.",1
+Knowledge about prototyping is exceptionally valuable for an entrepreneurial team in the early stages of a software startup.,0
+Prototyping knowledge possesses exceptional value for entrepreneurial teams operating within early-stage software startup phases.,1
+It provides a rapid and cost-effective way to visualize and test their core ideas before committing significant resources to full-scale development.,0
+This knowledge furnishes rapid and economically efficient mechanisms for visualizing and testing core conceptual ideas prior to committing substantial resources toward full-scale development initiatives.,1
+"Coding in a startup requires technical skill and speed. Building a solid, scalable system is vital.",0
+"Startup coding operations demand both technical proficiency and expeditious execution, with the construction of robust, scalable systems constituting a vital requirement.",1
+"Startups often need to release a functional product quickly to secure funding, attract users, and stay competitive.",0
+"Startup organizations frequently face imperatives to release functional products expeditiously for securing funding, attracting user bases, and maintaining competitive positioning.",1
+"Software testing is often seen as a luxury in startups with limited resources, but it is essential to prevent costly failures.",0
+"Despite resource constraints common in startups often relegating software testing to perceived luxury status, its essential nature in preventing expensive failures remains undeniable.",1
+"Releasing buggy software can damage reputation, erode trust, and risk the startup's survival.",0
+"The release of defect-laden software carries potential for reputational damage, trust erosion, and jeopardization of startup organizational survival.",1
+"In the early stages, founding teams tend to place a higher value on knowledge related to project planning and management, agile methodologies, and change management.",0
+"During initial developmental stages, founding teams demonstrate propensity for assigning elevated value to knowledge domains encompassing project planning and management, agile methodologies, and change management practices.",1
+"Quantum computation is a realm where information is stored on the state of objects governed by the laws of quantum physics. This model of computation is believed to provide important speedup for many applications, ranging from high-performance computing to optimisation.",0
+"The paradigm of quantum computing encompasses a domain wherein data resides within states of entities constrained by quantum mechanical principles. This computational framework purportedly confers substantial acceleration across diverse applications, spanning from high-performance computational tasks to optimization endeavors.",1
+"The typical execution flow for quantum programs relies on the notion of quantum coprocessor: the quantum memory is stored in an external device, seen as a coprocessor to a CPU, similar to what happens for a GPU, for instance.",0
+"Analogous to GPU architectures, quantum program execution conventionally leverages a quantum coprocessor paradigm wherein quantum memory persists in an auxiliary apparatus functioning as a CPU adjunct.",1
+A measurement's result is a classical piece of information that might be stored for later use or discarded. Such a series of instructions is represented by a quantum circuit.,0
+The outcome derived from measurement operations constitutes classical data potentially retained for subsequent utilization or eliminated. This instructional sequence finds representation through quantum circuit constructs.,1
+"Known as the deferred measurement principle, a result from folklore states that measurements and discards can be postponed to the end of the computation.",0
+"The deferred measurement theorem, an established principle within the field, articulates that measurement operations alongside discard procedures may be relegated to the computational terminus.",1
+"Quantum circuit transformations turn a circuit into another (equivalent) quantum circuit. Such techniques are key components of the quantum software stack, whether for optimisation, adaptation to hardware capabilities in terms of qubits and connectivity, error correction, circuit robustification, one-way measurement.",0
+"Circuit transformation methodologies in quantum systems facilitate conversion between functionally equivalent quantum circuits. These techniques constitute pivotal elements within quantum software infrastructure, encompassing optimization protocols, hardware capability adaptation concerning qubit resources and interconnectivity, error mitigation strategies, circuit fortification, and unidirectional measurement paradigms.",1
+"Current methodologies for automatic equivalence checking predominantly focus on purely quantum, unitary circuits. This restriction is becoming increasingly unrealistic as physical chips progress.",0
+Contemporary automated equivalence verification approaches exhibit predominant emphasis upon purely unitary quantum circuits. Such constraints manifest progressively impractical characteristics concomitant with advancing physical chip implementations.,1
+"A first difficulty is that hybrid quantum computation is, by nature, non-deterministic: the functional behaviour of a quantum program is a branching probabilistic structure instead of a linear trace.",0
+"Primarily, hybrid quantum computational paradigms inherently embody non-deterministic characteristics wherein program functional behavior manifests as probabilistic branching architectures rather than linear sequential traces.",1
+"A second difficulty is that a quantum program manipulates both quantum and classical registers. Some of these registers might contain garbage, i.e. data that should not be considered as output.",0
+"Subsequently, quantum programs necessitate manipulation across both quantum and classical register domains. Certain registers potentially harbor extraneous dataâ€”colloquially termed garbageâ€”which ought not constitute output considerations.",1
+"Discarding quantum information is not innocuous, as it corresponds to tracing it out: discarding corresponds to a measurement and is then a probabilistic process.",0
+"The elimination of quantum information constitutes a non-trivial operation, as it correlates with trace-out procedures wherein discard operations correspond to measurement events, thereby manifesting probabilistic process characteristics.",1
+The measurement operation induces a deep conceptual shift from a (quantum) deterministic process purely modelled in linear algebra to a stochastic process acting on a mix of quantum states and usual data structures.,0
+Measurement procedures precipitate profound conceptual transitions from deterministic quantum processes exclusively characterized through linear algebraic frameworks toward stochastic processes operating upon heterogeneous amalgamations of quantum states and conventional data constructs.,1
+"We clarify the current landscape of hybrid circuit equivalence checking. In particular, we draw the separation between circuits with and without discards and the induced partitioning of equivalence cases.",0
+"Our contribution elucidates the contemporary terrain of hybrid circuit equivalence verification. Specifically, we delineate demarcations between discard-inclusive and discard-exclusive circuits alongside resultant equivalence classification stratifications.",1
+We propose a generic method based on deferred measurement that extends unitary circuit equivalence checkers to support hybrid circuits.,0
+We introduce a generalized methodology predicated upon deferred measurement principles that augments unitary circuit equivalence verification mechanisms to accommodate hybrid circuit architectures.,1
+"We introduce a verification tool, SQbricks, dedicated to hybrid circuit equivalence checking, included when discard is at stake.",0
+"Our work presents SQbricks, a specialized verification instrument engineered for hybrid circuit equivalence assessment, particularly addressing scenarios wherein discard operations constitute integral components.",1
+"Equivalence checking of purely unitary circuits is prevalent among the state-of-the-art. One can cite AutoQ, Feynman, SliQEC, and PyZX.",0
+"Purely unitary circuit equivalence verification predominates within contemporary state-of-the-art approaches. Notable exemplars encompass AutoQ, Feynman, SliQEC, and PyZX implementations.",1
+"To the best of our knowledge, only QCEC and VeriQC address the equivalence checking of hybrid quantum circuits. However, concrete implementations are limited to the case without discard.",0
+"According to our comprehensive assessment, exclusively QCEC and VeriQC tackle hybrid quantum circuit equivalence verification. Nonetheless, practical implementations exhibit constraints, specifically restricting applicability to discard-free scenarios.",1
+"QCEC relies on a combination of ZX-calculus, Decision Diagrams, Simulation, and deferred measurement for hybrid circuit equivalence. Yet, the approach is limited to the narrow case of hybrid circuits with no discards.",0
+"The QCEC framework employs an integrated methodology encompassing ZX-calculus, Decision Diagram representations, simulation techniques, and deferred measurement protocols for hybrid circuit equivalence assessment. Nevertheless, this approach manifests limitations, specifically constraining applicability to restricted hybrid circuit categories absent discard operations.",1
+VeriQC implements measurement and classical control in quantum circuits using Tensor Decision Diagrams. The authors have already identified one of the main challenges in hybrid circuit equivalence verification: managing discards.,0
+"Utilizing Tensor Decision Diagram frameworks, VeriQC operationalizes measurement and classical control mechanisms within quantum circuits. The researchers have previously recognized a principal challenge confronting hybrid circuit equivalence verification: discard management protocols.",1
+"The interaction with the quantum coprocessor consists of emitting a sequence of initialisation, unitary gates, measurements, and discards, potentially classically controlled by the result of previous measurements.",0
+"Quantum coprocessor interaction encompasses sequential emission of initialization procedures, unitary gate operations, measurement protocols, and discard operations, potentially governed through classical control mechanisms contingent upon antecedent measurement outcomes.",1
+"As an example of a hybrid circuit, the teleportation protocol operates over mixed quantum and classical data and describes the transmission of a quantum state from Alice to Bob.",0
+"The teleportation protocol exemplifies hybrid circuit architectures, functioning across heterogeneous quantum-classical data domains while characterizing quantum state transmission from Alice's input register toward Bob's observable register.",1
+"The circuit consists of three quantum wires and two classical wires. It employs three types of gates: the Hadamard gate, the controlled NOT gate and the phase gate.",0
+"This circuit architecture incorporates three quantum wire channels alongside two classical wire pathways. Gate implementations encompass three categorical types: Hadamard transformations, controlled NOT operations, and phase rotation gates.",1
+"Measurement is a non-deterministic process, described by the so-called Born's rule, with results stored in classical wires.",0
+"Measurement procedures constitute non-deterministic operations characterized through Born's probabilistic rule, yielding outcomes preserved within classical wire structures.",1
+"The deferred measurement is a circuit transformation that postpones all measurements to the end by replacing classical controls with quantum controls, leaving the inner circuit purely unitary.",0
+"Deferred measurement constitutes a circuit transformation methodology that relegates all measurement operations to the computational terminus through substituting classical control mechanisms with quantum control alternatives, thereby rendering the internal circuit exclusively unitary in nature.",1
+"This transformation preserves the semantics, resulting in equivalent circuits. The output circuit consists of a round of initialisations, a unitary block, and a round of measurements, possibly immediately followed by discards.",0
+"Semantic preservation characterizes this transformation, yielding functionally equivalent circuit constructs. The resultant circuit manifests sequential initialization phases, unitary operational blocks, and measurement phases potentially succeeded immediately by discard procedures.",1
+An alternative to matrix representation has recently been proposed: path-sums. This symbolic representation gives a more compact representation for purely quantum circuits.,0
+Recently proposed alternatives to matrix-based representations encompass path-sum methodologies. These symbolic frameworks confer more compact representational schemas specifically advantageous for purely quantum circuit architectures.,1
+"The name refers to Feynman's paths, where the quantum evolution of a system is represented as a weighted sum of possible paths. In the path-sums formalism, these weights are parameterised by the input basis states.",0
+"The nomenclature derives from Feynman path integral formulations wherein quantum system evolution finds representation as weighted summations across feasible trajectory paths. Within path-sum formalisms, weight parameters correspond to input basis state configurations.",1
+"Path-sums are over-expressive: two circuits corresponding to the same linear operation might have distinct path-sum representations. To reconcile such equivalence representations, path-sums come with an equational theory.",0
+Path-sum representations exhibit over-expressive characteristics whereby functionally identical linear operations may manifest disparate path-sum formulations. Reconciliation of such equivalence representations necessitates accompanying equational theoretical frameworks.,1
+We claim the presence or the absence of discards to be the main difficulty in the equivalence checking of hybrid circuits. It straightforwardly generates a three classes typology of hybrid circuit equivalence instances.,0
+Our assertion posits that discard presence or absence constitutes the principal complexity factor within hybrid circuit equivalence verification. This distinction directly engenders a tripartite taxonomic classification of hybrid circuit equivalence instance categories.,1
+"DisFree concerns circuits without discards. The primary applications of DisFree involve dynamising unitary circuits: basically, the transformation inverse of the deferred measurement.",0
+"The DisFree classification addresses discard-absent circuit architectures. Primary DisFree applications encompass unitary circuit dynamization procedures, essentially constituting inverse transformations relative to deferred measurement protocols.",1
+"Dis is the most generic equivalence task over hybrid circuits including teleportation, one-way measurement, error correction, optimisations with ancillas. Most of the non-reversible quantum processes require the use of ancillas and discards.",0
+"The Dis category represents the most comprehensive equivalence verification task encompassing hybrid circuits, including teleportation protocols, unidirectional measurement procedures, error correction mechanisms, and ancilla-based optimization strategies. Predominantly, non-reversible quantum computational processes necessitate ancilla utilization alongside discard operations.",1
+"Mix is the mixed case, where one circuit is with discards, and the second is without. With Mix, we can verify the equivalence between unitary and hybrid circuits resulting from transformations such as one-way measurement or teleportation.",0
+The Mix classification addresses heterogeneous scenarios wherein one circuit incorporates discard operations while the counterpart circuit excludes them. Mix facilitates equivalence verification between unitary and hybrid circuit architectures emergent from transformations including unidirectional measurement or teleportation protocols.,1
+"Given a circuit C, the deferred measurement transformation isolates the initialisation, unitary, and measurement components, obtaining a IUM circuit.",0
+"For any specified circuit C, deferred measurement transformation procedures effectuate isolation of initialization, unitary, and measurement constituents, thereby yielding IUM circuit architectures.",1
+"A central result of this paper consists in characterising the relationship between the equivalence of two circuits possibly with measures and discards, and the equivalence of their deferred measurement versions.",0
+"A pivotal contribution of this research encompasses characterization of correlations between equivalence properties of two circuits potentially incorporating measurement and discard operations, and equivalence attributes of their deferred measurement formulations.",1
+"If the unitary blocks behave equivalently over non-discarded qubits and after initialisation, one can directly infer the hybrid equivalence between the circuits.",0
+"Provided unitary operational blocks manifest equivalent behavioral characteristics across non-discarded qubit registers subsequent to initialization procedures, hybrid equivalence between circuit constructs may be directly inferred.",1
+"While our method pre-processes hybrid circuits along the deferred measurement transformation, it does not properly apply the principle. Instead, it builds a logical over-approximation of the equivalence relation.",0
+"Although our methodology incorporates preprocessing of hybrid circuits via deferred measurement transformation protocols, it diverges from strict principle application. Alternatively, it constructs logical over-approximation frameworks of equivalence relations.",1
+The implementation comprises two parts: the SQbricks-Verif component implements a path-sum calculus to perform unitary verification and partial equivalence checking.,0
+Implementation architecture encompasses dual components wherein the SQbricks-Verif module operationalizes path-sum computational frameworks for executing unitary verification alongside partial equivalence assessment procedures.,1
+"The SQbricks-Lifting component focuses on our generic lifting method, based on the deferred measurement transformation.",0
+The SQbricks-Lifting module concentrates upon our generalized lifting methodology predicated upon deferred measurement transformation protocols.,1
+"Circuits are built from a pseudo-universal set of gates, comprising H, X, U1 and combined through sequence and quantum control. Furthermore, the user can explicitly indicate the address of qubits that are discarded.",0
+"Circuit constructions derive from pseudo-universal gate assemblages encompassing H, X, U1 components synthesized through sequential composition and quantum control mechanisms. Additionally, users possess capability to explicitly designate qubit addresses subject to discard operations.",1
+SQbricks-Lifting implements deferred measurement to extend unitary equivalence verification tools to hybrid circuits. This approach maintains consistency between hybrid circuit classes while ensuring broad interoperability.,0
+"Through deferred measurement implementation, SQbricks-Lifting augments unitary equivalence verification instruments to accommodate hybrid circuit architectures. This strategy preserves consistency across hybrid circuit categorical classifications while guaranteeing extensive interoperability capabilities.",1
+"We evaluate SQbricks-Lifting with the state-of-the-art unitary circuit verification tools including AutoQ, Feynman, PyZX and QCEC in addition to SQbricks-Verif.",0
+"Our evaluation encompasses SQbricks-Lifting assessment against contemporary state-of-the-art unitary circuit verification frameworks including AutoQ, Feynman, PyZX, and QCEC implementations, supplemented by SQbricks-Verif analysis.",1
+We selected two libraries of quantum circuits in OpenQASM commonly used in the literatureâ€”VeriQBench and the Feynman library plus a hybrid implementation of the Shor algorithm.,0
+Our selection incorporated dual quantum circuit libraries formatted in OpenQASM notation prevalent within academic literatureâ€”specifically VeriQBench and Feynman repositoriesâ€”augmented by hybrid Shor algorithm implementations.,1
+"For each library, we only retained the circuits that SQbricks could parse. This results in a compilation of 420 unitary circuits and 204 hybrid circuits.",0
+Library retention criteria restricted inclusion to circuits amenable to SQbricks parsing capabilities. This filtering procedure yielded a compilation encompassing 420 unitary circuit instances alongside 204 hybrid circuit specimens.,1
+"We consider circuit transformations including Qiskit with an optimisation level of 3, One-Way Measurement, and Teleportation protocol.",0
+"Our consideration encompasses circuit transformation methodologies including Qiskit compiler operations configured at optimization level 3, One-Way Measurement protocols, and Teleportation procedures.",1
+"For DisFree challenges, path-sum based methods achieved perfect success rates. In contrast, PyZX demonstrated limitations, failing to verify equivalence between two CSWAP variants.",0
+"Across DisFree challenge categories, path-sum predicated methodologies attained flawless success metrics. Conversely, PyZX exhibited constraint manifestations, specifically failing equivalence verification between dual CSWAP variant implementations.",1
+"PyZX showed scalability issues. For instance, PyZX took 534 seconds to verify a QPE instance of size 35, whereas Feynman verified an instance of size 42 in just 3 seconds.",0
+"Scalability impediments characterized PyZX performance. Exemplifying this constraint, PyZX necessitated 534 seconds for QPE instance verification at magnitude 35, whereas Feynman accomplished verification of magnitude 42 instances within merely 3 seconds.",1
+AutoQ successfully verified all circuit families for small instances but faced scalability challenges.,0
+AutoQ demonstrated successful verification across all circuit family categories for diminutive instances yet encountered scalability impediments.,1
+"Our approach successfully lifts unitary verification tools to handle hybrid DisFree cases, with path-sums showing superior performance compared to ZX-calculus and automata-based methods.",0
+"Our methodological framework effectuates successful lifting of unitary verification instruments to accommodate hybrid DisFree scenarios, wherein path-sum approaches manifest superior performance metrics relative to ZX-calculus and automata-predicated methodologies.",1
+"QCEC fails all 169 U-DC challenges, and incorrectly reports 27 non-equivalence proofs, indicating correctness issues.",0
+"QCEC manifests failure across all 169 U-DC challenge instances, erroneously reporting 27 non-equivalence determinations, thereby indicating correctness deficiency concerns.",1
+"With our lifting approach, all tools except AutoQ verify the entire VeriQC benchmark faster than VeriQC itself.",0
+"Employing our lifting methodology, all verification instruments excluding AutoQ accomplish complete VeriQC benchmark verification with superior temporal efficiency relative to VeriQC's native performance.",1
+"Our method effectively addresses a substantial portion of the Mix and Dis hybrid equivalence challenges, handling 39.5% of Dis and 67.7% of Mix.",0
+"Our methodological framework efficaciously resolves substantial proportions of Mix and Dis hybrid equivalence challenge categories, specifically addressing 39.5% of Dis instances alongside 67.7% of Mix scenarios.",1
+We also performed a sanity check consisting of 73 equivalence tasks with deliberately modified quantum circuits. All versions of Feynman and SQbricks successfully passed the sanity check with no false positives.,0
+"Additionally, we executed sanity verification procedures encompassing 73 equivalence assessment tasks incorporating intentionally modified quantum circuit constructs. Feynman and SQbricks implementations universally succeeded in sanity validation protocols absent false positive detections.",1
+"During our experiments, we uncovered two bugs in the Qiskit compiler: Angle approximation where Qiskit approximated small angles to 0, and Introduction of Floats where transformations introduced floating-point values instead of rational numbers.",0
+"Experimental procedures revealed dual defects within Qiskit compiler implementations: specifically, angle approximation anomalies wherein Qiskit erroneously approximated diminutive angular values to zero, and floating-point introduction irregularities wherein transformation operations substituted rational numerical representations with floating-point value formats.",1
+"Qiskit version 1.1.0 approximated small angles to 0, leading to incorrect circuit simplifications when quantum registers are over 42 qubits. This issue was fixed in version 1.4.0.",0
+"Qiskit iteration 1.1.0 manifested erroneous approximation of minimal angular parameters to zero magnitudes, precipitating incorrect circuit simplification outcomes for quantum register configurations exceeding 42 qubit thresholds. Subsequent version 1.4.0 rectified this deficiency.",1
+These findings highlight the practical utility of our method in identifying and mitigating approximation-related issues in quantum circuit transformations.,0
+These discoveries underscore the pragmatic applicability of our methodological framework in detecting and ameliorating approximation-associated irregularities within quantum circuit transformation procedures.,1
+Identifying the small subset of source code that repeatedly attracts bugs is critical for reducing long-term maintenance effort.,0
+The identification of code segments that consistently accumulate defects represents a crucial factor in minimizing sustained maintenance overhead and resource allocation.,1
+"We define ExtremelyBuggy methods as those involved in more than one bug fix and present the first large-scale study of their prevalence, characteristics, and predictability.",0
+"Our research introduces the concept of ExtremelyBuggy methodologies, characterized by their involvement in multiple defect remediation cycles, and conducts an unprecedented comprehensive investigation into their frequency of occurrence, distinguishing features, and forecasting potential.",1
+"At their inception, these methods are significantly larger, more complex, less readable, and less maintainable than both singly-buggy and non-buggy methods.",0
+"During their initial implementation phase, such methodologies demonstrate substantially greater size metrics, elevated complexity indicators, diminished readability scores, and reduced maintainability indices when compared to methods experiencing singular defects or those remaining defect-free.",1
+Software maintenance is one of the most expensive phases of the development lifecycle.,0
+The maintenance phase of software systems constitutes among the most financially burdensome stages throughout the entire developmental progression.,1
+"A major contributor to this cost is the effort required to identify and correct software bugs, which alone can account for 50-70% of the total development costs.",0
+"Accounting for approximately half to seven-tenths of aggregate development expenditures, the labor-intensive processes of bug identification and rectification emerge as principal cost drivers within this domain.",1
+Prior bug prediction models predominantly focused on the class or file levels.,0
+Historical approaches to defect forecasting predominantly concentrated their analytical efforts at granularities corresponding to classes or file-level structures.,1
+"Unfortunately, these models remain underutilized in practice, at least partly because practitioners find it challenging to locate bugs at such coarse levels of granularity.",0
+"Regrettably, such predictive frameworks experience limited adoption in real-world applications, attributable in substantial measure to the difficulties practitioners encounter when attempting to pinpoint defects at these relatively broad levels of structural abstraction.",1
+A significant amount of recent research has focused on bug prediction at the method level granularity.,0
+Contemporary investigative efforts have increasingly directed attention toward defect prediction mechanisms operating at the methodological granularity level.,1
+"However, these models treat all buggy methods equally, without distinguishing between methods that were fixed once and those that required multiple bug fixes.",0
+"Nevertheless, such predictive systems fail to differentiate among defect-prone methods, applying uniform treatment regardless of whether remediation occurred on a singular occasion or necessitated repeated interventions.",1
+"In contrast to previous research, we focus on ExtremelyBuggy methodsâ€”methods that have required bug fixes more than onceâ€”because identifying them early could prevent a disproportionate number of future failures.",0
+"Diverging from antecedent scholarly work, our investigation concentrates on those methodologies necessitating multiple corrective interventions, as their premature identification possesses the potential to forestall an inordinate quantity of subsequent system failures.",1
+"To support this goal, we analyze the characteristics of ExtremelyBuggy methods in an effort to predict them at their inceptionâ€”that is, as soon as they are pushed to a software project.",0
+"In furtherance of this objective, we conduct comprehensive analysis of the distinguishing attributes exhibited by ExtremelyBuggy methods, endeavoring to forecast their emergence at the very moment of their integration into software repositories.",1
+We found that 0.04-6.63% of methods are ExtremelyBuggy.,0
+Our empirical findings revealed that methods classified as ExtremelyBuggy constitute between four-hundredths and six point six three percent of the total methodological corpus.,1
+"However, this small proportion of methods can often account for a large number of bug fixes in a project.",0
+"Notwithstanding their relatively modest proportional representation, these methodologies frequently correlate with a disproportionately substantial quantity of defect remediation activities within project contexts.",1
+"We found that, at their inception, ExtremelyBuggy methods are significantly larger, less readable, and have lower maintainability scores compared to both Buggy and NotBuggy methods.",0
+"Our investigative results demonstrated that upon initial implementation, methods characterized as ExtremelyBuggy exhibit markedly elevated size metrics, diminished readability characteristics, and depressed maintainability evaluations relative to both single-defect and defect-free method categories.",1
+"Unfortunately, our results indicate that machine learning algorithms perform poorly in distinguishing ExtremelyBuggy methods from other methods.",0
+"Regrettably, the outcomes of our analytical procedures suggest that computational learning algorithms demonstrate suboptimal performance when tasked with differentiating ExtremelyBuggy methods from alternative methodological classifications.",1
+"This is partly due to a significant class imbalance, as ExtremelyBuggy methods represent only a small fraction of the overall dataset.",0
+"This performance deficiency derives partially from substantial distributional asymmetry within classification categories, given that ExtremelyBuggy methods comprise merely a marginal segment of the comprehensive data collection.",1
+We conducted a thematic analysis on a curated dataset of 287 ExtremelyBuggy methods.,0
+We executed a systematic thematic examination of a meticulously selected corpus encompassing two hundred eighty-seven methods classified as ExtremelyBuggy.,1
+"For example, we found that methods that deal with the core logic and algorithms tend to become ExtremelyBuggy.",0
+"Illustratively, our analytical findings indicated that methodologies responsible for implementing fundamental algorithmic logic and computational procedures demonstrate heightened susceptibility to achieving ExtremelyBuggy status.",1
+"A substantial portion of our dataset originates from the work of Chowdhury et al., which comprises 774,051 Java methods drawn from 49 open-source projects.",0
+"A considerable segment of our data collection derives from investigative work conducted by Chowdhury and colleagues, encompassing seven hundred seventy-four thousand fifty-one Java methodologies extracted from forty-nine open-source software initiatives.",1
+"Each method in this dataset is accompanied by its complete change history and is enriched with metadata such as commit messages, timestamps, authorship information, and change types.",0
+"Every methodology within this corpus is supplemented with comprehensive modification chronology and enhanced with supplementary information including commit annotations, temporal markers, contributor attribution, and modification categorizations.",1
+We employed the GitHub REST API and the PyGitHub library to collect open-source projects.,0
+"For the purpose of assembling open-source project repositories, we utilized the GitHub REST application programming interface in conjunction with the PyGitHub programmatic library.",1
+We began by retrieving the 1000 most-starred GitHub repositories that satisfied several additional criteria.,0
+Our collection process commenced with the acquisition of one thousand GitHub repositories demonstrating the highest star ratings while simultaneously fulfilling multiple supplementary qualification parameters.,1
+"To ensure the quality and reliability of our dataset, we followed recommended best practices for mining GitHub data.",0
+"In pursuit of data collection quality assurance and reliability guarantees, we adhered to established optimal methodologies for extracting information from GitHub repositories.",1
+We restricted our search to repositories created within the past 15 years and excluded repositories that had been inactive for more than one year.,0
+Our repository selection criteria incorporated temporal constraints limiting consideration to those established within the preceding fifteen-year period while eliminating those demonstrating inactivity exceeding a twelve-month duration.,1
+We required repositories to contain at least 2000 commits to guarantee substantial change history.,0
+"Our inclusion parameters mandated that candidate repositories possess a minimum of two thousand commit transactions, thereby ensuring adequate historical modification documentation.",1
+"To obtain this historical information, we employed the CodeShovel tool.",0
+"For the acquisition of this chronological developmental data, we implemented the CodeShovel analytical instrument.",1
+"CodeShovel has demonstrated high accuracy in identifying method-level change histories and is robust to complex code transformations, including method relocations across files.",0
+"The CodeShovel utility has exhibited superior precision in detecting method-granularity modification chronologies and demonstrates resilience when confronted with intricate code metamorphoses, encompassing methodological migrations across file boundaries.",1
+"To reduce these false positives, Chowdhury et al. proposed removing the keyword issue and focusing on commit messages that contain both bug-related and fix-related keywords.",0
+"In order to mitigate such spurious positive identifications, Chowdhury and colleagues advocated for the exclusion of the term 'issue' while concentrating analytical efforts on commit annotations containing both defect-associated and remediation-associated terminology.",1
+"While handling tangled code changes remains an active research area, we conduct our analysis using three distinct datasets to mitigate the impact of tangled commits.",0
+"Notwithstanding the ongoing investigative challenges associated with managing intertwined code modifications, we execute our analytical procedures employing three separate data collections to attenuate the influence of conflated commit transactions.",1
+We used all the above-mentioned keywords and their variations and did not consider the problem of tangled changes.,0
+We incorporated the complete set of previously enumerated keywords along with their lexical variants while abstaining from addressing the complications arising from entangled modifications.,1
+"In this dataset we used the set of keywords introduced by Chowdhury et al., which aims at increasing the precision of bug-fix labeling.",0
+"Within this particular data collection, we employed the keyword assemblage proposed by Chowdhury and colleagues, designed with the objective of enhancing the accuracy of defect-remediation classification.",1
+"To remove the effects of tangled changes, we only labeled a change as a bug-fix if at most 1 method was changed in that commit.",0
+"For the purpose of eliminating the confounding effects of intermingled modifications, we designated a change as constituting defect remediation exclusively when the commit transaction encompassed modifications to no more than a singular method.",1
+The age of the methods in our dataset varies significantly.,0
+The temporal characteristics of methodologies within our data corpus demonstrate substantial variability.,1
+"This means that comparing newer methods to older methods may introduce bias, as older methods have more time to undergo changes and hence, undergo bug-fix related changes.",0
+"This circumstance implies that comparative analyses between recently implemented and historically established methods possess the potential to introduce systematic bias, given that methodologies of greater age have experienced extended temporal intervals during which changes, including defect-remediation modifications, could accumulate.",1
+"Due to this correlation, we removed all methods that are under 5 years old from our dataset.",0
+"Consequent to this correlational relationship, we excised from our data collection all methodologies possessing ages inferior to five years.",1
+"However, we still cannot directly compare methods that are 5 years old with those that are more than 5 years old for the aforementioned reasons.",0
+"Nevertheless, direct comparative analysis between methodologies exhibiting precisely five years of age and those demonstrating greater longevity remains problematic due to the previously articulated rationale.",1
+"Thus, we also remove all changes made after the first 5 years from the remaining methods.",0
+"Consequently, we additionally eliminate all modifications transpiring subsequent to the initial five-year period from the residual methodologies under consideration.",1
+"This, unfortunately, resulted in us losing 626,529 methods and all methods from the following 6 projects from our dataset.",0
+"This procedural decision, regrettably, culminated in the forfeiture of six hundred twenty-six thousand five hundred twenty-nine methods, in addition to the complete methodological corpus from six distinct projects within our dataset.",1
+"Since we are interested in the Extremely Bug-Prone methods, we care more about retaining change history.",0
+"Given our investigative focus upon methodologies exhibiting extreme defect-proneness characteristics, we prioritize the preservation of comprehensive modification chronologies.",1
+Here we see that 5 years allows us to retain approximately 90% of changes and approximately 85% of bugs while still saving approximately 50% of the methods in our dataset.,0
+"The temporal threshold of five years facilitates the retention of roughly nine-tenths of all modifications and approximately eighty-five percent of documented defects, while concurrently achieving preservation economies of approximately one-half of the methodological corpus.",1
+"The end result of this age-normalization is a dataset of 691,610 methods from 92 projects, where each method has exactly 5 years of change history.",0
+"The culminating outcome of this chronological standardization procedure yields a data collection comprising six hundred ninety-one thousand six hundred ten methods derived from ninety-two distinct projects, wherein each methodology possesses precisely five years of documented modification history.",1
+"For all three datasets, we assign each method to one of three categories based on the number of bug-fix commits in which it was involved.",0
+"Across all three data collections, we allocate each methodology to one among three categorical classifications predicated upon the quantity of defect-remediation commit transactions in which said methodology participated.",1
+NotBuggy: Methods that were never involved in a bug-fix commit.,0
+The NotBuggy classification encompasses those methodologies that experienced zero involvement in any defect-remediation commit transaction.,1
+Buggy: Methods that were involved in exactly one bug-fix commit.,0
+The Buggy categorization includes those methodologies that participated in precisely one defect-remediation commit transaction.,1
+ExtremelyBuggy: Methods that were involved in more than one bug-fix commit.,0
+"The ExtremelyBuggy designation comprises those methodologies that engaged in multiple defect-remediation commit transactions, numbering greater than one.",1
+Code metrics have traditionally served as indicators of quality and maintainability of code.,0
+Computational code metrics have historically functioned as evaluative indicators for assessing both the quality characteristics and maintainability properties of software implementations.,1
+"Size is one of the simplest metrics, yet it is considered one of the most important with regard to software quality and maintenance.",0
+"Despite its fundamental simplicity, the size metric ranks among the most consequential indicators pertaining to software quality assessment and maintenance considerations.",1
+We used the number of source lines of code without comments and blank lines as our size measurement.,0
+Our size quantification methodology employed the enumeration of source code lines while excluding both commentary annotations and unoccupied line spaces.,1
+The ability to read and understand existing code is an important part of software maintenance.,0
+The capability to comprehend and interpret pre-existing code implementations constitutes a critical component of software maintenance activities.,1
+Code readability can be broadly defined by how easy it is for a developer to understand the structure and flow of source code.,0
+The readability characteristic of code may be comprehensively characterized by the degree of facility with which software developers can comprehend the organizational structure and logical progression of source code implementations.,1
+Developers can more easily understand and therefore modify readable code with reduced risk of issues.,0
+Software practitioners experience enhanced comprehension and consequently execute modifications upon readable code with diminished probability of introducing defects.,1
+We used two distinct readability metrics in this paper: Buse et al. and Posnett et al.,0
+"Within this scholarly work, we employed two separate readability quantification metrics, specifically those formulated by Buse and colleagues as well as those developed by Posnett and associates.",1
+We used the McCabe metric to analyze the complexity of methods.,0
+"For the purpose of analyzing methodological complexity characteristics, we implemented the McCabe quantification metric.",1
+"This metric represents the number of independent paths in a method; the greater the number of paths, the more challenging it becomes to test the method thoroughly.",0
+"This evaluative measure quantifies the count of independent execution pathways within a methodology; as the quantity of such pathways increases, the difficulty of conducting comprehensive testing procedures escalates proportionally.",1
+"Hindle et al. proposed the proxy indentation metric, which performs similarly to the McCabe metric in capturing code complexity but, unlike McCabe, does not require a language-specific parser.",0
+"Hindle and colleagues introduced the proxy indentation quantification approach, which demonstrates comparable efficacy to the McCabe metric in capturing code complexity characteristics while possessing the advantageous property of eliminating the requirement for language-specific parsing mechanisms.",1
+"When methods are highly coupled, a bug within one method is more likely to affect another.",0
+"Under conditions of elevated methodological coupling, the manifestation of a defect within one methodology exhibits increased probability of propagating adverse effects to interconnected methodologies.",1
+"To measure this dependency between methods, we used totalFanOut, which is the total number of methods called by a given method.",0
+"For quantifying this inter-methodological dependency relationship, we utilized the totalFanOut metric, which enumerates the aggregate quantity of methodologies invoked by any specified methodology.",1
+"Maintainability Index is a composite software quality metric that integrates HalsteadVolume, which quantifies the amount of information a reader must process to comprehend the code's functionality, along with McCabe complexity and Size.",0
+The Maintainability Index constitutes a synthesized software quality quantification that incorporates HalsteadVolumeâ€”which measures the informational processing burden required for code comprehensionâ€”in conjunction with McCabe complexity indicators and size measurements.,1
+"It produces a single score designed to reflect the maintainability of a given method, where a higher score reflects better maintainability.",0
+"This metric generates a singular numerical score engineered to represent the maintainability characteristics of a specified methodology, wherein elevated numerical values correspond to superior maintainability properties.",1
+Nondeterminism makes parallel programs challenging to write and reason about.,0
+The presence of nondeterministic behavior renders the composition and logical analysis of parallel computational programs substantially problematic.,1
+"To avoid these challenges, researchers have developed techniques for internally deterministic parallel programming, in which the steps of a parallel computation proceed in a deterministic way.",0
+"In order to circumvent such difficulties, scholarly investigators have formulated methodological approaches for internally deterministic parallel programming paradigms, wherein the sequential progression of parallel computational operations transpires in a deterministic manner.",1
+Internal determinism is useful because it lets a programmer reason about a program as if it executed in a sequential order.,0
+"The utility of internal determinism derives from its facilitation of programmer reasoning capabilities, permitting cognitive modeling of program execution as though operations transpired in sequential ordering.",1
+"However, no verification framework exists to exploit this property and simplify formal reasoning about internally deterministic programs.",0
+"Notwithstanding these advantages, there exists no verification infrastructure capable of leveraging this characteristic to streamline formal logical reasoning concerning internally deterministic program implementations.",1
+"To capture the essence of why internally deterministic programs should be easier to reason about, this paper defines a property called schedule-independent safety.",0
+"For the purpose of encapsulating the fundamental rationale underlying the enhanced reasoning simplicity of internally deterministic programs, this scholarly work establishes a characteristic designated as schedule-independent safety.",1
+"A program satisfies schedule-independent safety, if, to show that the program is safe across all orderings, it suffices to show that one terminating execution of the program is safe.",0
+A computational program fulfills the schedule-independent safety criterion when demonstrating safety across all possible execution orderings necessitates merely establishing that a singular terminating execution sequence exhibits safety properties.,1
+We then present a separation logic called Musketeer for proving that a program satisfies schedule-independent safety.,0
+"Subsequently, we introduce a separation logic framework denominated Musketeer, designed for the purpose of establishing that a computational program satisfies the schedule-independent safety property.",1
+"Once a parallel program has been shown to satisfy schedule-independent safety, we can verify it with a new logic called Angelic.",0
+"Following the demonstration that a parallel program conforms to schedule-independent safety requirements, we possess the capability to validate said program utilizing a novel logical framework designated Angelic.",1
+Angelic allows one to dynamically select and verify just one sequential ordering of the program.,0
+The Angelic framework facilitates the dynamic selection and subsequent verification of merely a singular sequential ordering arrangement of the program under consideration.,1
+"Using Musketeer, we prove the soundness of MiniDet, an affine type system for enforcing internal determinism.",0
+"Employing the Musketeer logical framework, we establish the soundness properties of MiniDet, an affine type system architecture engineered for the enforcement of internal determinism characteristics.",1
+MiniDet supports several core algorithmic primitives for internally deterministic programming that have been identified in the research literature.,0
+"The MiniDet system provides support for multiple fundamental algorithmic primitive constructs applicable to internally deterministic programming methodologies, such primitives having been documented within scholarly research literature.",1
+All results in this paper have been verified in Rocq using the Iris separation logic framework.,0
+The entirety of results presented within this scholarly document have undergone verification procedures within the Rocq theorem prover utilizing the Iris separation logic infrastructure.,1
+One of the most challenging aspects of concurrent and parallel programming is dealing with nondeterminism.,0
+Among the most formidable challenges encountered in concurrent and parallel programming domains stands the necessity of managing nondeterministic behavioral characteristics.,1
+Bugs often arise because programmers struggle to reason about the set of all possible nondeterministic outcomes and interleavings.,0
+Defects frequently emerge as a consequence of programmer difficulties in conducting comprehensive reasoning regarding the complete set of potential nondeterministic outcomes and interleaving configurations.,1
+"Finding those bugs becomes more difficult, as testing can only cover a subset of possible outcomes.",0
+"The identification of such defects experiences increased difficulty, attributable to the limitation that testing procedures possess the capacity to examine merely a subset of potential outcome scenarios.",1
+"Even when bugs are found, nondeterminism makes them harder to reproduce and debug.",0
+"Even subsequent to defect identification, nondeterministic characteristics render such defects more challenging to reproduce and subject to debugging procedures.",1
+"These challenges also extend to formal methods for such programs, where nondeterminism makes various analyses and verification techniques more complex.",0
+"Such difficulties additionally propagate to formal methodological approaches for these program categories, wherein nondeterministic properties augment the complexity of diverse analytical and verification techniques.",1
+"For these reasons, there has long been interest in methods for deterministic parallel programming.",0
+"On account of these considerations, sustained scholarly interest has existed concerning methodologies for deterministic parallel programming paradigms.",1
+"A range of algorithmic techniques, language designs, type systems, specialized operating systems and runtimes, and various other approaches have been developed for making parallel programs deterministic.",0
+"Diverse algorithmic techniques, programming language architectural designs, type system frameworks, specialized operating system implementations, runtime environments, and miscellaneous alternative approaches have undergone development for the purpose of rendering parallel programs deterministic.",1
+"Researchers in this area have long noted that determinism is not simply a binary property, and in fact there is a spectrum of degrees of determinism.",0
+"Scholars conducting investigations within this domain have extensively observed that determinism fails to constitute a merely binary characteristic, but rather manifests as a continuum encompassing varying degrees of deterministic properties.",1
+"On one end of the spectrum is external determinism, which simply says that the input/output behavior of a program is deterministic.",0
+"At one extremity of this conceptual spectrum resides external determinism, which merely stipulates that the input/output behavioral characteristics of a program exhibit deterministic properties.",1
+"However, in an externally deterministic program, even if the final output is deterministic, the manner in which the computation takes place may be highly nondeterministic and vary across runs.",0
+"Nevertheless, within externally deterministic program implementations, notwithstanding the deterministic nature of ultimate output, the methodological approach by which computational operations transpire may demonstrate substantial nondeterministic characteristics and exhibit variation across execution instances.",1
+"A stronger property, called internal determinism, requires in addition that the structure and internal steps of a computation are deterministic.",0
+"A more stringent characteristic, designated as internal determinism, additionally mandates that both the organizational structure and internal operational steps of a computational process exhibit deterministic properties.",1
+"More formally, in an internally deterministic program, for a given input, every execution will generate the same computation graph.",0
+"Expressed more formally, within an internally deterministic program implementation, for any specified input configuration, all execution sequences will generate identical computation graph structures.",1
+"With this strong form of determinism, we can reason about the program's behavior by considering any one sequential traversal of operations in the computation graph.",0
+"Leveraging this robust manifestation of deterministic properties, we acquire the capability to conduct logical reasoning regarding program behavioral characteristics by examining any singular sequential traversal pathway through the operations constituting the computation graph.",1
+"Although ensuring internal determinism might seem expensive, Blelloch et al. have shown that by using a core set of algorithmic techniques and building blocks, it is possible to develop fast and scalable internally deterministic algorithms.",0
+"Notwithstanding the apparent resource intensiveness of guaranteeing internal determinism, Blelloch and colleagues have demonstrated that through utilization of a fundamental collection of algorithmic techniques and compositional building blocks, the development of computationally efficient and scalable internally deterministic algorithms remains achievable.",1
+"If one of the advantages of internal determinism is that it simplifies reasoning about programs, then it should be possible to exploit this property in the form of new reasoning rules in a program logic.",0
+"Should one of the beneficial attributes of internal determinism reside in its capacity to streamline program reasoning processes, then the exploitation of this characteristic through the formulation of novel reasoning rules within a program logic framework should constitute a feasible endeavor.",1
+"To do so, we first define a property we call schedule-independent safety, which holds for a parallel program if, to verify that every execution is safe, it suffices to prove that at least one interleaving of operations is terminating and safe.",0
+"For this purpose, we initially establish a property denominated schedule-independent safety, which remains valid for a parallel program when verification of universal execution safety necessitates merely the demonstration that no fewer than one interleaving configuration of operations exhibits both termination and safety properties.",1
+"Internal determinism implies schedule-independent safety, and it is this property that makes reasoning about internally deterministic programs simpler.",0
+"Internal determinism logically entails schedule-independent safety, and this particular characteristic constitutes the foundation rendering the reasoning process concerning internally deterministic programs more straightforward.",1
+"Building on this observation, we develop Musketeer, a separation logic for proving that a program satisfies schedule-independent safety.",0
+"Constructing upon this observational insight, we formulate Musketeer, a separation logic framework designed for establishing that a program implementation satisfies schedule-independent safety requirements.",1
+"Although Musketeer is formulated as a unary program logic, schedule-independent safety is a âˆ€âˆ€ hyperproperty, since it relates safety of any chosen execution of a program to all other executions.",0
+"Despite Musketeer's formulation as a unary program logic construct, schedule-independent safety constitutes a universal-universal hyperproperty, given its establishment of relationships between the safety characteristics of any selected program execution and the complete set of alternative execution possibilities.",1
+"Thus, to prove the soundness of Musketeer, we encode Musketeer triples into a new relational logic called ChainedLog.",0
+"Consequently, for the purpose of establishing Musketeer's soundness properties, we encode Musketeer triple constructs into a novel relational logic framework designated ChainedLog.",1
+"In contrast to most prior relational concurrent separation logics, which are restricted to âˆ€âˆƒ hyperproperties, ChainedLog supports âˆ€âˆ€ hyperproperties using a judgement we call a chained triple.",0
+"In contradistinction to the majority of antecedent relational concurrent separation logic frameworks, which experience restriction to universal-existential hyperproperties, ChainedLog furnishes support for universal-universal hyperproperties through utilization of a judgment construct we denominate a chained triple.",1
+"Intuitively, the high-level reasoning rules of Musketeer restrict the user to verify only internally-deterministic programs.",0
+"From an intuitive perspective, the elevated-level reasoning rules incorporated within Musketeer impose restrictions upon users, confining verification activities exclusively to internally-deterministic program implementations.",1
+"However, while internally deterministic programs always satisfy schedule-independent safety, the converse is false.",0
+"Nevertheless, although internally deterministic programs invariably fulfill schedule-independent safety criteria, the reciprocal relationship fails to hold validity.",1
+"A program may be nondeterministic because it observes actions from concurrent tasks, but it may do so without jeopardizing safety.",0
+"A program implementation may exhibit nondeterministic characteristics attributable to its observation of actions originating from concurrent task executions, yet such observation may transpire without compromising safety properties.",1
+We next explore how to exploit schedule-independent safety to simplify verification of programs.,0
+We subsequently investigate methodological approaches for leveraging schedule-independent safety characteristics to streamline program verification procedures.,1
+"To that end, we present a logic called Angelic that allows one to angelically select and verify one sequential ordering of operations in a parallel program.",0
+"Toward that objective, we present a logical framework denominated Angelic that facilitates the angelic selection and subsequent verification of a singular sequential ordering arrangement of operations within a parallel program implementation.",1
+Angelic is sound to apply to programs that satisfy schedule-independent safety because the safety and termination of the one ordering verified during the proof will imply safety for all other executions.,0
+"The Angelic framework demonstrates soundness when applied to programs satisfying schedule-independent safety requirements, as the safety and termination properties of the singular ordering subjected to verification during proof procedures logically entail safety characteristics for all alternative execution possibilities.",1
+"This is in contrast to standard concurrent separation logics, in which one must consider all possible orderings during a proof.",0
+"This approach contrasts with conventional concurrent separation logic frameworks, wherein consideration of all potential ordering configurations constitutes a mandatory requirement during proof construction procedures.",1
+"Using these logics, we verify a number of examples from the literature on internal determinism and related properties.",0
+"Employing these logical frameworks, we conduct verification procedures upon multiple exemplar cases documented within scholarly literature concerning internal determinism and associated properties.",1
+"First, we show how to use Musketeer to prove properties about language-based approaches for enforcing internal determinism.",0
+"Initially, we demonstrate the utilization methodology of Musketeer for establishing properties pertaining to language-based approaches engineered for the enforcement of internal determinism.",1
+"In particular, because Musketeer is a higher-order impredicative logic, Musketeer can encode logical relations models for type systems that are designed to enforce internal determinism.",0
+"Specifically, attributable to Musketeer's characterization as a higher-order impredicative logic, Musketeer possesses the capability to encode logical relations models applicable to type systems architecturally designed for internal determinism enforcement.",1
+We start by applying this to a simple ownership-based affine type system we call MiniDet.,0
+We commence by applying this approach to a straightforward ownership-based affine type system framework that we designate MiniDet.,1
+The resulting logical relations model for MiniDet shows that every well-typed program satisfies schedule-independent safety.,0
+The consequent logical relations model constructed for MiniDet demonstrates that every program exhibiting well-typed characteristics satisfies schedule-independent safety requirements.,1
+Next we use Musketeer to prove specifications for priority writes and deterministic concurrent hash sets.,0
+"Subsequently, we employ Musketeer for establishing specifications pertaining to priority write operations and deterministic concurrent hash set data structures.",1
+These are two of the core primitives that Blelloch et al. use in several of their examples of internally deterministic algorithms.,0
+These constitute two among the fundamental primitive constructs that Blelloch and colleagues utilize across multiple exemplifications of internally deterministic algorithmic implementations.,1

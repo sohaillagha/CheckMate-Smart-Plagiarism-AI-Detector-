@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="display: flex; height: 100%; width: 100%; gap: 20px;">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="#" class="sidebar-link active"><span>🏠</span> Home</a>
+        <a href="/profile" class="sidebar-link"><span>👤</span> Profile</a>
+        <a href="#" class="sidebar-link"><span>📝</span> Assignment</a>
+        <a href="#" class="sidebar-link"><span>📚</span> Reference Material</a>
+        <a href="#" class="sidebar-link"><span>📄</span> Research Paper</a>
+
+        <div style="margin-top: auto;">
+            <a href="/logout" class="btn sm secondary" style="width: 100%; text-align: center;">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+        <!-- New Analysis Section (The Form) -->
+        <div class="card dashboard-card" style="margin-bottom: 30px;">
+            <h2>Upload Document</h2>
+            <p class="subtitle">Analyze PDF for Plagiarism and AI Content</p>
+
+            <form action="/analyze" method="POST" enctype="multipart/form-data" id="uploadForm">
+                <div class="drop-zone" id="dropZone" style="padding: 20px;">
+                    <p>Drag & Drop your PDF here or</p>
+                    <input type="file" name="file" id="fileInput" accept=".pdf" hidden>
+                    <button type="button" class="btn secondary sm"
+                        onclick="document.getElementById('fileInput').click()">Browse Files</button>
+                    <p id="fileName" class="file-name"></p>
+                </div>
+                <button type="submit" class="btn primary mt-2">Analyze Document</button>
+            </form>
+            <!-- Loading Overlay -->
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Analyzing...</p>
+            </div>
+        </div>
+
+        <!-- Recent Uploads -->
+        <div class="card file-list-card">
+            <h3>Recent Uploads</h3>
+            <div class="file-list-container" style="margin-top: 20px;">
+
+                {% if uploads %}
+                {% for upload in uploads %}
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>{{ upload.filename }} — {{ "%.0f"|format(upload.originality_score * 100) }}% Original</h4>
+                        <p>Date: {{ upload.date }} | Status: Completed</p>
+                    </div>
+                    <a href="{{ url_for('view_report', report_id=upload.report_id) }}" class="btn sm primary">View</a>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="hint" style="text-align: center; padding: 20px;">No uploads yet. Analyze a PDF to see results
+                    here.</p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileName');
+    const form = document.getElementById('uploadForm');
+    const loading = document.getElementById('loading');
+
+    fileInput.addEventListener('change', function () {
+        if (this.files && this.files.length > 0) {
+            fileNameDisplay.textContent = this.files[0].name;
+            fileNameDisplay.style.opacity = '1';
+        }
+    });
+
+    form.addEventListener('submit', function () {
+        loading.classList.remove('hidden');
+    });
+</script>
+{% endblock %}

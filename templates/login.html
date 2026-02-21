@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="card login-card">
+    <h1>Welcome!</h1>
+
+    <!-- Toggle Buttons -->
+    <div class="login-options" id="loginOptions">
+        <button class="btn primary login-toggle-btn" onclick="showLogin('Faculty')">
+            Faculty Login
+        </button>
+        <button class="btn primary login-toggle-btn" onclick="showLogin('Student')">
+            Student Login
+        </button>
+    </div>
+
+    <!-- Hidden Form -->
+    <div class="login-form-container" id="loginFormContainer">
+        <h2 id="loginTitle" class="subtitle" style="margin-bottom: 20px;">Login</h2>
+        <form action="/login" method="POST">
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn primary" style="width: 100%; margin-bottom: 10px;">Login</button>
+            <button type="button" class="btn secondary" style="width: 100%;" onclick="hideLogin()">Back</button>
+        </form>
+        <p class="hint">Hint: admin / admin</p>
+    </div>
+</div>
+
+<script>
+    function showLogin(type) {
+        document.getElementById('loginOptions').style.display = 'none';
+        document.getElementById('loginFormContainer').style.display = 'block';
+        document.getElementById('loginTitle').innerText = type + ' Login';
+    }
+
+    function hideLogin() {
+        document.getElementById('loginOptions').style.display = 'flex';
+        document.getElementById('loginFormContainer').style.display = 'none';
+    }
+</script>
+{% endblock %}

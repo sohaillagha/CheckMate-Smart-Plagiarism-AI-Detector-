@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="display: flex; height: 100%; width: 100%; gap: 20px;">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="/dashboard" class="sidebar-link"><span>🏠</span> Home</a>
+        <a href="/profile" class="sidebar-link active"><span>👤</span> Profile</a>
+        <a href="#" class="sidebar-link"><span>📝</span> Assignment</a>
+        <a href="#" class="sidebar-link"><span>📚</span> Reference Material</a>
+        <a href="#" class="sidebar-link"><span>📄</span> Research Paper</a>
+
+        <div style="margin-top: auto;">
+            <a href="/logout" class="btn sm secondary" style="width: 100%; text-align: center;">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+
+        <!-- Profile Header Card -->
+        <div class="card profile-card" style="margin-bottom: 30px;">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <span>{{ user[0]|upper }}</span>
+                </div>
+                <div class="profile-info">
+                    <h2>{{ user }}</h2>
+                    <p class="subtitle" style="margin-bottom: 0;">CheckMate User</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="profile-stats-grid" style="margin-bottom: 30px;">
+            <div class="card profile-stat-card clickable" id="uploadsToggle" title="Click to view uploaded files">
+                <div class="stat-icon">📄</div>
+                <div class="stat-value">{{ stats.total_uploads }}</div>
+                <div class="stat-label">Total Uploads <span style="font-size: 0.75rem;">▼</span></div>
+            </div>
+            <div class="card profile-stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value">{{ "%.0f"|format(stats.avg_originality) }}%</div>
+                <div class="stat-label">Avg. Originality</div>
+            </div>
+            <div class="card profile-stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value">{{ "%.0f"|format(stats.best_score) }}%</div>
+                <div class="stat-label">Best Score</div>
+            </div>
+        </div>
+
+        <!-- Uploaded Files Panel (hidden by default) -->
+        <div id="uploadsPanel" class="card file-list-card" style="margin-bottom: 30px; display: none;">
+            <h3>Uploaded Files</h3>
+            <div class="file-list-container" style="margin-top: 15px;">
+                {% if uploads %}
+                {% for upload in uploads %}
+                <div class="file-item">
+                    <div class="file-info">
+                        <h4>{{ upload.filename }} — {{ "%.0f"|format(upload.originality_score * 100) }}% Original</h4>
+                        <p>Date: {{ upload.date }} | Status: Completed</p>
+                    </div>
+                    <a href="{{ url_for('view_report', report_id=upload.report_id) }}" class="btn sm primary">View</a>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="hint" style="text-align: center; padding: 20px;">No uploads yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Account Details -->
+        <div class="card file-list-card">
+            <h3>Account Details</h3>
+            <div class="profile-details" style="margin-top: 20px;">
+                <div class="detail-row">
+                    <span class="detail-label">Username</span>
+                    <span class="detail-value">{{ user }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Role</span>
+                    <span class="detail-value">Administrator</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status</span>
+                    <span class="detail-value"><span class="status-badge active">Active</span></span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Documents Analyzed</span>
+                    <span class="detail-value">{{ stats.total_uploads }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById('uploadsToggle').addEventListener('click', function () {
+        const panel = document.getElementById('uploadsPanel');
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    });
+</script>
+{% endblock %}

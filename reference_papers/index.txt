@@ -1,0 +1,16 @@
+======================================================================
+  CHECKMATE — Reference Papers Index
+======================================================================
+
+Paper #     Topic                    Title
+----------------------------------------------------------------------
+paper_016    deep learning            Learn to Accumulate Evidence from All Training Samples: Theory and Practice
+paper_017    deep learning            The Modern Mathematics of Deep Learning
+paper_018    deep learning            Deep Learning and Computational Physics (Lecture Notes)
+paper_019    deep learning            A multitask deep learning model for real-time deployment in embedded systems
+paper_020    deep learning            DILIE: Deep Internal Learning for Image Enhancement
+paper_021    deep learning            Deep learning observables in computational fluid dynamics
+paper_022    deep learning            Generalized Regularized Evidential Deep Learning Models: Theory and Comprehensive Evaluation
+paper_023    deep learning            Activation Analysis of a Byte-Based Deep Neural Network for Malware Classification
+paper_024    deep learning            Predicting Thrombectomy Recanalization from CT Imaging Using Deep Learning Models
+paper_025    deep learning            DeepCFL: Deep Contextual Features Learning from a Single Image
