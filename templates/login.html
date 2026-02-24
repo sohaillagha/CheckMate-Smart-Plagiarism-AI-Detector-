@@ -18,6 +18,7 @@
     <div class="login-form-container" id="loginFormContainer">
         <h2 id="loginTitle" class="subtitle" style="margin-bottom: 20px;">Login</h2>
         <form action="/login" method="POST">
+            <input type="hidden" name="role" id="roleInput" value="student">
             <div class="input-group">
                 <input type="text" name="username" placeholder="Username" required>
             </div>
@@ -36,6 +37,7 @@
         document.getElementById('loginOptions').style.display = 'none';
         document.getElementById('loginFormContainer').style.display = 'block';
         document.getElementById('loginTitle').innerText = type + ' Login';
+        document.getElementById('roleInput').value = type.toLowerCase();
     }
 
     function hideLogin() {

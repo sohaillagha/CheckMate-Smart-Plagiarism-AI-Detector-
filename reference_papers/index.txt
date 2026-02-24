@@ -14,3 +14,12 @@ paper_022    deep learning            Generalized Regularized Evidential Deep Le
 paper_023    deep learning            Activation Analysis of a Byte-Based Deep Neural Network for Malware Classification
 paper_024    deep learning            Predicting Thrombectomy Recanalization from CT Imaging Using Deep Learning Models
 paper_025    deep learning            DeepCFL: Deep Contextual Features Learning from a Single Image
+paper_026    neural networks          The Deep Arbitrary Polynomial Chaos Neural Network or how Deep Artificial Neural Networks could benefit from Data-Driven Homogeneous Chaos Theory
+paper_027    neural networks          Learning Active Subspaces and Discovering Important Features with Gaussian Radial Basis Functions Neural Networks
+paper_028    neural networks          Hierarchical Attentional Hybrid Neural Networks for Document Classification
+paper_029    neural networks          A Neural Network-Evolutionary Computational Framework for Remaining Useful Life Estimation of Mechanical Systems
+paper_030    neural networks          A Review on Neural Network Models of Schizophrenia and Autism Spectrum Disorder
+paper_031    neural networks          Continual Learning for Recurrent Neural Networks: an Empirical Evaluation
+paper_032    neural networks          Towards Dropout Training for Convolutional Neural Networks
+paper_033    neural networks          Development of a sensory-neural network for medical diagnosing
+paper_034    neural networks          Acute Lymphoblastic Leukemia Detection Using Hypercomplex-Valued Convolutional Neural Networks

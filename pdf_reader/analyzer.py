@@ -8,7 +8,7 @@ from models.ai_detection_model import train_ai_detector, predict_ai_probability
 
 import os
 
-def analyze_pdf(pdf_path):
+def analyze_pdf(pdf_path, weights=None):
     """
     Analyzes the PDF and returns a dictionary of scores and matched content for highlighting.
     """
@@ -69,9 +69,12 @@ def analyze_pdf(pdf_path):
 
 
     # Calculate Final Score
-    w_copied = 0.4
-    w_paraphrased = 0.3
-    w_ai = 0.3
+    if weights is None:
+        weights = {'tfidf': 0.4, 'sbert': 0.3, 'ai': 0.3}
+
+    w_copied = weights.get('tfidf', 0.4)
+    w_paraphrased = weights.get('sbert', 0.3)
+    w_ai = weights.get('ai', 0.3)
 
     weighted_penalty = (
         (w_copied * results["tfidf_score"]) + 

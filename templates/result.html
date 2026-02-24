@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="nav">
-    <a href="/dashboard" class="btn sm">← Back</a>
+    <a href="{{ '/faculty_dashboard' if session.get('role') == 'faculty' else '/dashboard' }}" class="btn sm">← Back</a>
     <a href="/logout" class="btn sm">Logout</a>
 </div>
 

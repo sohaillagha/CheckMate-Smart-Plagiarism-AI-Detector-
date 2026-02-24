@@ -1,0 +1,619 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="display: flex; height: 100%; width: 100%; gap: 20px;">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="#" class="sidebar-link active" onclick="showTab('home', this)" id="tab-home"><span>🏠</span> Home</a>
+        <a href="/profile" class="sidebar-link"><span>👤</span> Profile</a>
+        <a href="#" class="sidebar-link"><span>📝</span> Assignment</a>
+        <a href="#" class="sidebar-link" onclick="showTab('references', this)" id="tab-references"><span>📚</span>
+            Reference Material</a>
+        <a href="#" class="sidebar-link"><span>📄</span> Research Paper</a>
+        <div class="sidebar-divider"></div>
+        <a href="#" class="sidebar-link" onclick="showTab('weights', this)" id="tab-weights"><span>⚙️</span> Model
+            Weights</a>
+        <a href="#" class="sidebar-link" onclick="showTab('datasets', this)" id="tab-datasets"><span>📂</span>
+            Datasets</a>
+        <a href="#" class="sidebar-link" onclick="showTab('managedata', this)" id="tab-managedata"><span>🛠️</span>
+            Manage Data</a>
+
+        <div style="margin-top: auto;">
+            <a href="/logout" class="btn sm secondary" style="width: 100%; text-align: center;">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+
+        <!-- ============ TAB: HOME ============ -->
+        <div class="tab-content" id="content-home">
+            <!-- Upload Document Section -->
+            <div class="card dashboard-card" style="margin-bottom: 30px;">
+                <h2>Upload Document</h2>
+                <p class="subtitle">Analyze PDF for Plagiarism and AI Content</p>
+
+                <form action="/analyze" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="drop-zone" id="dropZone" style="padding: 20px;">
+                        <p>Drag & Drop your PDF here or</p>
+                        <input type="file" name="file" id="fileInput" accept=".pdf" hidden>
+                        <button type="button" class="btn secondary sm"
+                            onclick="document.getElementById('fileInput').click()">Browse Files</button>
+                        <p id="fileName" class="file-name"></p>
+                    </div>
+                    <button type="submit" class="btn primary mt-2">Analyze Document</button>
+                </form>
+                <!-- Loading Overlay -->
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing...</p>
+                </div>
+            </div>
+
+            <!-- Recent Uploads -->
+            <div class="card file-list-card">
+                <h3>Recent Uploads</h3>
+                <div class="file-list-container" style="margin-top: 20px;">
+                    {% if uploads %}
+                    {% for upload in uploads %}
+                    <div class="file-item">
+                        <div class="file-info">
+                            <h4>{{ upload.filename }} — {{ "%.0f"|format(upload.originality_score * 100) }}% Original
+                            </h4>
+                            <p>Date: {{ upload.date }} | Status: Completed</p>
+                            {% if upload.weights %}
+                            <p class="weights-used">Weights: TF-IDF {{ "%.0f"|format(upload.weights.tfidf * 100) }}% ·
+                                SBERT {{ "%.0f"|format(upload.weights.sbert * 100) }}% · AI {{
+                                "%.0f"|format(upload.weights.ai * 100) }}%</p>
+                            {% endif %}
+                        </div>
+                        <a href="{{ url_for('view_report', report_id=upload.report_id) }}"
+                            class="btn sm primary">View</a>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="hint" style="text-align: center; padding: 20px;">No uploads yet. Analyze a PDF to see
+                        results here.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB: MODEL WEIGHTS ============ -->
+        <div class="tab-content" id="content-weights" style="display: none;">
+            <div class="card weight-section">
+                <h2>⚙️ Model Weightage Control</h2>
+                <p class="subtitle">Adjust how each detection model contributes to the final originality score</p>
+
+                <form action="/update_weights" method="POST" id="weightsForm">
+                    <div class="weight-sliders">
+                        <!-- TF-IDF -->
+                        <div class="weight-slider-group">
+                            <div class="weight-label-row">
+                                <span class="weight-label">🔍 Copied Detection (TF-IDF)</span>
+                                <span class="weight-value" id="tfidfVal">{{ "%.0f"|format(weights.tfidf * 100)
+                                    }}%</span>
+                            </div>
+                            <input type="range" name="tfidf" id="tfidfSlider" class="weight-slider slider-copied"
+                                min="0" max="100" step="5" value="{{ (weights.tfidf * 100)|int }}"
+                                oninput="updateSliders()">
+                        </div>
+                        <!-- SBERT -->
+                        <div class="weight-slider-group">
+                            <div class="weight-label-row">
+                                <span class="weight-label">🧠 Paraphrase Detection (SBERT)</span>
+                                <span class="weight-value" id="sbertVal">{{ "%.0f"|format(weights.sbert * 100)
+                                    }}%</span>
+                            </div>
+                            <input type="range" name="sbert" id="sbertSlider" class="weight-slider slider-paraphrased"
+                                min="0" max="100" step="5" value="{{ (weights.sbert * 100)|int }}"
+                                oninput="updateSliders()">
+                        </div>
+                        <!-- AI -->
+                        <div class="weight-slider-group">
+                            <div class="weight-label-row">
+                                <span class="weight-label">🤖 AI Content Detection</span>
+                                <span class="weight-value" id="aiVal">{{ "%.0f"|format(weights.ai * 100) }}%</span>
+                            </div>
+                            <input type="range" name="ai" id="aiSlider" class="weight-slider slider-ai" min="0"
+                                max="100" step="5" value="{{ (weights.ai * 100)|int }}" oninput="updateSliders()">
+                        </div>
+                    </div>
+
+                    <!-- Total indicator -->
+                    <div class="weight-total-row">
+                        <span>Total:</span>
+                        <span id="totalWeight" class="weight-total-value">100%</span>
+                    </div>
+                    <p id="weightError" class="weight-error" style="display: none;">⚠️ Weights must sum to exactly 100%
+                    </p>
+
+                    <button type="submit" id="saveWeightsBtn" class="btn primary mt-2" style="width: 100%;">
+                        💾 Save Weights
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ============ TAB: DATASETS ============ -->
+        <div class="tab-content" id="content-datasets" style="display: none;">
+            <div class="card dataset-section">
+                <h2>📂 Dataset Viewer</h2>
+                <p class="subtitle">Browse the reference datasets used by each detection model</p>
+
+                <div class="dataset-cards">
+                    <!-- TF-IDF Dataset -->
+                    <div class="dataset-card">
+                        <div class="collapsible-header" onclick="toggleDataset('tfidf')">
+                            <span>🔍 TF-IDF Corpus</span>
+                            <span class="collapse-icon" id="icon-tfidf">▶</span>
+                        </div>
+                        <div class="dataset-file-list" id="list-tfidf" style="display: none;">
+                            <p class="hint" style="text-align:center; padding: 15px;">Loading...</p>
+                        </div>
+                    </div>
+
+                    <!-- SBERT Dataset -->
+                    <div class="dataset-card">
+                        <div class="collapsible-header" onclick="toggleDataset('sbert')">
+                            <span>🧠 SBERT Pairs</span>
+                            <span class="collapse-icon" id="icon-sbert">▶</span>
+                        </div>
+                        <div class="dataset-file-list" id="list-sbert" style="display: none;">
+                            <p class="hint" style="text-align:center; padding: 15px;">Loading...</p>
+                        </div>
+                    </div>
+
+                    <!-- AI Detection Dataset -->
+                    <div class="dataset-card">
+                        <div class="collapsible-header" onclick="toggleDataset('ai_detection')">
+                            <span>🤖 AI Detection Data</span>
+                            <span class="collapse-icon" id="icon-ai_detection">▶</span>
+                        </div>
+                        <div class="dataset-file-list" id="list-ai_detection" style="display: none;">
+                            <p class="hint" style="text-align:center; padding: 15px;">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB: REFERENCE MATERIAL ============ -->
+        <div class="tab-content" id="content-references" style="display: none;">
+            <div class="card">
+                <h2>📚 Reference Papers</h2>
+                <p class="subtitle">Downloaded research papers from arXiv. Click to download PDF.</p>
+                <div id="refPaperList" style="margin-top: 20px;">
+                    <p class="hint" style="text-align:center; padding: 20px;">Loading reference papers...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB: MANAGE DATA ============ -->
+        <div class="tab-content" id="content-managedata" style="display: none;">
+
+            <!-- ArXiv Importer -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h2>🌐 ArXiv Paper Importer</h2>
+                <p class="subtitle">Search and download research papers from arXiv into the TF-IDF dataset</p>
+                <form id="arxivForm" style="margin-top: 20px;">
+                    <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 200px;">
+                            <label
+                                style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">Search
+                                Query</label>
+                            <input type="text" name="query" id="arxivQuery" value="machine learning" required
+                                style="width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem;">
+                        </div>
+                        <div style="width: 100px;">
+                            <label
+                                style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">Count</label>
+                            <input type="number" name="count" id="arxivCount" value="5" min="1" max="25"
+                                style="width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem;">
+                        </div>
+                        <button type="submit" class="btn primary" id="arxivBtn">
+                            🔍 Import from ArXiv
+                        </button>
+                    </div>
+                    <p class="hint" style="margin-top: 10px;">Downloads PDFs, extracts text, and saves to TF-IDF corpus.
+                        Max 25 papers per request. Takes ~3s per paper (arXiv rate limit).</p>
+                </form>
+
+                <!-- Terminal-style Log -->
+                <div id="arxivTerminal" class="arxiv-terminal" style="display: none;">
+                    <div class="terminal-header">
+                        <span class="terminal-dots">
+                            <span style="background:#ff5f56;"></span>
+                            <span style="background:#ffbd2e;"></span>
+                            <span style="background:#27c93f;"></span>
+                        </span>
+                        <span class="terminal-title">ArXiv Import Progress</span>
+                    </div>
+                    <div id="arxivLog" class="terminal-body"></div>
+                </div>
+            </div>
+
+            <!-- Manual Insert -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h2>📤 Manual Dataset Insert</h2>
+                <p class="subtitle">Upload a file directly into a dataset folder</p>
+                <form action="/manual_insert" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
+                    <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+                        <div style="width: 180px;">
+                            <label
+                                style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">Target
+                                Dataset</label>
+                            <select name="target"
+                                style="width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; background: #fff;">
+                                <option value="tfidf">TF-IDF Corpus</option>
+                                <option value="sbert">SBERT Pairs</option>
+                                <option value="ai_detection">AI Detection</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1; min-width: 200px;">
+                            <label
+                                style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">File</label>
+                            <input type="file" name="dataset_file" required
+                                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem;">
+                        </div>
+                        <button type="submit" class="btn primary">📤 Upload</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Dataset Files with Delete -->
+            <div class="card">
+                <h2>🗂️ Dataset Files</h2>
+                <p class="subtitle">Browse and delete files from each dataset</p>
+                <div class="dataset-cards" style="margin-top: 20px;">
+                    <div class="dataset-card">
+                        <div class="collapsible-header" onclick="toggleMgmtDataset('tfidf')">
+                            <span>🔍 TF-IDF Corpus</span>
+                            <span class="collapse-icon" id="mgmt-icon-tfidf">▶</span>
+                        </div>
+                        <div class="dataset-file-list" id="mgmt-list-tfidf" style="display: none;"></div>
+                    </div>
+                    <div class="dataset-card">
+                        <div class="collapsible-header" onclick="toggleMgmtDataset('sbert')">
+                            <span>🧠 SBERT Pairs</span>
+                            <span class="collapse-icon" id="mgmt-icon-sbert">▶</span>
+                        </div>
+                        <div class="dataset-file-list" id="mgmt-list-sbert" style="display: none;"></div>
+                    </div>
+                    <div class="dataset-card">
+                        <div class="collapsible-header" onclick="toggleMgmtDataset('ai_detection')">
+                            <span>🤖 AI Detection Data</span>
+                            <span class="collapse-icon" id="mgmt-icon-ai_detection">▶</span>
+                        </div>
+                        <div class="dataset-file-list" id="mgmt-list-ai_detection" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // ---- Tab Switching ----
+    function showTab(tabName, clickedLink) {
+        // Hide all tab content
+        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+        // Remove active from all sidebar links
+        document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+        // Show selected tab
+        document.getElementById('content-' + tabName).style.display = 'block';
+        // Mark clicked link active
+        if (clickedLink) clickedLink.classList.add('active');
+
+        // Auto-load datasets when switching to that tab
+        if (tabName === 'datasets') loadDatasets();
+    }
+
+    // Upload form logic
+    const fileInput = document.getElementById('fileInput');
+    const fileNameDisplay = document.getElementById('fileName');
+    const form = document.getElementById('uploadForm');
+    const loading = document.getElementById('loading');
+
+    fileInput.addEventListener('change', function () {
+        if (this.files && this.files.length > 0) {
+            fileNameDisplay.textContent = this.files[0].name;
+            fileNameDisplay.style.opacity = '1';
+        }
+    });
+
+    form.addEventListener('submit', function () {
+        loading.classList.remove('hidden');
+    });
+
+    // ---- Weight Sliders ----
+    function updateSliders() {
+        const tfidf = parseInt(document.getElementById('tfidfSlider').value);
+        const sbert = parseInt(document.getElementById('sbertSlider').value);
+        const ai = parseInt(document.getElementById('aiSlider').value);
+        const total = tfidf + sbert + ai;
+
+        document.getElementById('tfidfVal').textContent = tfidf + '%';
+        document.getElementById('sbertVal').textContent = sbert + '%';
+        document.getElementById('aiVal').textContent = ai + '%';
+        document.getElementById('totalWeight').textContent = total + '%';
+
+        const errorEl = document.getElementById('weightError');
+        const saveBtn = document.getElementById('saveWeightsBtn');
+        const totalEl = document.getElementById('totalWeight');
+
+        if (total !== 100) {
+            errorEl.style.display = 'block';
+            saveBtn.disabled = true;
+            saveBtn.style.opacity = '0.5';
+            totalEl.classList.add('weight-total-error');
+            totalEl.classList.remove('weight-total-ok');
+        } else {
+            errorEl.style.display = 'none';
+            saveBtn.disabled = false;
+            saveBtn.style.opacity = '1';
+            totalEl.classList.remove('weight-total-error');
+            totalEl.classList.add('weight-total-ok');
+        }
+    }
+
+    // Prevent submit if total != 100
+    document.getElementById('weightsForm').addEventListener('submit', function (e) {
+        const tfidf = parseInt(document.getElementById('tfidfSlider').value);
+        const sbert = parseInt(document.getElementById('sbertSlider').value);
+        const ai = parseInt(document.getElementById('aiSlider').value);
+        if (tfidf + sbert + ai !== 100) {
+            e.preventDefault();
+        }
+    });
+
+    updateSliders();
+
+    // ---- Dataset Viewer ----
+    let datasetLoaded = false;
+    let datasetData = {};
+
+    function loadDatasets() {
+        if (datasetLoaded) return;
+        fetch('/api/datasets')
+            .then(r => r.json())
+            .then(data => {
+                datasetData = data;
+                datasetLoaded = true;
+                renderDatasetList('tfidf');
+                renderDatasetList('sbert');
+                renderDatasetList('ai_detection');
+            })
+            .catch(() => {
+                ['tfidf', 'sbert', 'ai_detection'].forEach(key => {
+                    document.getElementById('list-' + key).innerHTML =
+                        '<p class="hint" style="text-align:center; padding:15px;">Failed to load.</p>';
+                });
+            });
+    }
+
+    function renderDatasetList(key) {
+        const listEl = document.getElementById('list-' + key);
+        const files = datasetData[key] || [];
+        if (files.length === 0) {
+            listEl.innerHTML = '<p class="hint" style="text-align:center; padding: 15px;">No files found.</p>';
+            return;
+        }
+        let html = '';
+        files.forEach(f => {
+            html += `<div class="dataset-file-item">
+                <span class="dataset-fname">📄 ${f.name}</span>
+                <span class="dataset-fsize">${f.size}</span>
+            </div>`;
+        });
+        listEl.innerHTML = html;
+    }
+
+    function toggleDataset(key) {
+        loadDatasets();
+        const list = document.getElementById('list-' + key);
+        const icon = document.getElementById('icon-' + key);
+        if (list.style.display === 'none') {
+            list.style.display = 'block';
+            icon.textContent = '▼';
+        } else {
+            list.style.display = 'none';
+            icon.textContent = '▶';
+        }
+    }
+
+    // ---- Reference Papers ----
+    let refLoaded = false;
+    function loadReferencePapers() {
+        if (refLoaded) return;
+        fetch('/api/reference_papers')
+            .then(r => r.json())
+            .then(papers => {
+                refLoaded = true;
+                const container = document.getElementById('refPaperList');
+                if (papers.length === 0) {
+                    container.innerHTML = '<p class="hint" style="text-align:center; padding: 20px;">No reference papers found. Import papers from ArXiv to populate this list.</p>';
+                    return;
+                }
+                let html = '<div class="ref-grid">';
+                papers.forEach(p => {
+                    html += `<div class="ref-paper-card">
+                        <div class="ref-paper-icon">📄</div>
+                        <div class="ref-paper-info">
+                            <div class="ref-paper-title">${p.title}</div>
+                            <div class="ref-paper-meta">${p.filename} · ${p.size}</div>
+                        </div>
+                        <a href="/download_reference/${encodeURIComponent(p.filename)}" class="btn primary sm" style="white-space:nowrap;">⬇ Download</a>
+                    </div>`;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            })
+            .catch(() => {
+                document.getElementById('refPaperList').innerHTML =
+                    '<p class="hint" style="text-align:center; padding:20px;">Failed to load reference papers.</p>';
+            });
+    }
+
+    // Load when tab opens
+    const origShowTab = showTab;
+    showTab = function (tabName, el) {
+        origShowTab(tabName, el);
+        if (tabName === 'references') loadReferencePapers();
+    };
+
+    // ---- ArXiv Import: AJAX + Live Terminal ----
+    let arxivPollTimer = null;
+
+    document.getElementById('arxivForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const query = document.getElementById('arxivQuery').value;
+        const count = document.getElementById('arxivCount').value;
+        const btn = document.getElementById('arxivBtn');
+        const terminal = document.getElementById('arxivTerminal');
+        const logEl = document.getElementById('arxivLog');
+
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        btn.textContent = '⏳ Importing...';
+        terminal.style.display = 'block';
+        logEl.innerHTML = '<div class="log-line">Starting import...</div>';
+
+        // Submit via AJAX
+        const formData = new FormData();
+        formData.append('query', query);
+        formData.append('count', count);
+
+        fetch('/import_arxiv', { method: 'POST', body: formData })
+            .then(r => r.json())
+            .then(data => {
+                if (data.started) {
+                    startPolling();
+                } else {
+                    logEl.innerHTML += '<div class="log-line log-error">Error: ' + (data.error || 'Failed to start') + '</div>';
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.textContent = '🔍 Import from ArXiv';
+                }
+            })
+            .catch(err => {
+                logEl.innerHTML += '<div class="log-line log-error">Request failed: ' + err + '</div>';
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.textContent = '🔍 Import from ArXiv';
+            });
+    });
+
+    function startPolling() {
+        arxivPollTimer = setInterval(pollStatus, 1000);
+    }
+
+    function pollStatus() {
+        fetch('/import_arxiv_status')
+            .then(r => r.json())
+            .then(data => {
+                const logEl = document.getElementById('arxivLog');
+                let html = '';
+                data.log.forEach(line => {
+                    let cls = 'log-line';
+                    if (line.includes('✅')) cls += ' log-success';
+                    else if (line.includes('❌')) cls += ' log-error';
+                    else if (line.includes('⚠️')) cls += ' log-warn';
+                    else if (line.startsWith('[')) cls += ' log-title';
+                    html += '<div class="' + cls + '">' + line + '</div>';
+                });
+                logEl.innerHTML = html;
+                logEl.scrollTop = logEl.scrollHeight;
+
+                if (!data.running) {
+                    clearInterval(arxivPollTimer);
+                    const btn = document.getElementById('arxivBtn');
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.textContent = '🔍 Import from ArXiv';
+                    // Refresh dataset lists
+                    datasetLoaded = false;
+                    mgmtDatasetLoaded = false;
+                }
+            });
+    }
+
+    // ---- Manage Data: Dataset Browser with Delete ----
+    let mgmtDatasetData = {};
+    let mgmtDatasetLoaded = false;
+
+    function loadMgmtDatasets() {
+        mgmtDatasetLoaded = false;
+        fetch('/api/datasets')
+            .then(r => r.json())
+            .then(data => {
+                mgmtDatasetData = data;
+                mgmtDatasetLoaded = true;
+                renderMgmtList('tfidf');
+                renderMgmtList('sbert');
+                renderMgmtList('ai_detection');
+            })
+            .catch(() => {
+                ['tfidf', 'sbert', 'ai_detection'].forEach(key => {
+                    document.getElementById('mgmt-list-' + key).innerHTML =
+                        '<p class="hint" style="text-align:center; padding:15px;">Failed to load.</p>';
+                });
+            });
+    }
+
+    function renderMgmtList(key) {
+        const listEl = document.getElementById('mgmt-list-' + key);
+        const files = mgmtDatasetData[key] || [];
+        if (files.length === 0) {
+            listEl.innerHTML = '<p class="hint" style="text-align:center; padding: 15px;">No files found.</p>';
+            return;
+        }
+        let html = '';
+        files.forEach(f => {
+            html += `<div class="dataset-file-item" id="mgmt-file-${key}-${f.name}" style="display:flex; align-items:center; justify-content:space-between;">
+                <span class="dataset-fname">📄 ${f.name}</span>
+                <span style="display:flex; align-items:center; gap:10px;">
+                    <span class="dataset-fsize">${f.size}</span>
+                    <button class="btn-delete" onclick="deleteFile('${key}', '${f.name}')" title="Delete">🗑️</button>
+                </span>
+            </div>`;
+        });
+        listEl.innerHTML = html;
+    }
+
+    function toggleMgmtDataset(key) {
+        loadMgmtDatasets();
+        const list = document.getElementById('mgmt-list-' + key);
+        const icon = document.getElementById('mgmt-icon-' + key);
+        if (list.style.display === 'none') {
+            list.style.display = 'block';
+            icon.textContent = '▼';
+        } else {
+            list.style.display = 'none';
+            icon.textContent = '▶';
+        }
+    }
+
+    function deleteFile(folder, filename) {
+        if (!confirm(`Delete "${filename}" from ${folder}?`)) return;
+        fetch('/delete_dataset_file', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ folder: folder, filename: filename })
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    const el = document.getElementById('mgmt-file-' + folder + '-' + filename);
+                    if (el) el.remove();
+                    // Also refresh the Datasets tab view
+                    datasetLoaded = false;
+                } else {
+                    alert('Error: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(err => alert('Delete failed: ' + err));
+    }
+</script>
+{% endblock %}
