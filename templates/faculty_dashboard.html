@@ -9,12 +9,14 @@
         <a href="#" class="sidebar-link"><span>📝</span> Assignment</a>
         <a href="#" class="sidebar-link" onclick="showTab('references', this)" id="tab-references"><span>📚</span>
             Reference Material</a>
-        <a href="#" class="sidebar-link"><span>📄</span> Research Paper</a>
+        <a href="#" class="sidebar-link" onclick="showTab('overleaf', this)" id="tab-overleaf"><span>📊</span> Student Progress Tracking</a>
         <div class="sidebar-divider"></div>
         <a href="#" class="sidebar-link" onclick="showTab('weights', this)" id="tab-weights"><span>⚙️</span> Model
             Weights</a>
         <a href="#" class="sidebar-link" onclick="showTab('datasets', this)" id="tab-datasets"><span>📂</span>
             Datasets</a>
+        <a href="#" class="sidebar-link" onclick="showTab('categories', this)" id="tab-categories"><span>🏷️</span>
+            Paper Categories</a>
         <a href="#" class="sidebar-link" onclick="showTab('managedata', this)" id="tab-managedata"><span>🛠️</span>
             Manage Data</a>
 
@@ -189,6 +191,118 @@
             </div>
         </div>
 
+        <!-- ============ TAB: PAPER CATEGORIES ============ -->
+        <div class="tab-content" id="content-categories" style="display: none;">
+            <div class="card">
+                <h2>🏷️ Manage Paper Categories</h2>
+                <p class="subtitle">Organize reference papers by subject categories. Changes save automatically.</p>
+
+                <div style="margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn secondary sm" onclick="autoRecategorizeAll()">🔄 Auto-Categorize All</button>
+                    <button class="btn secondary sm" onclick="saveCategoryChanges()">💾 Save Changes</button>
+                </div>
+
+                <div id="categoryEditor" style="margin-top: 20px;">
+                    <p class="hint" style="text-align: center; padding: 20px;">Loading papers...</p>
+                </div>
+
+                <div id="categorySaveStatus" style="margin-top: 10px; text-align: center;"></div>
+            </div>
+        </div>
+
+        <!-- ============ TAB: STUDENT PROGRESS TRACKING ============ -->
+        <div class="tab-content" id="content-overleaf" style="display: none;">
+            <div class="card">
+                <h2>📊 Student Progress Tracking</h2>
+                <p class="subtitle">Monitor student research paper writing activity and progress</p>
+
+                <!-- Overall Statistics -->
+                <div style="margin-top: 25px;">
+                    <h3 style="margin-bottom: 15px; font-size: 1.1rem;">📈 Overall Activity</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #667eea;">
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Total Students</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #667eea;" id="totalStudents">0</div>
+                        </div>
+                        <div style="background: rgba(123, 201, 165, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #7bc9a5;">
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Active Today</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #7bc9a5;" id="activeToday">0</div>
+                        </div>
+                        <div style="background: rgba(244, 162, 97, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #f4a261;">
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Total Papers</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #f4a261;" id="totalPapers">0</div>
+                        </div>
+                        <div style="background: rgba(229, 115, 115, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #e57373;">
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Inactive (7+ days)</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #e57373;" id="inactiveCount">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Controls -->
+                <div style="margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem;">Filter by Status</label>
+                        <select id="statusFilter" onchange="filterStudents()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px;">
+                            <option value="all">All Students</option>
+                            <option value="active">Active (worked today)</option>
+                            <option value="recent">Recent (last 7 days)</option>
+                            <option value="inactive">Inactive (7+ days)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem;">Sort By</label>
+                        <select id="sortBy" onchange="filterStudents()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px;">
+                            <option value="recent">Most Recent Activity</option>
+                            <option value="name">Student Name</option>
+                            <option value="papers">Number of Papers</option>
+                            <option value="inactive">Longest Inactive</option>
+                        </select>
+                    </div>
+                    <button onclick="refreshStudentData()" class="btn secondary sm" style="margin-top: 24px;">
+                        🔄 Refresh Data
+                    </button>
+                </div>
+
+                <!-- Student List -->
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 15px; font-size: 1.1rem;">👥 Student Activity</h3>
+                    <div id="studentProgressList">
+                        <!-- Students will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Demo Data Notice -->
+                <div style="margin-top: 30px; padding: 20px; background: rgba(102, 126, 234, 0.05); border-left: 4px solid #667eea; border-radius: 8px;">
+                    <p style="margin: 0; font-size: 0.9rem; color: #333;">
+                        <strong>💡 How This Works:</strong><br>
+                        This dashboard tracks student writing activity from the "Edit Research Paper" tab. It shows:<br>
+                        • When students last worked on their papers<br>
+                        • How many papers each student is managing<br>
+                        • Which students are active vs. inactive<br>
+                        • Individual paper progress and status<br><br>
+                        <em>Note: Currently showing demo data. In production, this would pull real student activity from the database.</em>
+                    </p>
+                </div>
+
+                <!-- Quick Actions -->
+                <div style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 15px; font-size: 1.1rem;">⚡ Quick Actions</h3>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button onclick="exportStudentReport()" class="btn secondary">
+                            📄 Export Report (CSV)
+                        </button>
+                        <button onclick="sendReminders()" class="btn secondary">
+                            📧 Send Reminders to Inactive Students
+                        </button>
+                        <button onclick="viewTemplateUsage()" class="btn secondary">
+                            📚 View Template Usage Statistics
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ============ TAB: MANAGE DATA ============ -->
         <div class="tab-content" id="content-managedata" style="display: none;">
 
@@ -306,8 +420,12 @@
         // Mark clicked link active
         if (clickedLink) clickedLink.classList.add('active');
 
-        // Auto-load datasets when switching to that tab
+        // Auto-load data when switching to specific tabs
         if (tabName === 'datasets') loadDatasets();
+        if (tabName === 'references') loadReferencePapers();
+        if (tabName === 'categories') loadCategoryEditor();
+        if (tabName === 'managedata') loadMgmtDatasets();
+        if (tabName === 'overleaf') checkOverleafUrl();
     }
 
     // Upload form logic
@@ -615,5 +733,453 @@
             })
             .catch(err => alert('Delete failed: ' + err));
     }
+
+    // ---- Category Management ----
+    let categoryData = {};
+    let availableCategories = [];
+
+    function loadCategoryEditor() {
+        fetch('/api/paper_categories')
+            .then(r => r.json())
+            .then(data => {
+                categoryData = data.categories || {};
+                availableCategories = data.available_categories || [];
+                renderCategoryEditor();
+            })
+            .catch(() => {
+                document.getElementById('categoryEditor').innerHTML =
+                    '<p class="hint" style="text-align:center; padding:20px;">Failed to load categories.</p>';
+            });
+    }
+
+    function renderCategoryEditor() {
+        const container = document.getElementById('categoryEditor');
+        if (Object.keys(categoryData).length === 0) {
+            container.innerHTML = '<p class="hint" style="text-align:center; padding:20px;">No papers found.</p>';
+            return;
+        }
+
+        let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
+        
+        // Sort papers by filename
+        const sortedPapers = Object.keys(categoryData).sort();
+        
+        sortedPapers.forEach(filename => {
+            const currentCategory = categoryData[filename];
+            const safeFilename = filename.replace(/'/g, "\\'");
+            html += `
+                <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255,255,255,0.6); border: 1px solid #ddd; border-radius: 8px;">
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${filename}</div>
+                    </div>
+                    <select id="cat-${filename}" onchange="categoryChanged('${safeFilename}')" style="padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; min-width: 180px;">
+                        ${availableCategories.map(cat => `<option value="${cat}" ${cat === currentCategory ? 'selected' : ''}>${cat}</option>`).join('')}
+                    </select>
+                </div>`;
+        });
+        
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    function categoryChanged(filename) {
+        const newCategory = document.getElementById('cat-' + filename).value;
+        categoryData[filename] = newCategory;
+        showStatus('Category changed. Click "Save Changes" to persist.', 'info');
+    }
+
+    function saveCategoryChanges() {
+        showStatus('Saving...', 'info');
+        fetch('/api/save_paper_categories', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ categories: categoryData })
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    showStatus('✅ Categories saved successfully!', 'success');
+                    // Reload reference papers tab if it was loaded
+                    refLoaded = false;
+                } else {
+                    showStatus('❌ Error: ' + (data.error || 'Unknown error'), 'error');
+                }
+            })
+            .catch(err => showStatus('❌ Save failed: ' + err, 'error'));
+    }
+
+    function autoRecategorizeAll() {
+        if (!confirm('This will automatically recategorize all papers based on their titles. Continue?')) return;
+        showStatus('Auto-categorizing...', 'info');
+        fetch('/api/auto_categorize_papers', {
+            method: 'POST'
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    categoryData = data.categories || {};
+                    renderCategoryEditor();
+                    showStatus('✅ Auto-categorization complete! Click "Save Changes" to persist.', 'success');
+                } else {
+                    showStatus('❌ Error: ' + (data.error || 'Unknown error'), 'error');
+                }
+            })
+            .catch(err => showStatus('❌ Auto-categorization failed: ' + err, 'error'));
+    }
+
+    function showStatus(message, type) {
+        const statusEl = document.getElementById('categorySaveStatus');
+        const colors = {
+            'success': '#27ae60',
+            'error': '#e74c3c',
+            'info': '#3498db'
+        };
+        statusEl.textContent = message;
+        statusEl.style.color = colors[type] || colors.info;
+        statusEl.style.fontWeight = '600';
+    }
+
+    // ---- Overleaf Integration ----
+    function checkOverleafUrl() {
+        const savedUrl = localStorage.getItem('overleafUrl');
+        if (savedUrl) {
+            document.getElementById('overleafUrl').value = savedUrl;
+        }
+    }
+
+    function openOverleafEditor() {
+        const url = document.getElementById('overleafUrl').value.trim();
+        
+        if (!url) {
+            alert('⚠️ Please enter your Overleaf project URL first!');
+            return;
+        }
+
+        if (!url.includes('overleaf.com')) {
+            alert('⚠️ Please enter a valid Overleaf URL (should contain "overleaf.com")');
+            return;
+        }
+
+        localStorage.setItem('overleafUrl', url);
+        saveOverleafUrl();
+
+        // Open in new tab/window
+        window.open(url, '_blank', 'width=1400,height=900');
+        
+        alert('✅ Overleaf editor opened in new window! Your URL has been saved for next time.');
+    }
+
+    function loadOverleafEditor() {
+        // Fallback - try to open in new window instead
+        openOverleafEditor();
+    }
+
+    function saveOverleafUrl() {
+        const url = document.getElementById('overleafUrl').value.trim();
+        
+        if (!url) {
+            alert('⚠️ Please enter a URL first!');
+            return;
+        }
+
+        localStorage.setItem('overleafUrl', url);
+        
+        fetch('/save_overleaf_url', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: url })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                alert('✅ Overleaf URL saved successfully!');
+            }
+        })
+        .catch(() => {
+            alert('✅ URL saved locally!');
+        });
+    }
+
+    function clearOverleafUrl() {
+        if (!confirm('Clear saved Overleaf URL?')) return;
+        
+        document.getElementById('overleafUrl').value = '';
+        localStorage.removeItem('overleafUrl');
+        alert('✅ URL cleared!');
+    }
+
+    // Auto-load saved URLs and papers on page load
+    window.addEventListener('DOMContentLoaded', function() {
+        // Faculty doesn't need personal Overleaf tracking
+        // Initialize student tracking instead
+        if (document.getElementById('studentProgressList')) {
+            loadStudentProgressData();
+        }
+    });
+
+    // ============ STUDENT PROGRESS TRACKING ============
+    
+    // Demo student data (in production, this would come from database)
+    let studentData = [
+        {
+            id: 1,
+            name: "Priya Sharma",
+            email: "priya@student.edu",
+            papers: [
+                { name: "AI Detection Thesis", category: "AI/ML", status: "in-progress", lastEdited: new Date(Date.now() - 2*60*60*1000) }, // 2 hours ago
+                { name: "Conference Paper", category: "Conference", status: "draft", lastEdited: new Date(Date.now() - 5*24*60*60*1000) } // 5 days ago
+            ]
+        },
+        {
+            id: 2,
+            name: "Rahul Kumar",
+            email: "rahul@student.edu",
+            papers: [
+                { name: "Medical Imaging Project", category: "Medical", status: "in-progress", lastEdited: new Date(Date.now() - 1*24*60*60*1000) }, // 1 day ago
+            ]
+        },
+        {
+            id: 3,
+            name: "Ananya Patel",
+            email: "ananya@student.edu",
+            papers: [
+                { name: "Computer Vision Research", category: "Computer Vision", status: "completed", lastEdited: new Date(Date.now() - 3*24*60*60*1000) }, // 3 days ago
+                { name: "Technical Report", category: "Report", status: "in-progress", lastEdited: new Date(Date.now() - 4*60*60*1000) }, // 4 hours ago
+                { name: "Thesis Proposal", category: "Thesis", status: "draft", lastEdited: new Date(Date.now() - 2*24*60*60*1000) } // 2 days ago
+            ]
+        },
+        {
+            id: 4,
+            name: "Vikram Singh",
+            email: "vikram@student.edu",
+            papers: [
+                { name: "Mathematics Paper", category: "Mathematics", status: "draft", lastEdited: new Date(Date.now() - 10*24*60*60*1000) } // 10 days ago - INACTIVE
+            ]
+        },
+        {
+            id: 5,
+            name: "Sneha Reddy",
+            email: "sneha@student.edu",
+            papers: [
+                { name: "IEEE Conference Paper", category: "Conference", status: "in-progress", lastEdited: new Date(Date.now() - 30*60*1000) }, // 30 min ago
+            ]
+        }
+    ];
+
+    function loadStudentProgressData() {
+        updateOverallStats();
+        renderStudentList();
+    }
+
+    function updateOverallStats() {
+        const totalStudents = studentData.length;
+        const now = new Date();
+        const today = now.toDateString();
+        
+        // Active today: students who edited today
+        const activeToday = studentData.filter(student => 
+            student.papers.some(paper => 
+                new Date(paper.lastEdited).toDateString() === today
+            )
+        ).length;
+        
+        // Total papers across all students
+        const totalPapers = studentData.reduce((sum, student) => sum + student.papers.length, 0);
+        
+        // Inactive: students whose most recent paper edit was 7+ days ago
+        const sevenDaysAgo = new Date(now - 7*24*60*60*1000);
+        const inactiveCount = studentData.filter(student => {
+            const mostRecent = Math.max(...student.papers.map(p => new Date(p.lastEdited)));
+            return new Date(mostRecent) < sevenDaysAgo;
+        }).length;
+        
+        document.getElementById('totalStudents').textContent = totalStudents;
+        document.getElementById('activeToday').textContent = activeToday;
+        document.getElementById('totalPapers').textContent = totalPapers;
+        document.getElementById('inactiveCount').textContent = inactiveCount;
+    }
+
+    function renderStudentList() {
+        const container = document.getElementById('studentProgressList');
+        const statusFilter = document.getElementById('statusFilter').value;
+        const sortBy = document.getElementById('sortBy').value;
+        
+        // Filter students
+        let filteredStudents = studentData.filter(student => {
+            if (statusFilter === 'all') return true;
+            
+            const now = new Date();
+            const today = now.toDateString();
+            const sevenDaysAgo = new Date(now - 7*24*60*60*1000);
+            const mostRecent = Math.max(...student.papers.map(p => new Date(p.lastEdited)));
+            
+            if (statusFilter === 'active') {
+                return student.papers.some(p => new Date(p.lastEdited).toDateString() === today);
+            } else if (statusFilter === 'recent') {
+                return new Date(mostRecent) >= sevenDaysAgo;
+            } else if (statusFilter === 'inactive') {
+                return new Date(mostRecent) < sevenDaysAgo;
+            }
+            return true;
+        });
+        
+        // Sort students
+        filteredStudents.sort((a, b) => {
+            if (sortBy === 'name') {
+                return a.name.localeCompare(b.name);
+            } else if (sortBy === 'papers') {
+                return b.papers.length - a.papers.length;
+            } else if (sortBy === 'recent') {
+                const aRecent = Math.max(...a.papers.map(p => new Date(p.lastEdited)));
+                const bRecent = Math.max(...b.papers.map(p => new Date(p.lastEdited)));
+                return bRecent - aRecent;
+            } else if (sortBy === 'inactive') {
+                const aRecent = Math.max(...a.papers.map(p => new Date(p.lastEdited)));
+                const bRecent = Math.max(...b.papers.map(p => new Date(p.lastEdited)));
+                return aRecent - bRecent;
+            }
+        });
+        
+        if (filteredStudents.length === 0) {
+            container.innerHTML = '<p class="hint" style="text-align: center; padding: 30px;">No students match the selected filters.</p>';
+            return;
+        }
+        
+        let html = '';
+        filteredStudents.forEach(student => {
+            const mostRecentPaper = student.papers.reduce((latest, paper) => 
+                new Date(paper.lastEdited) > new Date(latest.lastEdited) ? paper : latest
+            );
+            const lastActivity = formatRelativeTime(new Date(mostRecentPaper.lastEdited));
+            const daysInactive = Math.floor((new Date() - new Date(mostRecentPaper.lastEdited)) / (24*60*60*1000));
+            const isInactive = daysInactive >= 7;
+            
+            html += `
+                <div class="paper-item" style="margin-bottom: 15px; ${isInactive ? 'opacity: 0.7;' : ''}">
+                    <div class="paper-header">
+                        <div class="paper-info" style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                <div class="paper-name" style="font-size: 1.1rem;">👤 ${student.name}</div>
+                                ${isInactive ? '<span style="background: rgba(229, 115, 115, 0.2); color: #e57373; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">⚠️ Inactive</span>' : ''}
+                            </div>
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">
+                                📧 ${student.email} • ${student.papers.length} paper${student.papers.length > 1 ? 's' : ''} • Last activity: ${lastActivity}
+                            </div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                ${student.papers.map(paper => `
+                                    <span class="category-badge" style="font-size: 0.75rem;">
+                                        📄 ${paper.name} (${paper.status})
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="paper-actions" style="display: flex; flex-direction: column; gap: 8px;">
+                            <button onclick="viewStudentDetails(${student.id})" class="btn primary sm" title="View Details">
+                                👁️ View
+                            </button>
+                            ${isInactive ? `
+                                <button onclick="sendReminder(${student.id})" class="btn secondary sm" title="Send Reminder">
+                                    📧 Remind
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    function filterStudents() {
+        renderStudentList();
+    }
+
+    function refreshStudentData() {
+        alert('🔄 Refreshing student data...\n\nIn production, this would fetch the latest data from the database.');
+        loadStudentProgressData();
+    }
+
+    function viewStudentDetails(studentId) {
+        const student = studentData.find(s => s.id === studentId);
+        if (!student) return;
+        
+        let details = `📊 Student Details: ${student.name}\n\n`;
+        details += `📧 Email: ${student.email}\n`;
+        details += `📄 Total Papers: ${student.papers.length}\n\n`;
+        details += `Papers:\n`;
+        student.papers.forEach((paper, i) => {
+            details += `\n${i+1}. ${paper.name}\n`;
+            details += `   Category: ${paper.category}\n`;
+            details += `   Status: ${paper.status}\n`;
+            details += `   Last edited: ${formatRelativeTime(new Date(paper.lastEdited))}\n`;
+        });
+        
+        alert(details);
+    }
+
+    function sendReminder(studentId) {
+        const student = studentData.find(s => s.id === studentId);
+        if (!student) return;
+        
+        if (confirm(`Send reminder email to ${student.name} (${student.email})?\n\nThis will encourage them to continue working on their papers.`)) {
+            alert(`✅ Reminder sent to ${student.name}!\n\nIn production, this would send an actual email.`);
+        }
+    }
+
+    function sendReminders() {
+        const now = new Date();
+        const sevenDaysAgo = new Date(now - 7*24*60*60*1000);
+        const inactiveStudents = studentData.filter(student => {
+            const mostRecent = Math.max(...student.papers.map(p => new Date(p.lastEdited)));
+            return new Date(mostRecent) < sevenDaysAgo;
+        });
+        
+        if (inactiveStudents.length === 0) {
+            alert('✅ No inactive students found!\n\nAll students are actively working on their papers.');
+            return;
+        }
+        
+        if (confirm(`Send reminder emails to ${inactiveStudents.length} inactive student(s)?\n\n${inactiveStudents.map(s => s.name).join('\n')}`)) {
+            alert(`✅ Reminders sent to ${inactiveStudents.length} student(s)!\n\nIn production, this would send actual emails.`);
+        }
+    }
+
+    function exportStudentReport() {
+        let csv = 'Student Name,Email,Total Papers,Last Activity,Status\n';
+        studentData.forEach(student => {
+            const mostRecentPaper = student.papers.reduce((latest, paper) => 
+                new Date(paper.lastEdited) > new Date(latest.lastEdited) ? paper : latest
+            );
+            const lastActivity = new Date(mostRecentPaper.lastEdited).toLocaleDateString();
+            const daysInactive = Math.floor((new Date() - new Date(mostRecentPaper.lastEdited)) / (24*60*60*1000));
+            const status = daysInactive >= 7 ? 'Inactive' : 'Active';
+            
+            csv += `"${student.name}","${student.email}",${student.papers.length},${lastActivity},${status}\n`;
+        });
+        
+        alert('📄 Exporting report...\n\nIn production, this would download a CSV file:\n\n' + csv.split('\n').slice(0, 4).join('\n') + '\n...');
+    }
+
+    function viewTemplateUsage() {
+        alert('📚 Template Usage Statistics:\n\nIEEE Conference: 45%\nACM Conference: 20%\nThesis Template: 15%\nBasic Research: 10%\nSpringer LNCS: 7%\nTechnical Report: 3%\n\n(Demo data - in production, this would show real usage stats)');
+    }
+
+
+    function formatRelativeTime(date) {
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffDays = Math.floor(diffMs / 86400000);
+        
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins} min ago`;
+        if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+        
+        return date.toLocaleDateString();
+    }
+
 </script>
 {% endblock %}

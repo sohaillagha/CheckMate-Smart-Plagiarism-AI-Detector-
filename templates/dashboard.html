@@ -4,11 +4,12 @@
 <div style="display: flex; height: 100%; width: 100%; gap: 20px;">
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="#" class="sidebar-link active"><span>🏠</span> Home</a>
+        <a href="#" class="sidebar-link active" onclick="showTab('home', this)" id="tab-home"><span>🏠</span> Home</a>
         <a href="/profile" class="sidebar-link"><span>👤</span> Profile</a>
         <a href="#" class="sidebar-link"><span>📝</span> Assignment</a>
-        <a href="#" class="sidebar-link"><span>📚</span> Reference Material</a>
-        <a href="#" class="sidebar-link"><span>📄</span> Research Paper</a>
+        <a href="#" class="sidebar-link" onclick="showTab('references', this)" id="tab-references"><span>📚</span>
+            Reference Material</a>
+        <a href="#" class="sidebar-link" onclick="showTab('overleaf', this)" id="tab-overleaf"><span>✏️</span> Edit Research Paper</a>
 
         <div style="margin-top: auto;">
             <a href="/logout" class="btn sm secondary" style="width: 100%; text-align: center;">Logout</a>
@@ -17,54 +18,337 @@
 
     <!-- Main Content -->
     <div class="dashboard-content">
-        <!-- New Analysis Section (The Form) -->
-        <div class="card dashboard-card" style="margin-bottom: 30px;">
-            <h2>Upload Document</h2>
-            <p class="subtitle">Analyze PDF for Plagiarism and AI Content</p>
 
-            <form action="/analyze" method="POST" enctype="multipart/form-data" id="uploadForm">
-                <div class="drop-zone" id="dropZone" style="padding: 20px;">
-                    <p>Drag & Drop your PDF here or</p>
-                    <input type="file" name="file" id="fileInput" accept=".pdf" hidden>
-                    <button type="button" class="btn secondary sm"
-                        onclick="document.getElementById('fileInput').click()">Browse Files</button>
-                    <p id="fileName" class="file-name"></p>
-                </div>
-                <button type="submit" class="btn primary mt-2">Analyze Document</button>
-            </form>
-            <!-- Loading Overlay -->
-            <div id="loading" class="loading hidden">
-                <div class="spinner"></div>
-                <p>Analyzing...</p>
-            </div>
-        </div>
+        <!-- ============ TAB: HOME ============ -->
+        <div class="tab-content" id="content-home">
+            <!-- Upload Document Section -->
+            <div class="card dashboard-card" style="margin-bottom: 30px;">
+                <h2>Upload Document</h2>
+                <p class="subtitle">Analyze PDF for Plagiarism and AI Content</p>
 
-        <!-- Recent Uploads -->
-        <div class="card file-list-card">
-            <h3>Recent Uploads</h3>
-            <div class="file-list-container" style="margin-top: 20px;">
-
-                {% if uploads %}
-                {% for upload in uploads %}
-                <div class="file-item">
-                    <div class="file-info">
-                        <h4>{{ upload.filename }} — {{ "%.0f"|format(upload.originality_score * 100) }}% Original</h4>
-                        <p>Date: {{ upload.date }} | Status: Completed</p>
+                <form action="/analyze" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="drop-zone" id="dropZone" style="padding: 20px;">
+                        <p>Drag & Drop your PDF here or</p>
+                        <input type="file" name="file" id="fileInput" accept=".pdf" hidden>
+                        <button type="button" class="btn secondary sm"
+                            onclick="document.getElementById('fileInput').click()">Browse Files</button>
+                        <p id="fileName" class="file-name"></p>
                     </div>
-                    <a href="{{ url_for('view_report', report_id=upload.report_id) }}" class="btn sm primary">View</a>
+                    <button type="submit" class="btn primary mt-2">Analyze Document</button>
+                </form>
+                <!-- Loading Overlay -->
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing...</p>
                 </div>
-                {% endfor %}
-                {% else %}
-                <p class="hint" style="text-align: center; padding: 20px;">No uploads yet. Analyze a PDF to see results
-                    here.</p>
-                {% endif %}
+            </div>
 
+            <!-- Recent Uploads -->
+            <div class="card file-list-card">
+                <h3>Recent Uploads</h3>
+                <div class="file-list-container" style="margin-top: 20px;">
+
+                    {% if uploads %}
+                    {% for upload in uploads %}
+                    <div class="file-item">
+                        <div class="file-info">
+                            <h4>{{ upload.filename }} — {{ "%.0f"|format(upload.originality_score * 100) }}% Original
+                            </h4>
+                            <p>Date: {{ upload.date }} | Status: Completed</p>
+                        </div>
+                        <a href="{{ url_for('view_report', report_id=upload.report_id) }}"
+                            class="btn sm primary">View</a>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="hint" style="text-align: center; padding: 20px;">No uploads yet. Analyze a PDF to see
+                        results
+                        here.</p>
+                    {% endif %}
+
+                </div>
             </div>
         </div>
+
+        <!-- ============ TAB: REFERENCE MATERIAL ============ -->
+        <div class="tab-content" id="content-references" style="display: none;">
+            <div class="card">
+                <h2>📚 Reference Papers</h2>
+                <p class="subtitle">Browse and download research papers from the reference library. Click to download
+                    PDF.</p>
+                <div id="refPaperList" style="margin-top: 20px;">
+                    <p class="hint" style="text-align:center; padding: 20px;">Loading reference papers...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB: OVERLEAF EDITOR ============ -->
+        <div class="tab-content" id="content-overleaf" style="display: none;">
+            
+            <!-- Writing Progress Tracker -->
+            <div class="card" style="margin-bottom: 20px;">
+                <h2>📊 Writing Progress Tracker</h2>
+                <div id="progressTracker" style="margin-top: 15px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #667eea;">
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Last Edited</div>
+                            <div id="lastEdited" style="font-size: 1.2rem; font-weight: 700; color: #667eea;">Never</div>
+                        </div>
+                        <div style="background: rgba(123, 201, 165, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #7bc9a5;">
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Paper Status</div>
+                            <div id="paperStatus" style="font-size: 1.2rem; font-weight: 700; color: #7bc9a5;">Not Started</div>
+                        </div>
+                        <div style="background: rgba(244, 162, 97, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #f4a261;">
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Total Sessions</div>
+                            <div id="sessionCount" style="font-size: 1.2rem; font-weight: 700; color: #f4a261;">0</div>
+                        </div>
+                        <div style="background: rgba(231, 127, 137, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #e77f89;">
+                            <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Days Active</div>
+                            <div id="daysActive" style="font-size: 1.2rem; font-weight: 700; color: #e77f89;">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Papers Management -->
+            <div class="card" style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h2 style="margin: 0;">📂 My Papers</h2>
+                    <button onclick="showAddPaperForm()" class="btn primary sm">+ Add New Paper</button>
+                </div>
+                <p class="subtitle">Manage multiple research papers</p>
+
+                <!-- Add New Paper Form (Hidden by default) -->
+                <div id="addPaperForm" style="display: none; margin: 20px 0; padding: 20px; background: rgba(102, 126, 234, 0.05); border: 1px dashed #667eea; border-radius: 10px;">
+                    <h3 style="font-size: 1rem; margin-bottom: 15px;">Add New Paper</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">Paper Name</label>
+                            <input type="text" id="newPaperName" placeholder="e.g., Final Year Thesis" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">Category (Optional)</label>
+                            <select id="newPaperCategory" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                                <option value="">Select category...</option>
+                                <option value="AI/ML">AI/ML</option>
+                                <option value="Computer Vision">Computer Vision</option>
+                                <option value="Medical">Medical & Healthcare</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Thesis">Thesis</option>
+                                <option value="Conference">Conference Paper</option>
+                                <option value="Report">Technical Report</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">Overleaf URL</label>
+                            <input type="text" id="newPaperUrl" placeholder="https://www.overleaf.com/project/..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button onclick="addNewPaper()" class="btn primary sm">💾 Save Paper</button>
+                            <button onclick="cancelAddPaper()" class="btn secondary sm">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Papers List -->
+                <div id="papersList" style="margin-top: 20px;">
+                    <p class="hint" style="text-align: center; padding: 30px;">No papers added yet. Click "Add New Paper" to get started!</p>
+                </div>
+            </div>
+
+            <!-- LaTeX Template Library -->
+            <div class="card" style="margin-bottom: 20px;">
+                <h2>📚 LaTeX Template Library</h2>
+                <p class="subtitle">Start with a professional template - Click to use</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <!-- IEEE Conference Template -->
+                    <div class="template-card" onclick="useTemplate('IEEE Conference', 'https://www.overleaf.com/latex/templates/ieee-conference-template/grfzhhncsfqn')">
+                        <div class="template-icon">📄</div>
+                        <div class="template-info">
+                            <div class="template-title">IEEE Conference Paper</div>
+                            <div class="template-desc">Standard IEEE conference format</div>
+                        </div>
+                        <div class="template-badge">Popular</div>
+                    </div>
+
+                    <!-- ACM Template -->
+                    <div class="template-card" onclick="useTemplate('ACM', 'https://www.overleaf.com/latex/templates/acm-conference-proceedings-primary-article-template/wbvnghjbzwpc')">
+                        <div class="template-icon">📄</div>
+                        <div class="template-info">
+                            <div class="template-title">ACM Conference</div>
+                            <div class="template-desc">ACM article format</div>
+                        </div>
+                        <div class="template-badge">ACM</div>
+                    </div>
+
+                    <!-- Springer Template -->
+                    <div class="template-card" onclick="useTemplate('Springer', 'https://www.overleaf.com/latex/templates/springer-lecture-notes-in-computer-science/kzwwpvhwnvfj')">
+                        <div class="template-icon">📄</div>
+                        <div class="template-info">
+                            <div class="template-title">Springer LNCS</div>
+                            <div class="template-desc">Lecture Notes in Computer Science</div>
+                        </div>
+                        <div class="template-badge">LNCS</div>
+                    </div>
+
+                    <!-- Basic Research Paper -->
+                    <div class="template-card" onclick="useTemplate('Basic Research', 'https://www.overleaf.com/latex/templates/simple-academic-paper-template/fxbbhyhktqpb')">
+                        <div class="template-icon">📝</div>
+                        <div class="template-info">
+                            <div class="template-title">Basic Research Paper</div>
+                            <div class="template-desc">Clean, simple academic paper</div>
+                        </div>
+                        <div class="template-badge">Simple</div>
+                    </div>
+
+                    <!-- Thesis Template -->
+                    <div class="template-card" onclick="useTemplate('Thesis', 'https://www.overleaf.com/latex/templates/template-for-a-masters-slash-doctoral-thesis/mkzrzktcbzfl')">
+                        <div class="template-icon">🎓</div>
+                        <div class="template-info">
+                            <div class="template-title">Thesis Template</div>
+                            <div class="template-desc">Master's/Doctoral thesis format</div>
+                        </div>
+                        <div class="template-badge">Thesis</div>
+                    </div>
+
+                    <!-- Technical Report -->
+                    <div class="template-card" onclick="useTemplate('Technical Report', 'https://www.overleaf.com/latex/templates/technical-report/xkphwnzbfkgb')">
+                        <div class="template-icon">📋</div>
+                        <div class="template-info">
+                            <div class="template-title">Technical Report</div>
+                            <div class="template-desc">Professional technical report</div>
+                        </div>
+                        <div class="template-badge">Report</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Access Links -->
+            <div class="card" style="margin-bottom: 20px;">
+                <h2>🔗 Quick Access Links</h2>
+                <p class="subtitle">Helpful resources for LaTeX writing</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; margin-top: 20px;">
+                    <a href="https://www.overleaf.com/learn" target="_blank" class="quick-link">
+                        <span class="link-icon">📖</span>
+                        <span class="link-text">Learn LaTeX (Tutorial)</span>
+                    </a>
+                    <a href="https://www.overleaf.com/learn/latex/List_of_Greek_letters_and_math_symbols" target="_blank" class="quick-link">
+                        <span class="link-icon">∑</span>
+                        <span class="link-text">Math Symbols & Greek</span>
+                    </a>
+                    <a href="https://www.tablesgenerator.com/latex_tables" target="_blank" class="quick-link">
+                        <span class="link-icon">📊</span>
+                        <span class="link-text">LaTeX Table Generator</span>
+                    </a>
+                    <a href="https://www.overleaf.com/learn/latex/Inserting_Images" target="_blank" class="quick-link">
+                        <span class="link-icon">🖼️</span>
+                        <span class="link-text">Insert Images Guide</span>
+                    </a>
+                    <a href="https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex" target="_blank" class="quick-link">
+                        <span class="link-icon">📚</span>
+                        <span class="link-text">Bibliography & BibTeX</span>
+                    </a>
+                    <a href="https://www.overleaf.com/learn/latex/Errors" target="_blank" class="quick-link">
+                        <span class="link-icon">🔧</span>
+                        <span class="link-text">Fix Common Errors</span>
+                    </a>
+                    <a href="https://detexify.kirelabs.org/classify.html" target="_blank" class="quick-link">
+                        <span class="link-icon">✏️</span>
+                        <span class="link-text">Draw Symbol to Find Code</span>
+                    </a>
+                    <a href="https://www.overleaf.com/learn/latex/Questions/How_do_I_write_equations_in_LaTeX%3F" target="_blank" class="quick-link">
+                        <span class="link-icon">🧮</span>
+                        <span class="link-text">Equations in LaTeX</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Connect Your Overleaf Project -->
+            <div class="card">
+                <h2>✏️ Edit Research Paper</h2>
+                <p class="subtitle">Edit your research paper using Overleaf's collaborative LaTeX editor</p>
+
+                <!-- Overleaf URL Input Section -->
+                <div id="overleafSetup" style="margin-top: 20px;">
+                    <div style="background: rgba(255, 255, 255, 0.6); border: 1px solid #ddd; border-radius: 12px; padding: 20px;">
+                        <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Connect Your Overleaf Project</h3>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem;">
+                                Overleaf Project URL
+                            </label>
+                            <input 
+                                type="text" 
+                                id="overleafUrl" 
+                                placeholder="https://www.overleaf.com/project/your-project-id"
+                                value="{{ session.get('overleaf_url', '') }}"
+                                style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem;">
+                            <p class="hint" style="margin-top: 8px; text-align: left;">
+                                📝 Go to <a href="https://www.overleaf.com" target="_blank" style="color: #667eea; font-weight: 600;">Overleaf.com</a>, 
+                                create/open your project, and copy the URL from your browser's address bar.
+                            </p>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button onclick="openOverleafEditor()" class="btn primary">
+                                🚀 Open Editor
+                            </button>
+                            <button onclick="saveOverleafUrl()" class="btn secondary">
+                                💾 Save URL
+                            </button>
+                            <button onclick="clearOverleafUrl()" class="btn secondary sm">
+                                🗑️ Clear
+                            </button>
+                        </div>
+
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(102, 126, 234, 0.1); border-left: 4px solid #667eea; border-radius: 8px;">
+                            <p style="margin: 0; font-size: 0.9rem; color: #333;">
+                                <strong>💡 Quick Start:</strong><br>
+                                1. Create a project on <a href="https://www.overleaf.com/project" target="_blank" style="color: #667eea;">Overleaf</a><br>
+                                2. Copy the project URL (e.g., https://www.overleaf.com/project/123abc...)<br>
+                                3. Paste it above and click "Open Editor"<br>
+                                4. Your Overleaf project will open in a new window 🪟
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Embedded Overleaf Editor -->
+                <div id="overleafEditorContainer" style="display: none; margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <h3 style="margin: 0; font-size: 1rem; color: #667eea;">
+                            📄 Your Overleaf Editor
+                        </h3>
+                        <button onclick="toggleFullscreen()" class="btn secondary sm">
+                            🔲 Fullscreen
+                        </button>
+                    </div>
+                    <div id="overleafFrame" style="border: 2px solid #667eea; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);">
+                        <!-- iframe will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
 <script>
+    // ---- Tab Switching ----
+    function showTab(tabName, clickedLink) {
+        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+        document.getElementById('content-' + tabName).style.display = 'block';
+        if (clickedLink) clickedLink.classList.add('active');
+
+        if (tabName === 'references') loadReferencePapers();
+        if (tabName === 'overleaf') checkOverleafUrl();
+    }
+
+    // ---- Upload Form ----
     const fileInput = document.getElementById('fileInput');
     const fileNameDisplay = document.getElementById('fileName');
     const form = document.getElementById('uploadForm');
@@ -80,5 +364,406 @@
     form.addEventListener('submit', function () {
         loading.classList.remove('hidden');
     });
+
+    // ---- Reference Papers ----
+    let refLoaded = false;
+    function loadReferencePapers() {
+        if (refLoaded) return;
+        fetch('/api/reference_papers')
+            .then(r => r.json())
+            .then(papersByCategory => {
+                refLoaded = true;
+                const container = document.getElementById('refPaperList');
+                
+                // Check if any papers exist
+                const totalPapers = Object.values(papersByCategory).reduce((sum, papers) => sum + papers.length, 0);
+                if (totalPapers === 0) {
+                    container.innerHTML = '<p class="hint" style="text-align:center; padding: 20px;">No reference papers available yet.</p>';
+                    return;
+                }
+                
+                // Build categorized display
+                let html = '';
+                Object.keys(papersByCategory).sort().forEach(category => {
+                    const papers = papersByCategory[category];
+                    html += `
+                        <div class="category-section">
+                            <div class="category-header" onclick="toggleCategory('${category.replace(/\s+/g, '-')}')">
+                                <span class="category-icon">📁</span>
+                                <span class="category-title">${category}</span>
+                                <span class="category-count">${papers.length} paper${papers.length !== 1 ? 's' : ''}</span>
+                                <span class="category-arrow" id="arrow-${category.replace(/\s+/g, '-')}">▼</span>
+                            </div>
+                            <div class="category-content" id="category-${category.replace(/\s+/g, '-')}">
+                                <div class="ref-grid">`;
+                    
+                    papers.forEach(p => {
+                        html += `
+                            <div class="ref-paper-card">
+                                <div class="ref-paper-icon">📄</div>
+                                <div class="ref-paper-info">
+                                    <div class="ref-paper-title">${p.title}</div>
+                                    <div class="ref-paper-meta">${p.filename} · ${p.size}</div>
+                                </div>
+                                <a href="/download_reference/${encodeURIComponent(p.filename)}" class="btn primary sm" style="white-space:nowrap;">⬇ Download</a>
+                            </div>`;
+                    });
+                    
+                    html += `
+                                </div>
+                            </div>
+                        </div>`;
+                });
+                
+                container.innerHTML = html;
+            })
+            .catch(() => {
+                document.getElementById('refPaperList').innerHTML =
+                    '<p class="hint" style="text-align:center; padding:20px;">Failed to load reference papers.</p>';
+            });
+    }
+    
+    function toggleCategory(categoryId) {
+        const content = document.getElementById('category-' + categoryId);
+        const arrow = document.getElementById('arrow-' + categoryId);
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            arrow.textContent = '▼';
+        } else {
+            content.style.display = 'none';
+            arrow.textContent = '▶';
+        }
+    }
+
+    // ---- Overleaf Integration ----
+    function checkOverleafUrl() {
+        const savedUrl = localStorage.getItem('overleafUrl');
+        if (savedUrl) {
+            document.getElementById('overleafUrl').value = savedUrl;
+        }
+    }
+
+    function openOverleafEditor() {
+        const url = document.getElementById('overleafUrl').value.trim();
+        
+        if (!url) {
+            alert('⚠️ Please enter your Overleaf project URL first!');
+            return;
+        }
+
+        if (!url.includes('overleaf.com')) {
+            alert('⚠️ Please enter a valid Overleaf URL (should contain "overleaf.com")');
+            return;
+        }
+
+        // Save URL to localStorage
+        localStorage.setItem('overleafUrl', url);
+        saveOverleafUrl();
+
+        // Open in new tab/window
+        window.open(url, '_blank', 'width=1400,height=900');
+        
+        alert('✅ Overleaf editor opened in new window! Your URL has been saved for next time.');
+    }
+
+    function loadOverleafEditor() {
+        // Fallback - try to open in new window instead
+        openOverleafEditor();
+    }
+
+    function saveOverleafUrl() {
+        const url = document.getElementById('overleafUrl').value.trim();
+        
+        if (!url) {
+            alert('⚠️ Please enter a URL first!');
+            return;
+        }
+
+        localStorage.setItem('overleafUrl', url);
+        
+        // Also save to server session
+        fetch('/save_overleaf_url', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: url })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                alert('✅ Overleaf URL saved successfully!');
+            }
+        })
+        .catch(() => {
+            // Still saved locally even if server fails
+            alert('✅ URL saved locally!');
+        });
+    }
+
+    function clearOverleafUrl() {
+        if (!confirm('Clear saved Overleaf URL?')) return;
+        
+        document.getElementById('overleafUrl').value = '';
+        localStorage.removeItem('overleafUrl');
+        
+        alert('✅ Overleaf URL cleared!');
+    }
+
+    function toggleFullscreen() {
+        alert('ℹ️ Your Overleaf editor opens in a separate window. Use your browser\'s fullscreen mode (F11) if needed.');
+    }
+
+    // Auto-load editor if URL is saved
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedUrl = localStorage.getItem('overleafUrl');
+        if (savedUrl) {
+            document.getElementById('overleafUrl').value = savedUrl;
+        }
+        loadPapersList();
+        updateProgressTracker();
+    });
+
+    // ---- Template Library Functions ----
+    function useTemplate(templateName, templateUrl) {
+        if (confirm(`Open "${templateName}" template in Overleaf?\n\nThis will open the template in a new window. You can then create your own copy.`)) {
+            window.open(templateUrl, '_blank', 'width=1400,height=900');
+            
+            // Ask if they want to save this as their project
+            setTimeout(() => {
+                const save = confirm(`Would you like to save this template as your current project?\n\nClick OK to add it to "My Papers"`);
+                if (save) {
+                    const paperName = prompt('Enter a name for this paper:', templateName);
+                    if (paperName) {
+                        savePaperToList(paperName, templateUrl, templateName);
+                    }
+                }
+            }, 1000);
+        }
+    }
+
+    // ---- Multiple Papers Management ----
+    let myPapers = [];
+
+    function loadPapersFromStorage() {
+        const stored = localStorage.getItem('myPapers');
+        if (stored) {
+            try {
+                myPapers = JSON.parse(stored);
+            } catch (e) {
+                myPapers = [];
+            }
+        }
+    }
+
+    function savePapersToStorage() {
+        localStorage.setItem('myPapers', JSON.stringify(myPapers));
+    }
+
+    function loadPapersList() {
+        loadPapersFromStorage();
+        renderPapersList();
+    }
+
+    function renderPapersList() {
+        const container = document.getElementById('papersList');
+        
+        if (myPapers.length === 0) {
+            container.innerHTML = '<p class="hint" style="text-align: center; padding: 30px;">No papers added yet. Click "Add New Paper" to get started!</p>';
+            return;
+        }
+
+        let html = '';
+        myPapers.forEach((paper, index) => {
+            const lastEdit = paper.lastEdited ? new Date(paper.lastEdited).toLocaleDateString() : 'Never';
+            const category = paper.category || 'Other';
+            const status = paper.status || 'draft';
+            
+            html += `
+                <div class="paper-item ${paper.active ? 'active' : ''}" id="paper-${index}">
+                    <div class="paper-header">
+                        <div class="paper-info">
+                            <div class="paper-name">📄 ${paper.name}</div>
+                            <div class="paper-meta">
+                                <span class="paper-meta-item">
+                                    <span class="category-badge">${category}</span>
+                                </span>
+                                <span class="paper-meta-item">
+                                    <span class="status-badge ${status}">${status.replace('-', ' ')}</span>
+                                </span>
+                                <span class="paper-meta-item">
+                                    📅 Last edited: ${lastEdit}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="paper-actions">
+                            <button onclick="openPaper(${index})" class="btn primary sm" title="Open in Overleaf">
+                                🚀 Open
+                            </button>
+                            <button onclick="setActivePaper(${index})" class="btn secondary sm" title="Set as active">
+                                ⭐
+                            </button>
+                            <button onclick="deletePaper(${index})" class="btn secondary sm" title="Delete">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    function showAddPaperForm() {
+        document.getElementById('addPaperForm').style.display = 'block';
+        document.getElementById('newPaperName').focus();
+    }
+
+    function cancelAddPaper() {
+        document.getElementById('addPaperForm').style.display = 'none';
+        document.getElementById('newPaperName').value = '';
+        document.getElementById('newPaperCategory').value = '';
+        document.getElementById('newPaperUrl').value = '';
+    }
+
+    function addNewPaper() {
+        const name = document.getElementById('newPaperName').value.trim();
+        const category = document.getElementById('newPaperCategory').value;
+        const url = document.getElementById('newPaperUrl').value.trim();
+
+        if (!name) {
+            alert('⚠️ Please enter a paper name!');
+            return;
+        }
+
+        if (!url || !url.includes('overleaf.com')) {
+            alert('⚠️ Please enter a valid Overleaf URL!');
+            return;
+        }
+
+        const paper = {
+            name: name,
+            category: category || 'Other',
+            url: url,
+            status: 'draft',
+            createdAt: new Date().toISOString(),
+            lastEdited: null,
+            active: myPapers.length === 0 // First paper is active by default
+        };
+
+        myPapers.push(paper);
+        savePapersToStorage();
+        renderPapersList();
+        cancelAddPaper();
+        updateProgressTracker();
+
+        alert(`✅ "${name}" added successfully!`);
+    }
+
+    function savePaperToList(name, url, category) {
+        const paper = {
+            name: name,
+            category: category || 'Other',
+            url: url,
+            status: 'draft',
+            createdAt: new Date().toISOString(),
+            lastEdited: null,
+            active: myPapers.length === 0
+        };
+
+        myPapers.push(paper);
+        savePapersToStorage();
+        renderPapersList();
+        updateProgressTracker();
+    }
+
+    function openPaper(index) {
+        const paper = myPapers[index];
+        window.open(paper.url, '_blank', 'width=1400,height=900');
+        
+        // Update last edited
+        paper.lastEdited = new Date().toISOString();
+        if (paper.status === 'draft') {
+            paper.status = 'in-progress';
+        }
+        
+        savePapersToStorage();
+        renderPapersList();
+        updateProgressTracker();
+    }
+
+    function setActivePaper(index) {
+        myPapers.forEach((p, i) => p.active = (i === index));
+        savePapersToStorage();
+        renderPapersList();
+        updateProgressTracker();
+        alert(`✅ "${myPapers[index].name}" set as active paper!`);
+    }
+
+    function deletePaper(index) {
+        const paper = myPapers[index];
+        if (confirm(`Delete "${paper.name}"?\n\nThis will only remove it from your list, not from Overleaf.`)) {
+            myPapers.splice(index, 1);
+            
+            // If deleted paper was active, make first paper active
+            if (myPapers.length > 0 && !myPapers.some(p => p.active)) {
+                myPapers[0].active = true;
+            }
+            
+            savePapersToStorage();
+            renderPapersList();
+            updateProgressTracker();
+            alert('✅ Paper deleted from list!');
+        }
+    }
+
+    // ---- Progress Tracker ----
+    function updateProgressTracker() {
+        loadPapersFromStorage();
+        
+        const activePaper = myPapers.find(p => p.active);
+        
+        if (activePaper) {
+            // Last Edited
+            const lastEdit = activePaper.lastEdited 
+                ? formatRelativeTime(new Date(activePaper.lastEdited))
+                : 'Never';
+            document.getElementById('lastEdited').textContent = lastEdit;
+            
+            // Status
+            const status = activePaper.status.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+            document.getElementById('paperStatus').textContent = status;
+        } else {
+            document.getElementById('lastEdited').textContent = 'Never';
+            document.getElementById('paperStatus').textContent = 'No active paper';
+        }
+        
+        // Total Sessions (count papers with lastEdited)
+        const sessions = myPapers.filter(p => p.lastEdited).length;
+        document.getElementById('sessionCount').textContent = sessions;
+        
+        // Days Active (unique dates when papers were edited)
+        const uniqueDays = new Set(
+            myPapers
+                .filter(p => p.lastEdited)
+                .map(p => new Date(p.lastEdited).toDateString())
+        );
+        document.getElementById('daysActive').textContent = uniqueDays.size;
+    }
+
+    function formatRelativeTime(date) {
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffDays = Math.floor(diffMs / 86400000);
+        
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins} min ago`;
+        if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+        
+        return date.toLocaleDateString();
+    }
+
 </script>
 {% endblock %}

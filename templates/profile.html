@@ -4,10 +4,22 @@
 <div style="display: flex; height: 100%; width: 100%; gap: 20px;">
     <!-- Sidebar -->
     <div class="sidebar">
+        {% if role == 'faculty' %}
+        <a href="/faculty_dashboard" class="sidebar-link"><span>🏠</span> Home</a>
+        {% else %}
         <a href="/dashboard" class="sidebar-link"><span>🏠</span> Home</a>
+        {% endif %}
         <a href="/profile" class="sidebar-link active"><span>👤</span> Profile</a>
         <a href="#" class="sidebar-link"><span>📝</span> Assignment</a>
-        <a href="#" class="sidebar-link"><span>📚</span> Reference Material</a>
+        {% if role == 'faculty' %}
+        <a href="/faculty_dashboard" class="sidebar-link"
+            onclick="setTimeout(function(){document.getElementById('tab-references')&&document.getElementById('tab-references').click()},100)"><span>📚</span>
+            Reference Material</a>
+        {% else %}
+        <a href="/dashboard" class="sidebar-link"
+            onclick="setTimeout(function(){document.getElementById('tab-references')&&document.getElementById('tab-references').click()},100)"><span>📚</span>
+            Reference Material</a>
+        {% endif %}
         <a href="#" class="sidebar-link"><span>📄</span> Research Paper</a>
 
         <div style="margin-top: auto;">
