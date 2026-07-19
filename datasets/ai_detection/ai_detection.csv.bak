@@ -1,0 +1,63 @@
+text,label
+"Automatic program repair seeks to generate correct code from buggy programs, with most approaches searching the correct program in a discrete, symbolic space of source code tokens.",0
+"The endeavor of automatic program repair aspires to synthesize correct code from defective programs, wherein predominant approaches conduct searches for the correct program within discrete, symbolic domains composed of source code token sequences.",1
+This symbolic search is fundamentally limited by its inability to directly reason about program behavior.,0
+The foundational constraint of symbolic search methodologies resides in their incapacity to engage in direct reasoning concerning program behavioral characteristics.,1
+"We introduce Gradient-Based Program Repair (GBPR), a new paradigm that reframes program repair as continuous optimization in a differentiable numerical program space.",0
+"Our contribution introduces Gradient-Based Program Repair (GBPR), constituting a novel paradigm that reconceptualizes program repair as continuous optimization procedures operating within differentiable numerical program spaces.",1
+"Our core insight is to compile symbolic programs into differentiable numerical representations, enabling search in the numerical program space directly guided by program behavior.",0
+"The fundamental insight underlying our approach involves compiling symbolic program representations into differentiable numerical forms, thereby facilitating search operations within numerical program spaces under direct guidance from program behavioral characteristics.",1
+"To evaluate GBPR, we present RaspBugs, a new benchmark of 1,466 buggy symbolic RASP programs and their respective numerical representations.",0
+"For GBPR evaluation purposes, we present RaspBugs, a novel benchmark corpus comprising 1,466 defective symbolic RASP programs accompanied by their corresponding numerical representations.",1
+Our experiments demonstrate that GBPR can effectively repair buggy symbolic programs by gradient-based optimization in the numerical program space.,0
+Experimental investigations demonstrate GBPR's efficacy in repairing defective symbolic programs through gradient-based optimization mechanisms operating within numerical program spaces.,1
+"To our knowledge, we are the first to state program repair as continuous optimization in a numerical program space.",0
+"To the extent of our awareness, we constitute the inaugural research to formulate program repair as continuous optimization within numerical program space domains.",1
+"Our work establishes a new direction for program repair research, bridging two rich worlds: continuous optimization and program behavior.",0
+"Our research establishes a novel trajectory for program repair investigations, creating a bridge between two conceptually rich domains: continuous optimization methodologies and program behavioral analysis.",1
+Recent years have seen dramatic improvements in the quality and complexity of patches thanks to learning based program repair.,0
+"Contemporary years have witnessed substantial advancements in both patch quality and complexity, attributable to learning-based program repair methodologies.",1
+Progress on benchmarks like SWE-Bench and RepairBench has demonstrated that real-world bugs can be fixed automatically.,0
+Advancement on benchmark evaluations including SWE-Bench and RepairBench has substantiated the feasibility of automatic real-world bug remediation.,1
+The fundamental limitation of asking a language model to generate a patch is that it does so by reasoning about token distributions.,0
+The intrinsic limitation inherent in requesting language models to generate patches resides in their reliance on reasoning about token distribution patterns.,1
+Optimizing for next token prediction captures very little of the difference between buggy behavior and expected correct behavior from the specification.,0
+Optimization oriented toward next token prediction captures minimal distinction between defective behavioral manifestations and anticipated correct behaviors as specified.,1
+"For the same reason, it is hard to repair completely new programs as language models fail to generalize to unseen problems.",0
+"Owing to identical reasoning, repairing entirely novel programs presents difficulty, as language models demonstrate failure in generalizing to previously unencountered problem domains.",1
+We propose to embed the specification and the incorrect behavior to be repaired as a first-class concept in a loss function.,0
+Our proposal involves embedding both the specification and incorrect behavior requiring repair as first-class conceptual entities within a loss function framework.,1
+"We describe Gradient-Based Program Repair (GBPR), a novel paradigm that is founded on expressing programs as numerical representations.",0
+"Our description encompasses Gradient-Based Program Repair (GBPR), a novel paradigmatic framework founded upon program expression through numerical representational forms.",1
+"With this numerical program representation associated with a loss that captures the expected behavior, GBPR repairs the bug by searching in the numerical program space.",0
+"Through this numerical program representation coupled with a loss function capturing anticipated behavior, GBPR executes bug repair via search operations within numerical program spaces.",1
+This core originality of GBPR is that it considers program behavior as a first-class concept in the learning pipeline.,0
+The fundamental originality characterizing GBPR resides in its treatment of program behavior as a first-class conceptual element within the learning pipeline architecture.,1
+"To rigorously evaluate our approach, we introduce RaspBugs, a new benchmark of buggy symbolic programs and their corresponding numerical representation.",0
+"For rigorous evaluation of our methodological approach, we introduce RaspBugs, a novel benchmark comprising defective symbolic programs alongside their corresponding numerical representations.",1
+"Those programs are written in RASP, a class of sequence-processing programs that can be analytically represented as Transformer models.",0
+"These programs receive authorship in RASP, constituting a class of sequence-processing programs amenable to analytical representation as Transformer model architectures.",1
+"By systematically applying mutations to base RASP programs, we create a diverse collection of meaningful bugs.",0
+"Through systematic application of mutation operations to foundational RASP programs, we generate a diverse collection of semantically meaningful defects.",1
+"RaspBugs contains 1,466 bugs over 6 programs, and provides the first-ever controlled environment for researching program repair as continuous optimization.",0
+"The RaspBugs benchmark encompasses 1,466 defects distributed across 6 programs, furnishing the inaugural controlled experimental environment for investigating program repair as continuous optimization.",1
+Our results demonstrate that gradient-based program repair is feasible.,0
+Our empirical results substantiate the feasibility of gradient-based program repair methodologies.,1
+"We observe proper convergence of the optimization problem, with the correctness of the considered programs improving.",0
+"Our observations indicate appropriate convergence characteristics of the optimization problem, accompanied by improvements in the correctness of examined programs.",1
+We are able to repair the majority of buggy programs for 5 out of the 6 considered base programs.,0
+Our methodology achieves repair of the preponderance of defective programs across 5 among the 6 foundational programs under consideration.,1
+The analysis of the repair trajectories and the correctness landscape confirms that incorrect behavior on buggy input points is gradually fixed.,0
+Analytical examination of repair trajectories and the correctness landscape substantiates that erroneous behavior manifesting on defective input points undergoes gradual remediation.,1
+"Program repair automatically finds a correct program from a buggy one, changing incorrect behavior to correct behavior according to a specification.",0
+"Program repair automatically identifies a correct program from a defective counterpart, transforming erroneous behavioral manifestations to correct behaviors in accordance with specification requirements.",1
+"Most program repair research considers repairing imperative programs, in particular Python or Java.",0
+"The predominant focus of program repair research concentrates on imperative program remediation, with particular emphasis on Python and Java programming languages.",1
+"In the context of traditional program repair, programs are symbolic artifacts, represented using discrete structures.",0
+"Within traditional program repair contexts, programs constitute symbolic artifacts receiving representation through discrete structural forms.",1
+Program repair on symbolic programs relies on symbolic methods operating directly on these structures.,0
+Program repair operations on symbolic programs depend upon symbolic methodologies that operate directly upon these structural representations.,1
+Large Language Models (LLMs) are used for program repair by considering code as a sequence of textual tokens.,0
+Large Language Models find application in program repair through the conceptualization of code as sequential textual token arrangements.,1
+"A numerical program is a program whose behavior is encoded as continuous, real-valued parameters and can be executed.",0
+... (file truncated)

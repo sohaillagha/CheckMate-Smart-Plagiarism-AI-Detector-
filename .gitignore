@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Ignore user uploads and temp files, but keep the directories
+userinput/*
+!userinput/.gitkeep
+temp_downloads/*
+!temp_downloads/.gitkeep
+
+# Ignore datasets because they are too large for GitHub
+datasets/tfidf/*.txt
+reference_papers/*.pdf
+

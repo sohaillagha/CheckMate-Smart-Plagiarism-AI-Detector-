@@ -1,0 +1,13 @@
+Flask==3.0.3
+Werkzeug==3.0.3
+numpy==1.26.4
+pandas==2.2.2
+matplotlib==3.8.4
+seaborn==0.13.2
+nltk==3.8.1
+spacy==3.7.4
+scikit-learn==1.4.2
+sentence-transformers==2.7.0
+fpdf2==2.7.9
+PyPDF2==3.0.1
+# Note: spacy model 'en_core_web_sm' needs to be downloaded separately via 'python -m spacy download en_core_web_sm'
