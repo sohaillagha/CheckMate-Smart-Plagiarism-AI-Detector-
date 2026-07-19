@@ -1,0 +1,8 @@
+.git
+.gitignore
+__pycache__
+*.pyc
+datasets/sbert/sbert_cache.pt
+datasets/tfidf/tfidf_cache.pkl
+temp_downloads/
+uploads/
