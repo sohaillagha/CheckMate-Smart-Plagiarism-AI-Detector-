@@ -1564,3 +1564,148 @@ input:focus {
     background: rgba(123, 201, 165, 0.1);
     color: #7bc9a5;
 }
+
+/* =========================================
+   STUDENT MODAL (GLASSMORPHISM)
+   ========================================= */
+.student-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.student-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.student-modal-content {
+    width: 90%;
+    max-width: 550px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    transform: scale(0.95) translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+    overflow: hidden;
+}
+
+.student-modal-overlay.active .student-modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.student-modal-header {
+    padding: 24px 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
+}
+
+.student-modal-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #1a1a1a;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.student-modal-close {
+    background: rgba(0,0,0,0.05);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.student-modal-close:hover {
+    background: rgba(229, 115, 115, 0.15);
+    color: #e57373;
+    transform: rotate(90deg);
+}
+
+.student-modal-body {
+    padding: 30px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.student-modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+.student-modal-body::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.02);
+}
+.student-modal-body::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+.student-modal-info {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.student-modal-info span {
+    background: rgba(102, 126, 234, 0.08);
+    color: #667eea;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(102, 126, 234, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.student-modal-papers {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.student-modal-paper-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    padding: 16px 20px;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.student-modal-paper-card:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+    border-color: rgba(102, 126, 234, 0.3);
+}

@@ -303,6 +303,41 @@
             </div>
         </div>
 
+        <!-- ============ STUDENT MODAL ============ -->
+        <div id="studentModalOverlay" class="student-modal-overlay" style="display: none;" onclick="closeStudentModal(event)">
+            <div class="student-modal-content" onclick="event.stopPropagation()">
+                <div class="student-modal-header">
+                    <h3 id="modalStudentName">Student Name</h3>
+                    <button class="student-modal-close" onclick="closeStudentModal()">×</button>
+                </div>
+                <div class="student-modal-body">
+                    <div class="student-modal-info">
+                        <span id="modalStudentEmail">email@example.com</span>
+                        <span id="modalStudentCount">0 Papers</span>
+                    </div>
+                    <div id="modalPaperList" class="student-modal-papers">
+                        <!-- Papers injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ ACTION MODAL ============ -->
+        <div id="actionModalOverlay" class="student-modal-overlay" style="display: none;" onclick="closeActionModal(event)">
+            <div class="student-modal-content" style="max-width: 450px;" onclick="event.stopPropagation()">
+                <div class="student-modal-header">
+                    <h3 id="actionModalTitle">Action</h3>
+                    <button class="student-modal-close" onclick="closeActionModal()">×</button>
+                </div>
+                <div class="student-modal-body" id="actionModalBody" style="font-size: 1.05rem; line-height: 1.6; color: #333;">
+                    <!-- Content injected here -->
+                </div>
+                <div style="padding: 0 30px 30px 30px; display: flex; justify-content: flex-end;">
+                    <button class="btn primary" onclick="closeActionModal()">Done</button>
+                </div>
+            </div>
+        </div>
+
         <!-- ============ TAB: MANAGE DATA ============ -->
         <div class="tab-content" id="content-managedata" style="display: none;">
 
@@ -550,22 +585,27 @@
             .then(papers => {
                 refLoaded = true;
                 const container = document.getElementById('refPaperList');
-                if (papers.length === 0) {
+                if (Object.keys(papers).length === 0) {
                     container.innerHTML = '<p class="hint" style="text-align:center; padding: 20px;">No reference papers found. Import papers from ArXiv to populate this list.</p>';
                     return;
                 }
-                let html = '<div class="ref-grid">';
-                papers.forEach(p => {
-                    html += `<div class="ref-paper-card">
-                        <div class="ref-paper-icon">📄</div>
-                        <div class="ref-paper-info">
-                            <div class="ref-paper-title">${p.title}</div>
-                            <div class="ref-paper-meta">${p.filename} · ${p.size}</div>
-                        </div>
-                        <a href="/download_reference/${encodeURIComponent(p.filename)}" class="btn primary sm" style="white-space:nowrap;">⬇ Download</a>
-                    </div>`;
-                });
-                html += '</div>';
+                let html = '';
+                for (const [category, paperList] of Object.entries(papers)) {
+                    if (paperList.length === 0) continue;
+                    html += `<h3 style="margin-top: 25px; margin-bottom: 15px; font-size: 1.1rem; border-bottom: 2px solid #eee; padding-bottom: 8px;">📑 ${category}</h3>`;
+                    html += '<div class="ref-grid">';
+                    paperList.forEach(p => {
+                        html += `<div class="ref-paper-card">
+                            <div class="ref-paper-icon">📄</div>
+                            <div class="ref-paper-info">
+                                <div class="ref-paper-title">${p.title}</div>
+                                <div class="ref-paper-meta">${p.filename} · ${p.size}</div>
+                            </div>
+                            <a href="/download_reference/${encodeURIComponent(p.filename)}" class="btn primary sm" style="white-space:nowrap;">⬇ Download</a>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
                 container.innerHTML = html;
             })
             .catch(() => {
@@ -1104,27 +1144,74 @@
         const student = studentData.find(s => s.id === studentId);
         if (!student) return;
         
-        let details = `📊 Student Details: ${student.name}\n\n`;
-        details += `📧 Email: ${student.email}\n`;
-        details += `📄 Total Papers: ${student.papers.length}\n\n`;
-        details += `Papers:\n`;
-        student.papers.forEach((paper, i) => {
-            details += `\n${i+1}. ${paper.name}\n`;
-            details += `   Category: ${paper.category}\n`;
-            details += `   Status: ${paper.status}\n`;
-            details += `   Last edited: ${formatRelativeTime(new Date(paper.lastEdited))}\n`;
+        document.getElementById('modalStudentName').textContent = '👤 ' + student.name;
+        document.getElementById('modalStudentEmail').textContent = '📧 ' + student.email;
+        document.getElementById('modalStudentCount').textContent = '📄 ' + student.papers.length + ' Paper' + (student.papers.length !== 1 ? 's' : '');
+        
+        let paperHtml = '';
+        student.papers.forEach((paper) => {
+            let statusColor = paper.status === 'completed' ? '#27ae60' : (paper.status === 'in-progress' ? '#f39c12' : '#7f8c8d');
+            let statusBg = paper.status === 'completed' ? 'rgba(39, 174, 96, 0.1)' : (paper.status === 'in-progress' ? 'rgba(243, 156, 18, 0.1)' : 'rgba(127, 140, 141, 0.1)');
+            
+            paperHtml += `
+                <div class="student-modal-paper-card">
+                    <div style="font-weight: 600; font-size: 1.05rem; margin-bottom: 5px;">${paper.name}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #666;">
+                        <span>🏷️ ${paper.category}</span>
+                        <span>⏱️ ${formatRelativeTime(new Date(paper.lastEdited))}</span>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <span style="background: ${statusBg}; color: ${statusColor}; padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; text-transform: capitalize;">
+                            ${paper.status.replace('-', ' ')}
+                        </span>
+                    </div>
+                </div>
+            `;
         });
         
-        alert(details);
+        document.getElementById('modalPaperList').innerHTML = paperHtml;
+        
+        const overlay = document.getElementById('studentModalOverlay');
+        overlay.style.display = 'flex';
+        // Small delay to allow display:flex to apply before adding active class for animation
+        setTimeout(() => overlay.classList.add('active'), 10);
+    }
+    
+    function closeStudentModal(event) {
+        // If event is provided, only close if clicking the overlay itself
+        if (event && event.target !== document.getElementById('studentModalOverlay')) return;
+        
+        const overlay = document.getElementById('studentModalOverlay');
+        overlay.classList.remove('active');
+        setTimeout(() => overlay.style.display = 'none', 300); // match transition duration
+    }
+
+    function openActionModal(title, content) {
+        document.getElementById('actionModalTitle').innerHTML = title;
+        document.getElementById('actionModalBody').innerHTML = content;
+        const overlay = document.getElementById('actionModalOverlay');
+        overlay.style.display = 'flex';
+        setTimeout(() => overlay.classList.add('active'), 10);
+    }
+
+    function closeActionModal(event) {
+        if (event && event.target !== document.getElementById('actionModalOverlay')) return;
+        const overlay = document.getElementById('actionModalOverlay');
+        overlay.classList.remove('active');
+        setTimeout(() => overlay.style.display = 'none', 300);
     }
 
     function sendReminder(studentId) {
         const student = studentData.find(s => s.id === studentId);
         if (!student) return;
         
-        if (confirm(`Send reminder email to ${student.name} (${student.email})?\n\nThis will encourage them to continue working on their papers.`)) {
-            alert(`✅ Reminder sent to ${student.name}!\n\nIn production, this would send an actual email.`);
-        }
+        openActionModal('📧 Send Reminder', `
+            <div style="text-align: center; padding: 10px 0;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">✅</div>
+                <p>Reminder sent successfully to <strong>${student.name}</strong>!</p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">(In production, this would send an actual email to ${student.email})</p>
+            </div>
+        `);
     }
 
     function sendReminders() {
@@ -1136,17 +1223,24 @@
         });
         
         if (inactiveStudents.length === 0) {
-            alert('✅ No inactive students found!\n\nAll students are actively working on their papers.');
+            openActionModal('📧 Send Reminders', '<div style="text-align: center; padding: 20px 0;"><div style="font-size: 3rem; margin-bottom: 15px;">🎉</div><p><strong>No inactive students found!</strong><br><br>All students are actively working on their papers.</p></div>');
             return;
         }
         
-        if (confirm(`Send reminder emails to ${inactiveStudents.length} inactive student(s)?\n\n${inactiveStudents.map(s => s.name).join('\n')}`)) {
-            alert(`✅ Reminders sent to ${inactiveStudents.length} student(s)!\n\nIn production, this would send actual emails.`);
-        }
+        openActionModal('📧 Send Reminders', `
+            <div style="text-align: center; padding: 10px 0;">
+                <div style="font-size: 3rem; margin-bottom: 15px;">✅</div>
+                <p>Reminders sent successfully to <strong>${inactiveStudents.length} inactive student(s)</strong>!</p>
+                <div style="margin-top: 20px; background: rgba(0,0,0,0.03); padding: 15px; border-radius: 12px; font-size: 0.9rem; text-align: left;">
+                    <strong>Recipients:</strong><br>
+                    ${inactiveStudents.map(s => '• ' + s.name).join('<br>')}
+                </div>
+            </div>
+        `);
     }
 
     function exportStudentReport() {
-        let csv = 'Student Name,Email,Total Papers,Last Activity,Status\n';
+        let csv = 'Student Name,Email,Total Papers,Last Activity,Status\\n';
         studentData.forEach(student => {
             const mostRecentPaper = student.papers.reduce((latest, paper) => 
                 new Date(paper.lastEdited) > new Date(latest.lastEdited) ? paper : latest
@@ -1155,14 +1249,52 @@
             const daysInactive = Math.floor((new Date() - new Date(mostRecentPaper.lastEdited)) / (24*60*60*1000));
             const status = daysInactive >= 7 ? 'Inactive' : 'Active';
             
-            csv += `"${student.name}","${student.email}",${student.papers.length},${lastActivity},${status}\n`;
+            csv += `"${student.name}","${student.email}",${student.papers.length},${lastActivity},${status}\\n`;
         });
         
-        alert('📄 Exporting report...\n\nIn production, this would download a CSV file:\n\n' + csv.split('\n').slice(0, 4).join('\n') + '\n...');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('hidden', '');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'student_progress_report.csv');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        openActionModal('📄 Export Complete', '<div style="text-align: center; padding: 20px 0;"><div style="font-size: 3rem; margin-bottom: 15px;">✅</div><p>The student progress report has been downloaded successfully as a CSV file.</p></div>');
     }
 
     function viewTemplateUsage() {
-        alert('📚 Template Usage Statistics:\n\nIEEE Conference: 45%\nACM Conference: 20%\nThesis Template: 15%\nBasic Research: 10%\nSpringer LNCS: 7%\nTechnical Report: 3%\n\n(Demo data - in production, this would show real usage stats)');
+        openActionModal('📚 Template Usage Statistics', `
+            <div style="padding: 10px 0;">
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 600;"><span>IEEE Conference</span><span>45%</span></div>
+                    <div style="height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden;"><div style="width: 45%; height: 100%; background: #667eea;"></div></div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 600;"><span>ACM Conference</span><span>20%</span></div>
+                    <div style="height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden;"><div style="width: 20%; height: 100%; background: #7bc9a5;"></div></div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 600;"><span>Thesis Template</span><span>15%</span></div>
+                    <div style="height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden;"><div style="width: 15%; height: 100%; background: #f4a261;"></div></div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 600;"><span>Basic Research</span><span>10%</span></div>
+                    <div style="height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden;"><div style="width: 10%; height: 100%; background: #e57373;"></div></div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 600;"><span>Springer LNCS</span><span>7%</span></div>
+                    <div style="height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden;"><div style="width: 7%; height: 100%; background: #9b59b6;"></div></div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 600;"><span>Technical Report</span><span>3%</span></div>
+                    <div style="height: 10px; background: rgba(0,0,0,0.05); border-radius: 5px; overflow: hidden;"><div style="width: 3%; height: 100%; background: #34495e;"></div></div>
+                </div>
+                <p style="font-size: 0.85rem; color: #888; text-align: center; margin-top: 20px;">(Demo data - in production, this shows real usage stats)</p>
+            </div>
+        `);
     }
 
 

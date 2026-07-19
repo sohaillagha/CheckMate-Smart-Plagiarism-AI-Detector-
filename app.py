@@ -872,4 +872,21 @@ def save_overleaf_url():
         return jsonify({'success': False, 'error': str(e)})
 
 if __name__ == '__main__':
+    print("🔥 Pre-warming ML models...")
+    from pdf_reader.models.tfidf_model import load_tfidf_dataset
+    from pdf_reader.models.sbert_model import check_sbert_similarity
+    from pdf_reader.models.ai_detection_model import train_ai_detector
+    
+    # 1. Warm TF-IDF (Fits vectorizer to corpus)
+    load_tfidf_dataset()
+    
+    # 2. Warm AI Detector
+    train_ai_detector()
+    
+    # 3. Warm SBERT (Downloads model if needed, encodes entire dataset)
+    print("  ⏳ Pre-warming SBERT...")
+    check_sbert_similarity(["Warming up SBERT cache."])
+    
+    print("🚀 All models warmed up! Starting server...")
+    
     app.run(debug=True, port=5000)

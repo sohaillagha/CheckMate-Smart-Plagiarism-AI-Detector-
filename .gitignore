@@ -13,3 +13,7 @@ temp_downloads/*
 datasets/tfidf/*.txt
 reference_papers/*.pdf
 
+
+# Cache files
+datasets/sbert/sbert_cache.pt
+datasets/tfidf/tfidf_cache.pkl

@@ -1,5 +1,6 @@
 import os
 import sys
+import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.tokenize import sent_tokenize
@@ -10,41 +11,80 @@ from pdfextraction.preprocessing import preprocess_tfidf
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATASET_DIR = os.path.join(BASE_DIR, "datasets", "tfidf")
+CACHE_FILE = os.path.join(DATASET_DIR, "tfidf_cache.pkl")
 
-# Cache: load corpus only once
+# Cache: load corpus, vectorizer, and matrix only once
 _cached_corpus = None
+_cached_vectorizer = None
+_cached_dataset_matrix = None
 
 def load_tfidf_dataset():
-    global _cached_corpus
+    global _cached_corpus, _cached_vectorizer, _cached_dataset_matrix
     if _cached_corpus is not None:
-        return _cached_corpus  # Return cached corpus
+        return _cached_corpus
 
-    print("  ⏳ First run: loading TF-IDF corpus (will be cached)...")
+    if os.path.exists(CACHE_FILE):
+        print("  ⚡ Loading TF-IDF cache from disk (super fast)...")
+        try:
+            with open(CACHE_FILE, "rb") as f:
+                cache_data = pickle.load(f)
+                _cached_corpus = cache_data['corpus']
+                _cached_vectorizer = cache_data['vectorizer']
+                _cached_dataset_matrix = cache_data['matrix']
+            print("  ✅ TF-IDF loaded from disk cache.")
+            return _cached_corpus
+        except Exception as e:
+            print(f"  ⚠️ Cache corrupted, rebuilding... ({e})")
+
+    print("  ⏳ First run: loading and fitting TF-IDF corpus (this may take a few minutes)...")
     corpus = []
-    # Split dataset documents into sentences to allow granular matching
+    
     if not os.path.exists(DATASET_DIR):
         _cached_corpus = []
+        _cached_vectorizer = TfidfVectorizer()
+        _cached_dataset_matrix = _cached_vectorizer.fit_transform([""])
         return _cached_corpus
         
-    for file in os.listdir(DATASET_DIR):
-        if file.endswith(".txt"):
-            file_path = os.path.join(DATASET_DIR, file)
-            try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-                    if content:
-                        # Split into sentences first
-                        sentences = sent_tokenize(content)
-                        # Preprocess each sentence
-                        for s in sentences:
-                            processed = preprocess_tfidf(s)
-                            if processed.strip(): # Only add non-empty
-                                corpus.append(processed)
-            except Exception as e:
-                print(f"Error reading dataset file {file}: {e}")
+    txt_files = [f for f in os.listdir(DATASET_DIR) if f.endswith(".txt")]
+    total_files = len(txt_files)
+    
+    for i, file in enumerate(txt_files):
+        if i % 10 == 0 or i == total_files - 1:
+            print(f"    processing paper {i+1}/{total_files}...")
+            
+        file_path = os.path.join(DATASET_DIR, file)
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                if content:
+                    sentences = sent_tokenize(content)
+                    for s in sentences:
+                        processed = preprocess_tfidf(s)
+                        if processed.strip():
+                            corpus.append(processed)
+        except Exception as e:
+            print(f"Error reading dataset file {file}: {e}")
     
     _cached_corpus = corpus
-    print("  ✅ TF-IDF corpus cached.")
+    _cached_vectorizer = TfidfVectorizer()
+    if _cached_corpus:
+        _cached_dataset_matrix = _cached_vectorizer.fit_transform(_cached_corpus)
+    else:
+        _cached_dataset_matrix = _cached_vectorizer.fit_transform([""])
+        
+    # Save to disk
+    try:
+        print("  💾 Saving TF-IDF cache to disk for future runs...")
+        with open(CACHE_FILE, "wb") as f:
+            pickle.dump({
+                'corpus': _cached_corpus,
+                'vectorizer': _cached_vectorizer,
+                'matrix': _cached_dataset_matrix
+            }, f)
+    except Exception as e:
+        print(f"  ⚠️ Could not save cache: {e}")
+        
+    print("  ✅ TF-IDF corpus and vectorizer cached.")
     return _cached_corpus
 
 def check_tfidf_similarity(sentences):
@@ -55,10 +95,7 @@ def check_tfidf_similarity(sentences):
     if not sentences:
         return 0.0, []
 
-    # sentences is expected to be a list of raw text strings of sentences
-    # We must preprocess them individually
     processed_sentences = [preprocess_tfidf(s) for s in sentences]
-    # Filter out empty processed sentences (e.g. only stopwords)
     valid_indices = [i for i, s in enumerate(processed_sentences) if s.strip()]
     if not valid_indices:
         return 0.0, []
@@ -69,23 +106,13 @@ def check_tfidf_similarity(sentences):
     if not dataset_sentences:
          return 0.0, []
 
-    # Fit on dataset + input to ensure vocabulary coverage
-    all_texts = dataset_sentences + valid_processed
+    # Transform input using pre-fitted vectorizer
+    input_matrix = _cached_vectorizer.transform(valid_processed)
     
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(all_texts)
+    # Compute similarities against cached dataset matrix
+    similarities = cosine_similarity(input_matrix, _cached_dataset_matrix)
     
-    # Split back into dataset content and input sentences
-    n_dataset = len(dataset_sentences)
-    dataset_matrix = tfidf_matrix[:n_dataset]
-    input_matrix = tfidf_matrix[n_dataset:]
-    
-    # helper for computing similarities
-    # outcome: (n_input_sentences, n_dataset_sentences)
-    similarities = cosine_similarity(input_matrix, dataset_matrix)
-    
-    # Find sentences that match ANY sentence in the dataset with high similarity
-    threshold = 0.75 # Threshold for "Copied" (lower because preprocessing is aggressive)
+    threshold = 0.75 
     matched_indices = []
     
     for idx_in_valid, row_scores in enumerate(similarities):
@@ -94,6 +121,5 @@ def check_tfidf_similarity(sentences):
             original_idx = valid_indices[idx_in_valid]
             matched_indices.append(original_idx)
             
-    # Use valid sentences as denominator (not ALL sentences — junk like TOC/headers shouldn't dilute score)
     score = len(matched_indices) / len(valid_indices) if valid_indices else 0.0
     return score, matched_indices
